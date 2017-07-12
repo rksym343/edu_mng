@@ -2,7 +2,7 @@ package com.dgit.domain;
 
 import java.util.Date;
 
-public class QNA {
+public class Qna {
 
 	private int qnaNo;
 	private String sId;

@@ -1,6 +1,6 @@
 package com.dgit.domain;
 
-public class QNADetail {
+public class QnaDetail {
 
 	private String qnaContent;
 	private int qnaNo;
