@@ -11,4 +11,5 @@ public interface CourseDAO {
 	public void deleteCourse(int cNo) throws Exception;
 	public Course selectOne(int cNo) throws Exception;
 	public List<Course> selectAllCourse() throws Exception;
+	
 }
