@@ -46,45 +46,65 @@
 	<label for="ttStarttime" class="mid">시작시간</label>
 	<select id="ttStarttime" name="ttStarttime_hh">
 		<c:forEach begin="09" end="22" var="hh">
-		<c:if test="${hh > 12 }">
-			<option value="${hh }">오후  ${hh-12 }시</option>
-		</c:if>
-		<c:if test="${hh <= 12 }">
-			<option value="${hh }">오전  ${hh }시</option>
-		</c:if>
+			<c:if test="${hh > 12 }">
+				<c:if test="${(hh-12) < 10 }">
+					<option value="${hh }">오후 0${hh-12 }시</option>
+				</c:if>	
+				<c:if test="${(hh-12) >= 10 }">
+					<option value="${hh }">오후  ${hh-12 }시</option>
+				</c:if>
+			</c:if>
+			<c:if test="${hh <= 12 }">
+				<c:if test="${hh < 10 }">
+					<option value="${hh }">오전  0${hh }시</option>
+				</c:if>	
+				<c:if test="${hh >= 10 }">
+					<option value="${hh }">오전  ${hh }시</option>
+				</c:if>
+				
+			</c:if>
 		</c:forEach>
 	</select>
 	<select name="ttStarttime_MM">
 		<c:forEach begin="00" end="50" var="MM" step="10">
-			<%-- <c:if test="${MM == 0 }">
+			<c:if test="${MM == 0 }">
 				<option value="${MM }">00분</option>
 			</c:if>
 			<c:if test="${MM != 0 }">
 				<option value="${MM }">${MM}분</option>
-			</c:if> --%>
-			<option value="${MM }">${MM}분</option>
+			</c:if>
 		</c:forEach>
 	</select>
 	<label for="ttEndtime" class="mid">종료시간</label>
 	<select id="ttEndtime" name="ttEndtime_hh">
 		<c:forEach begin="09" end="22" var="hh">
 		<c:if test="${hh > 12 }">
-			<option value="${hh }">오후  ${hh-12 }시</option>
-		</c:if>
-		<c:if test="${hh <= 12 }">
-			<option value="${hh }">오전  ${hh }시</option>
-		</c:if>
+				<c:if test="${(hh-12) < 10 }">
+					<option value="${hh }">오후 0${hh-12 }시</option>
+				</c:if>	
+				<c:if test="${(hh-12) >= 10 }">
+					<option value="${hh }">오후  ${hh-12 }시</option>
+				</c:if>
+			</c:if>
+			<c:if test="${hh <= 12 }">
+				<c:if test="${hh < 10 }">
+					<option value="${hh }">오전  0${hh }시</option>
+				</c:if>	
+				<c:if test="${hh >= 10 }">
+					<option value="${hh }">오전  ${hh }시</option>
+				</c:if>
+				
+			</c:if>
 		</c:forEach>
 	</select>
 	<select name="ttEndtime_MM">
 		<c:forEach begin="00" end="50" var="MM" step="10">
-			<%-- <c:if test="${MM == 0 }">
+			<c:if test="${MM == 0 }">
 				<option value="${MM }">00분</option>
 			</c:if>
 			<c:if test="${MM != 0 }">
 				<option value="${MM }">${MM}분</option>
-			</c:if> --%>
-			<option value="${MM }">${MM}분</option>
+			</c:if>
 		</c:forEach>
 	</select>
 	
@@ -150,27 +170,24 @@
 			
 			
 			for(var i = 09; i < 23; i++){
-				var optionTime = $("<option>");
-				optionTime.val(i);
+				var optionTime ="<option";
 				if (i < 13){
-					optionTime.html("오전 "+i+"시");	
+					if(i < 10){
+						optionTime +=  " value=" +i+"> 오전 0"+i+"시</option>";
+					}else{
+						optionTime +=  " value=" +i+"> 오전 "+i+"시</option>";
+					}
 				}else{
-					optionTime.html("오후 "+(i-12)+"시");
+					if( (i-12) < 10){
+						optionTime +=  " value=" +i+"> 오후 0"+(i-12)+"시</option>";
+					}else{
+						optionTime +=  " value=" +i+"> 오후 "+(i-12)+"시</option>";
+					}
 				}
-				
+				selectEndTime.append(optionTime);
 				selectStartTime.append(optionTime);
 			}
-			for(var i = 9; i < 23; i++){
-				var optionTime = $("<option>");
-				optionTime.val(i);
-				if (i < 13){
-					optionTime.html("오전 "+i+"시");	
-				}else{
-					optionTime.html("오후 "+(i-12)+"시");
-				}
-				
-				selectEndTime.append(optionTime);
-			}
+			
 			
 			var selectStartMinute = $("<select>");
 			selectStartMinute.attr("name", "ttStarttime_MM");
@@ -179,19 +196,13 @@
 			
 			
 			for(var j =0; j < 6; j++){
-				var optionMinute = $("<option>");
-				optionMinute.val(j*10);
-				optionMinute.html((j*10)+"분");
+				if(j == 0){
+					var optionMinute = "<option value='" + j+"'>00분</option>";
+				}else{
+					var optionMinute = "<option value='" + j+"'>"+(j*10)+"분</option>";
+				}
 				selectStartMinute.append(optionMinute);
-				
-			}
-			
-			for(var j =0; j < 6; j++){
-				var optionMinute = $("<option>");
-				optionMinute.val(j*10);
-				optionMinute.html((j*10)+"분");
 				selectEndMinute.append(optionMinute);
-				
 			}
 			
 			

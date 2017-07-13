@@ -7,6 +7,8 @@ public class Course {
 	private int cNo;
 	private String tId;
 	private String cName;
+	private Subject sbNo;
+	private StudentGrade gbNo;
 	private int tuituion;
 	private int capacity;
 	private Date cStartdate;
@@ -14,6 +16,18 @@ public class Course {
 	private String classroom;
 	private String cContent;
 	private String cPicture;
+	private boolean isCanceled;
+	
+	
+
+	
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
 
 	public int getcNo() {
 		return cNo;

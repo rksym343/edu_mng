@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.StudentGradeMapper">
+
+	<resultMap type="StudentGrade" id="StudentGradeResult">
+		<id property="gdNo" column="gd_no"/>
+		<result property="gdName" column="gd_name"/>
+	</resultMap>
+
+	<insert id="insertStudentGrade">
+		INSERT INTO student_grade (gd_name) VALUES(#{gdName})
+	</insert>
+	
+	<update id="updateStudentGrade">
+		UPDATE student_grade SET gd_name=#{gdName} WHERE gd_no=#{gdNo}
+	</update>
+
+
+	<select id="selectAllStudentGrade">
+		SELECT gd_no, gd_name FROM student_grade
+	</select>
+
+
+	<select id="selectOneStudentGrade">
+		SELECT gd_no, gd_name FROM student_grade WHERE gd_no=#{gdNo}
+	</select>
+
+
+
+
+
+	
+</mapper>

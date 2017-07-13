@@ -4,5 +4,72 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dgit.mapper.CourseMapper">
 
+	<!-- <resultMap type="Course" id="CourseResult">
+		<id property="cNo" column="c_no"/>
+		<result property="cName" column="c_name"/>
+		<result property="tuition" column="tuition"/>
+		<result property="capacity" column="capacity"/>
+		<result property="cStartdate" column="c_startdate"/>
+		<result property="cEnddate" column="c_enddate"/>
+		<result property="classroom" column="classroom"/>
+		<result property="cContent" column="c_content"/>
+		<result property="cPicture" column="c_picture"/>
+		<association property="tId" resultMap=""/>
+	</resultMap>
+ -->
 
+	<!-- <insert id="insertCourse">
+		INSERT INTO course (t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture)
+		VALUES(#{tId}, #{cName}, #{tuition}, #{capacity}, #{cStartdate}, #{cEnddate}, #{classroom}, #{cContent}, #{cPicture})
+	</insert>
+	
+	<update id="updateCourse">
+		UPDATE edu_manager.course
+		
+		<set>
+			<if test="tId != null">
+				t_id=#{tId},
+			</if>
+			<if test="cName != null">
+				c_name= #{cName},
+			</if>
+			<if test="tuition != null">
+				tuition=#{tuition},
+			</if>
+			<if test="capacity != null">
+				capacity= #{capacity},
+			</if>
+			<if test="cStartdate != null">
+				c_startdate=#{cStartdate},
+			</if>
+			<if test="cEnddate != null">
+				c_enddate=#{cEnddate},
+			</if>
+			<if test="classroom != null">
+				classroom=#{classroom},
+			</if>
+			<if test="cContent != null">
+				c_content=#{cContent},
+			</if>
+			<if test="cEnddate != null">
+				c_picture=#{cPicture}
+			</if>
+		</set>
+			WHERE c_no=#{cNo}
+	</update>
+	
+	<delete id="deleteCourse">
+		DELETE FROM  course WHERE c_no=#{cNo}
+	</delete>
+	
+	<select id="selectOneCourse">
+		SELECT c_no, t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture
+		FROM course WHERE c_no=#{cNo}
+	</select>
+	
+	<select id="selectOneCourse">
+		SELECT c_no, t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture
+		FROM course
+	</select>
+ -->
 </mapper>

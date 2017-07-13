@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.SubjectMapper">
+	
+	<resultMap type="Subject" id="SubjectReslut">
+		<id property="sbNo" column="sb_no"/>
+		<result property="sbName" column="sb_name"/>
+		<result property="sbIsDel" column="sb_is_del"/>
+	</resultMap>
+
+	<insert id="insertSubject" parameterType="Subject">
+		INSERT INTO subject (sb_name, sb_is_del) VALUES(#{sbName}, 0)
+	</insert>
+
+	<update id="updateSubject" parameterType="Subject">
+		UPDATE subject SET sb_name=#{sbName}, sb_is_del=#{sbIsDel} WHERE sb_no=#{sbNo}
+	</update>
+
+	<update id="deleteSubject">
+		UPDATE subject SET sb_is_del=1 WHERE sb_no=#{sbNo}
+	</update>
+
+	<select id="selectAllSubject" resultType="Subject">
+		SELECT sb_no, sb_name, sb_is_del FROM subject WHERE sb_is_del=0
+	</select>
+	
+	<select id="selectOneSubject" resultType="Subject">
+		SELECT sb_no, sb_name, sb_is_del FROM subject WHERE sb_no=#{sbNo} and sb_is_del=0
+	</select>
+
+
+
+
+	
+</mapper>
