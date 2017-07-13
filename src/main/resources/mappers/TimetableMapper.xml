@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.TimetableMapper">
+	
+	<resultMap type="com.dgit.domain.Timetable" id="TimetableReslutWithCourse">		
+		<result property="ttDay" column="tt_day"/>
+		<result property="ttStarttime" column="tt_starttime"/>
+		<result property="ttEndtime" column="tt_endtime"/>
+		<association property="course" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>
+	</resultMap>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="course != null">
+				tt.c_no= #{course.cNo}
+			</if>
+			<if test="ttDay != null">
+				and tt.tt_day =#{ttDay}
+			</if>
+			<if test="ttStarttime != null">
+				and tt.tt_starttime =#{ttStarttime}
+			</if>
+			<if test="ttEndtime != null">
+				and tt.tt_endtime =#{ttEndtime}
+			</if>
+		</where>
+	</sql>
+	<sql id="selectSql">
+		SELECT tt.*, c.t_id, t.t_name, c.c_name, sg.gd_name, s.sb_name, c.gd_no FROM timetable tt
+		inner join course c on tt.c_no = c.c_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join subject s on s.sb_no = c.sb_no
+		inner join student_grade sg on c.gd_no = sg.gd_no
+	</sql>
+
+	<insert id="insertTimetable" parameterType="Timetable">
+		INSERT INTO timetable (c_no, tt_day, tt_starttime, tt_endtime) VALUES(#{course.cNo}, #{ttDay}, #{ttStarttime}, #{ttEndtime})	
+	</insert>
+
+	<delete id="deleteTimetable" parameterType="Timetable">
+		DELETE FROM  timetable WHERE c_no=#{course.cNo} AND tt_day=#{ttDay} AND tt_starttime=#{ttStarttime} AND tt_endtime=#{ttEndtime}
+	</delete>
+
+	<select id="selectAllTimetable" resultMap="TimetableReslutWithCourse">
+		<include refid="selectSql" />
+		order by tt.tt_day, tt.tt_starttime, tt.c_no
+	</select>
+
+	<select id="selectTimetableByCri"  parameterType="Timetable" resultMap="TimetableReslutWithCourse">
+		<include refid="selectSql" />
+		<include refid="whereSql" />
+	</select>
+	
+</mapper>

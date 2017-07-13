@@ -6,7 +6,7 @@ public class Examination {
 	private String sId;
 	private int cNo;
 	private int eiNo;
-	private char eResult;
+	private int eResult;
 	private String eMemo;
 
 	public int geteNo() {
@@ -25,7 +25,7 @@ public class Examination {
 		return eiNo;
 	}
 
-	public char geteResult() {
+	public int geteResult() {
 		return eResult;
 	}
 
@@ -49,7 +49,7 @@ public class Examination {
 		this.eiNo = eiNo;
 	}
 
-	public void seteResult(char eResult) {
+	public void seteResult(int eResult) {
 		this.eResult = eResult;
 	}
 

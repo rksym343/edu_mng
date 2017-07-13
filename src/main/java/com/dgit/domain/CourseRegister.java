@@ -1,6 +1,6 @@
 package com.dgit.domain;
 
-public class Register {
+public class CourseRegister {
 
 	private int regNo;
 	private int regMonth;

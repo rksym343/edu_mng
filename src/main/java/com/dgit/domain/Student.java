@@ -10,29 +10,11 @@ public class Student {
 	private String sPhone;
 	private int tmNo;
 	private String sSchool;
-	private int sGrade;
+	private StudentGrade sGrade;
 	private Date sEnrollemnt;
 	private String sPicture;
 	private String sMemo;
 	private int spId;
-	
-	
-
-	public int getTmNo() {
-		return tmNo;
-	}
-
-	public int getSpId() {
-		return spId;
-	}
-
-	public void setTmNo(int tmNo) {
-		this.tmNo = tmNo;
-	}
-
-	public void setSpId(int spId) {
-		this.spId = spId;
-	}
 
 	public String getsId() {
 		return sId;
@@ -50,11 +32,15 @@ public class Student {
 		return sPhone;
 	}
 
+	public int getTmNo() {
+		return tmNo;
+	}
+
 	public String getsSchool() {
 		return sSchool;
 	}
 
-	public int getsGrade() {
+	public StudentGrade getsGrade() {
 		return sGrade;
 	}
 
@@ -68,6 +54,10 @@ public class Student {
 
 	public String getsMemo() {
 		return sMemo;
+	}
+
+	public int getSpId() {
+		return spId;
 	}
 
 	public void setsId(String sId) {
@@ -86,11 +76,15 @@ public class Student {
 		this.sPhone = sPhone;
 	}
 
+	public void setTmNo(int tmNo) {
+		this.tmNo = tmNo;
+	}
+
 	public void setsSchool(String sSchool) {
 		this.sSchool = sSchool;
 	}
 
-	public void setsGrade(int sGrade) {
+	public void setsGrade(StudentGrade sGrade) {
 		this.sGrade = sGrade;
 	}
 
@@ -104,6 +98,10 @@ public class Student {
 
 	public void setsMemo(String sMemo) {
 		this.sMemo = sMemo;
+	}
+
+	public void setSpId(int spId) {
+		this.spId = spId;
 	}
 
 }

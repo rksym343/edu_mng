@@ -19,17 +19,12 @@
 
 
 	<select id="selectAllStudentGrade">
-		SELECT gd_no, gd_name FROM student_grade
+		SELECT * FROM student_grade
 	</select>
 
 
 	<select id="selectOneStudentGrade">
-		SELECT gd_no, gd_name FROM student_grade WHERE gd_no=#{gdNo}
+		SELECT * FROM student_grade WHERE gd_no=#{gdNo}
 	</select>
-
-
-
-
-
 	
 </mapper>

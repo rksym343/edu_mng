@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dgit.mapper.SubjectMapper">
 	
-	<resultMap type="Subject" id="SubjectReslut">
+	<resultMap type="Subject" id="SubjectResult">
 		<id property="sbNo" column="sb_no"/>
 		<result property="sbName" column="sb_name"/>
 		<result property="sbIsDel" column="sb_is_del"/>
@@ -23,11 +23,11 @@
 	</update>
 
 	<select id="selectAllSubject" resultType="Subject">
-		SELECT sb_no, sb_name, sb_is_del FROM subject WHERE sb_is_del=0
+		SELECT * FROM subject WHERE sb_is_del=0
 	</select>
 	
 	<select id="selectOneSubject" resultType="Subject">
-		SELECT sb_no, sb_name, sb_is_del FROM subject WHERE sb_no=#{sbNo} and sb_is_del=0
+		SELECT * FROM subject WHERE sb_no=#{sbNo}
 	</select>
 
 

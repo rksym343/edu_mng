@@ -1,0 +1,55 @@
+package com.dgit.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.dgit.domain.Course;
+import com.dgit.domain.Timetable;
+import com.dgit.persistence.CourseDAO;
+import com.dgit.persistence.TimetableDAO;
+
+@Service
+public class CourseServiceImpl implements CourseService{
+
+	@Autowired
+	private CourseDAO dao;
+	
+	@Autowired
+	private TimetableDAO timetableDao;
+	
+	@Override
+	@Transactional
+	public void insertCourse(Course course, Timetable[] timetables) throws Exception {
+		dao.insertCourse(course);
+		int cNo = dao.lastCourseId();
+		course.setcNo(cNo);
+		for(Timetable tt : timetables){
+			tt.setCourse(course);
+			timetableDao.insertTimetable(tt);
+		}		
+	}
+
+	@Override
+	public void updateCourse(Course course) throws Exception {
+		dao.updateCourse(course);
+	}
+
+	@Override
+	public void deleteCourse(int cNo) throws Exception {
+		dao.deleteCourse(cNo);
+	}
+
+	@Override
+	public Course selectOneCourse(int cNo) throws Exception {
+		return dao.selectOneCourse(cNo);
+	}
+
+	@Override
+	public List<Course> selectAllCourse() throws Exception {
+		return dao.selectAllCourse();
+	}
+
+}

@@ -4,7 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dgit.mapper.CourseMapper">
 
-	<!-- <resultMap type="Course" id="CourseResult">
+
+	 <resultMap type="Course" id="CourseResult">
 		<id property="cNo" column="c_no"/>
 		<result property="cName" column="c_name"/>
 		<result property="tuition" column="tuition"/>
@@ -14,21 +15,25 @@
 		<result property="classroom" column="classroom"/>
 		<result property="cContent" column="c_content"/>
 		<result property="cPicture" column="c_picture"/>
-		<association property="tId" resultMap=""/>
+		<result property="isCanceled" column="is_canceled"/>
+		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
+		<association property="subject" resultMap="com.dgit.mapper.SubjectMapper.SubjectResult"/>
+		<association property="studentGrade" resultMap="com.dgit.mapper.StudentGradeMapper.StudentGradeResult"/>
 	</resultMap>
- -->
 
-	<!-- <insert id="insertCourse">
-		INSERT INTO course (t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture)
-		VALUES(#{tId}, #{cName}, #{tuition}, #{capacity}, #{cStartdate}, #{cEnddate}, #{classroom}, #{cContent}, #{cPicture})
+
+	<insert id="insertCourse" parameterType="Course">
+		INSERT INTO course 
+		(t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture, sb_no, gd_no, is_canceled)
+		VALUES(#{teacher.tId}, #{cName}, #{tuition}, #{capacity}, #{cStartdate}, #{cEnddate}, 
+				#{classroom}, #{cContent}, #{cPicture}, #{subject.sbNo}, #{studentGrade.gdNo}, 0)
 	</insert>
 	
-	<update id="updateCourse">
-		UPDATE edu_manager.course
-		
+	<update id="updateCourse" parameterType="Course">
+		UPDATE course
 		<set>
-			<if test="tId != null">
-				t_id=#{tId},
+			<if test="teacher != null">
+				t_id=#{teacher.tId},
 			</if>
 			<if test="cName != null">
 				c_name= #{cName},
@@ -51,25 +56,38 @@
 			<if test="cContent != null">
 				c_content=#{cContent},
 			</if>
-			<if test="cEnddate != null">
-				c_picture=#{cPicture}
+			<if test="subject != null">
+				sb_no=#{subject.sbNo},
+			</if>
+			<if test="studentGrade != null">
+				gd_no=#{studentGrade.gdNo}
 			</if>
 		</set>
 			WHERE c_no=#{cNo}
 	</update>
 	
 	<delete id="deleteCourse">
-		DELETE FROM  course WHERE c_no=#{cNo}
+		UPDATE course SET is_canceled=1 WHERE  c_no=#{cNo}
 	</delete>
 	
-	<select id="selectOneCourse">
-		SELECT c_no, t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture
-		FROM course WHERE c_no=#{cNo}
+	<select id="selectOneCourse"  resultMap="CourseResult">
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		WHERE c_no=#{cNo}
 	</select>
 	
-	<select id="selectOneCourse">
-		SELECT c_no, t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture
-		FROM course
+	<select id="selectAllCourse" resultMap="CourseResult">
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		WHERE is_canceled=0
 	</select>
- -->
+	
+	<select id="lastCourseId" resultType="int">
+		select last_insert_id() from course
+	</select>
+ 
 </mapper>

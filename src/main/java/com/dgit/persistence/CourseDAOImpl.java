@@ -29,7 +29,7 @@ public class CourseDAOImpl implements CourseDAO {
 
 	@Override
 	public void deleteCourse(int cNo) throws Exception {
-		session.delete(namespace+".deleteCourse", cNo);
+		session.update(namespace+".deleteCourse", cNo);
 	}
 
 	@Override
@@ -40,6 +40,11 @@ public class CourseDAOImpl implements CourseDAO {
 	@Override
 	public List<Course> selectAllCourse() throws Exception {
 		return session.selectList(namespace+".selectAllCourse");
+	}
+
+	@Override
+	public int lastCourseId() throws Exception {
+		return session.selectOne(namespace+".lastCourseId");
 	}
 
 }

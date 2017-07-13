@@ -1,5 +1,5 @@
 package com.dgit.persistence;
 
-public interface RegisterDAO {
+public interface CourseRegisterDAO {
 
 }

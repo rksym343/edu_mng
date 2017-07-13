@@ -35,7 +35,7 @@ ALTER TABLE edu_manager.qna
 -- 강좌
 CREATE TABLE edu_manager.course (
 	c_no        INTEGER      NOT NULL, -- 강의번호
-	t_id        VARCHAR(20)  NOT NULL, -- 담당선생님
+	t_id        VARCHAR(20)  NULL,     -- 담당선생님
 	gd_no       INTEGER(2)   NULL,     -- 대상학년
 	sb_no       INTEGER      NULL,     -- 대상과목
 	c_name      VARCHAR(50)  NULL,     -- 강의명
@@ -84,7 +84,7 @@ CREATE TABLE edu_manager.teacher (
 	t_id       VARCHAR(20)  NOT NULL, -- 선생님아이디
 	t_password CHAR(41)     NOT NULL, -- 선생님비밀번호
 	t_name     VARCHAR(5)   NOT NULL, -- 선생님성함
-	t_phone    VARCHAR(11)  NOT NULL, -- 선생님연락처
+	t_phone    VARCHAR(14)  NOT NULL, -- 선생님연락처
 	t_subject  INTEGER      NULL,     -- 과목번호
 	t_picture  VARCHAR(150) NULL,     -- 선생님사진
 	t_memo     TEXT         NULL      -- 선생님특이사항
@@ -102,7 +102,7 @@ CREATE TABLE edu_manager.student (
 	s_id         VARCHAR(20)  NOT NULL, -- 학생아이디
 	s_password   CHAR(41)     NOT NULL, -- 학생비밀번호
 	s_name       VARCHAR(5)   NOT NULL, -- 학생이름
-	s_phone      VARCHAR(11)  NOT NULL, -- 학생연락처
+	s_phone      VARCHAR(14)  NOT NULL, -- 학생연락처
 	tm_no        INTEGER      NULL,     -- 전송방법번호
 	s_school     VARCHAR(10)  NOT NULL, -- 학교
 	gd_no        INTEGER(2)   NULL,     -- 학년번호
@@ -124,7 +124,7 @@ CREATE TABLE edu_manager.parents (
 	sp_id           VARCHAR(20) NOT NULL, -- 학부모아이디
 	sp_password     CHAR(41)    NOT NULL, -- 학부모비밀번호
 	sp_name         VARCHAR(5)  NOT NULL, -- 학부모성함
-	sp_phone        VARCHAR(11) NOT NULL, -- 학부모연락처
+	sp_phone        VARCHAR(14) NOT NULL, -- 학부모연락처
 	tm_no           INTEGER     NOT NULL, -- 전송방법번호
 	sp_relationship VARCHAR(10) NULL,     -- 학생관계
 	sp_memo         TEXT        NULL      -- 학부모특이사항
@@ -140,10 +140,10 @@ ALTER TABLE edu_manager.parents
 -- 학생평가
 CREATE TABLE edu_manager.examination (
 	e_no     INTEGER      NOT NULL, -- 평가번호
-	s_id     VARCHAR(20)  NOT NULL, -- 학생아이디
-	c_no     INTEGER      NOT NULL, -- 강의번호
-	ei_no    INTEGER      NOT NULL, -- 평가항목번호
-	e_result CHAR(1)      NOT NULL, -- 평가결과
+	s_id     VARCHAR(20)  NULL,     -- 학생아이디
+	c_no     INTEGER      NULL,     -- 강의번호
+	ei_no    INTEGER      NULL,     -- 평가항목번호
+	e_result INTEGER(3)   NULL,     -- 평가결과
 	e_memo   VARCHAR(250) NULL      -- 평가결과상세
 );
 
@@ -157,7 +157,7 @@ ALTER TABLE edu_manager.examination
 -- 출결현황
 CREATE TABLE edu_manager.attendance (
 	at_no    INTEGER     NOT NULL, -- 출결번호
-	s_id     VARCHAR(20) NOT NULL, -- 학생아이디
+	s_id     VARCHAR(20) NULL,     -- 학생아이디
 	in_time  TIMESTAMP   NOT NULL, -- 등원시간
 	out_time TIMESTAMP   NULL,     -- 하원시간
 	is_delay TINYINT     NULL      -- 지각여부
@@ -205,20 +205,26 @@ ALTER TABLE edu_manager.transfer_method
 		);
 
 -- 수강등록
-CREATE TABLE edu_manager.register (
+CREATE TABLE edu_manager.course_register (
 	reg_no        INTEGER     NOT NULL, -- 수강등록번호
 	reg_month     INTEGER(6)  NOT NULL, -- 결제월
-	reg_s_id      VARCHAR(20) NOT NULL, -- 학생아이디
-	reg_c_no      INTEGER     NOT NULL, -- 강의번호
+	reg_s_id      VARCHAR(20) NULL,     -- 학생아이디
+	reg_c_no      INTEGER     NULL,     -- 강의번호
 	is_registered TINYINT     NULL      -- 결제여부
 );
 
 -- 수강등록
-ALTER TABLE edu_manager.register
-	ADD CONSTRAINT PK_register -- 수강등록 기본키
+ALTER TABLE edu_manager.course_register
+	ADD CONSTRAINT PK_course_register -- 수강등록 기본키
 		PRIMARY KEY (
 			reg_no -- 수강등록번호
 		);
+
+ALTER TABLE edu_manager.course_register
+	MODIFY COLUMN reg_no INTEGER NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE edu_manager.course_register
+	AUTO_INCREMENT = 1;
 
 -- 평가항목
 CREATE TABLE edu_manager.exam_item (
@@ -330,7 +336,9 @@ ALTER TABLE edu_manager.qna
 		)
 		REFERENCES edu_manager.qna ( -- 문의게시판
 			qna_no -- 게시글번호
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 문의게시판
 ALTER TABLE edu_manager.qna
@@ -360,7 +368,9 @@ ALTER TABLE edu_manager.course
 		)
 		REFERENCES edu_manager.teacher ( -- 선생님
 			t_id -- 선생님아이디
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 강좌
 ALTER TABLE edu_manager.course
@@ -390,7 +400,9 @@ ALTER TABLE edu_manager.message
 		)
 		REFERENCES edu_manager.teacher ( -- 선생님
 			t_id -- 선생님아이디
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 메시지
 ALTER TABLE edu_manager.message
@@ -400,7 +412,9 @@ ALTER TABLE edu_manager.message
 		)
 		REFERENCES edu_manager.student ( -- 학생
 			s_id -- 학생아이디
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 메시지
 ALTER TABLE edu_manager.message
@@ -410,7 +424,9 @@ ALTER TABLE edu_manager.message
 		)
 		REFERENCES edu_manager.parents ( -- 학부모
 			sp_id -- 학부모아이디
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 선생님
 ALTER TABLE edu_manager.teacher
@@ -431,7 +447,7 @@ ALTER TABLE edu_manager.student
 		REFERENCES edu_manager.parents ( -- 학부모
 			sp_id -- 학부모아이디
 		)
-		ON DELETE CASCADE
+		ON DELETE SET NULL
 		ON UPDATE CASCADE;
 
 -- 학생
@@ -472,7 +488,9 @@ ALTER TABLE edu_manager.examination
 		)
 		REFERENCES edu_manager.student ( -- 학생
 			s_id -- 학생아이디
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 학생평가
 ALTER TABLE edu_manager.examination
@@ -482,7 +500,9 @@ ALTER TABLE edu_manager.examination
 		)
 		REFERENCES edu_manager.course ( -- 강좌
 			c_no -- 강의번호
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 학생평가
 ALTER TABLE edu_manager.examination
@@ -492,7 +512,9 @@ ALTER TABLE edu_manager.examination
 		)
 		REFERENCES edu_manager.exam_item ( -- 평가항목
 			ei_no -- 평가항목번호
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 출결현황
 ALTER TABLE edu_manager.attendance
@@ -502,7 +524,9 @@ ALTER TABLE edu_manager.attendance
 		)
 		REFERENCES edu_manager.student ( -- 학생
 			s_id -- 학생아이디
-		);
+		)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE;
 
 -- 강좌시간표
 ALTER TABLE edu_manager.timetable
@@ -512,7 +536,9 @@ ALTER TABLE edu_manager.timetable
 		)
 		REFERENCES edu_manager.course ( -- 강좌
 			c_no -- 강의번호
-		);
+		)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE;
 
 -- 문의게시판상세
 ALTER TABLE edu_manager.qna_detail
@@ -527,8 +553,8 @@ ALTER TABLE edu_manager.qna_detail
 		ON UPDATE CASCADE;
 
 -- 수강등록
-ALTER TABLE edu_manager.register
-	ADD CONSTRAINT FK_student_TO_register -- 학생 -> 수강등록
+ALTER TABLE edu_manager.course_register
+	ADD CONSTRAINT FK_student_TO_course_register -- 학생 -> 수강등록
 		FOREIGN KEY (
 			reg_s_id -- 학생아이디
 		)
@@ -537,8 +563,8 @@ ALTER TABLE edu_manager.register
 		);
 
 -- 수강등록
-ALTER TABLE edu_manager.register
-	ADD CONSTRAINT FK_course_TO_register -- 강좌 -> 수강등록
+ALTER TABLE edu_manager.course_register
+	ADD CONSTRAINT FK_course_TO_course_register -- 강좌 -> 수강등록
 		FOREIGN KEY (
 			reg_c_no -- 강의번호
 		)
@@ -579,3 +605,21 @@ ALTER TABLE edu_manager.notice_detail
 		)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE;
+		
+-- -------------------------------------------		
+INSERT INTO subject (sb_name, sb_is_del) VALUES('국어', 0);
+select * from subject where sb_name = '국어';
+
+INSERT INTO student_grade (gd_name) VALUES('중1');
+
+INSERT INTO teacher (t_id, t_password, t_name, t_phone, t_subject, t_picture, t_memo)
+		VALUES('aaa01', 'aaa01', '김선생', '010-7777-7777', 1, '사진', '');
+		
+select last_insert_id() from course;		
+
+
+SELECT c.*, t.t_name, sg.gd_name, s.sb_name FROM course c 
+inner join subject s on c.sb_no = s.sb_no
+inner join teacher t on c.t_id = t.t_id
+inner join student_grade sg on c.gd_no = sg.gd_no
+WHERE is_canceled=0;

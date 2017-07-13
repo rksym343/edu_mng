@@ -2,13 +2,13 @@ package com.dgit.domain;
 
 public class Timetable {
 
-	private int cNo;
+	private Course course;
 	private int ttDay;
 	private int ttStarttime;
 	private int ttEndtime;
 
-	public int getcNo() {
-		return cNo;
+	public Course getCourse() {
+		return course;
 	}
 
 	public int getTtDay() {
@@ -23,8 +23,8 @@ public class Timetable {
 		return ttEndtime;
 	}
 
-	public void setcNo(int cNo) {
-		this.cNo = cNo;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public void setTtDay(int ttDay) {
@@ -37,6 +37,12 @@ public class Timetable {
 
 	public void setTtEndtime(int ttEndtime) {
 		this.ttEndtime = ttEndtime;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Timetable [course=%s, ttDay=%s, ttStarttime=%s, ttEndtime=%s]", course, ttDay,
+				ttStarttime, ttEndtime);
 	}
 
 }

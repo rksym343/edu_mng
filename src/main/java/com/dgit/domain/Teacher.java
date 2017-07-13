@@ -6,7 +6,7 @@ public class Teacher {
 	private String tPassword;
 	private String tName;
 	private String tPhone;
-	private String tSubject;
+	private Subject tSubject;
 	private String tPicture;
 	private String tMemo;
 
@@ -26,7 +26,7 @@ public class Teacher {
 		return tPhone;
 	}
 
-	public String gettSubject() {
+	public Subject gettSubject() {
 		return tSubject;
 	}
 
@@ -54,7 +54,7 @@ public class Teacher {
 		this.tPhone = tPhone;
 	}
 
-	public void settSubject(String tSubject) {
+	public void settSubject(Subject tSubject) {
 		this.tSubject = tSubject;
 	}
 
@@ -65,5 +65,13 @@ public class Teacher {
 	public void settMemo(String tMemo) {
 		this.tMemo = tMemo;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Teacher [tId=%s, tPassword=%s, tName=%s, tPhone=%s, tSubject=%s, tPicture=%s, tMemo=%s]",
+				tId, tPassword, tName, tPhone, tSubject, tPicture, tMemo);
+	}
+	
+	
 
 }

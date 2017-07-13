@@ -29,4 +29,10 @@ public class Subject {
 		this.sbName = sbName;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Subject [sbNo=%s, sbName=%s, sbIsDel=%s]", sbNo, sbName, sbIsDel);
+	}
+
+	
 }

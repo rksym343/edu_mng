@@ -2,7 +2,58 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dgit.mapper.StudentGradeMapper">
+<mapper namespace="com.dgit.mapper.TeacherMapper">
 
+	<resultMap type="Teacher" id="TeacherResult">
+		<id property="tId" column="t_id"/>
+		<result property="tPassword" column="t_password"/>
+		<result property="tName" column="t_name"/>
+		<result property="tPhone" column="t_phone"/>
+		<result property="tPicture" column="t_picture"/>
+		<result property="tMemo" column="t_memo"/>
+		<association property="tSubject"
+			resultMap="com.dgit.mapper.SubjectMapper.SubjectResult" />
+	</resultMap>
+
+	<insert id="insertTeacher">
+		INSERT INTO teacher (t_id, t_password, t_name, t_phone, t_subject, t_picture, t_memo)
+		VALUES(#{tId}, #{tPassword}, #{tName}, #{tPhone}, #{tSubject.sbNo}, #{tPicture}, #{tMemo})
+	</insert>
 	
+	<update id="updateTeacher">
+		UPDATE teacher
+			<set>
+				<if test="tPassword != null">
+					t_password= #{tPassword},
+				</if>
+				<if test="tName != null">
+					t_name=#{tName},
+				</if>
+				<if test="tPhone != null">
+					t_phone= #{tPhone},
+				</if>
+				<if test="t_subject != null">
+					t_subject=#{tSubject.sbNo},
+				</if>
+				<if test="tPicture != null">
+					t_picture=#{tPicture},
+				</if>
+				<if test="tMemo != null">
+					t_memo=#{tMemo}
+				</if>
+			</set>
+		WHERE t_id=#{tId}
+	</update>
+	
+	<delete id="deleteTeacher">
+		DELETE FROM  teacher WHERE t_id=#{tId}
+	</delete>
+	
+	<select id="selectAllTeacher">
+		SELECT * FROM teacher
+	</select>
+	
+	<select id="selectOneTeacher">
+		SELECT * FROM teacher WHERE t_id=#{tId}
+	</select>
 </mapper>

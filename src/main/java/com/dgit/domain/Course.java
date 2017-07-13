@@ -5,11 +5,11 @@ import java.util.Date;
 public class Course {
 
 	private int cNo;
-	private String tId;
+	private Teacher teacher;
 	private String cName;
-	private Subject sbNo;
-	private StudentGrade gbNo;
-	private int tuituion;
+	private Subject subject;
+	private StudentGrade studentGrade;
+	private int tuition;
 	private int capacity;
 	private Date cStartdate;
 	private Date cEnddate;
@@ -17,32 +17,29 @@ public class Course {
 	private String cContent;
 	private String cPicture;
 	private boolean isCanceled;
-	
-	
-
-	
-	public boolean isCanceled() {
-		return isCanceled;
-	}
-
-	public void setCanceled(boolean isCanceled) {
-		this.isCanceled = isCanceled;
-	}
 
 	public int getcNo() {
 		return cNo;
 	}
 
-	public String gettId() {
-		return tId;
+	public Teacher getTeacher() {
+		return teacher;
 	}
 
 	public String getcName() {
 		return cName;
 	}
 
-	public int getTuituion() {
-		return tuituion;
+	public Subject getSubject() {
+		return subject;
+	}
+
+	public StudentGrade getStudentGrade() {
+		return studentGrade;
+	}
+
+	public int getTuition() {
+		return tuition;
 	}
 
 	public int getCapacity() {
@@ -69,20 +66,32 @@ public class Course {
 		return cPicture;
 	}
 
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+
 	public void setcNo(int cNo) {
 		this.cNo = cNo;
 	}
 
-	public void settId(String tId) {
-		this.tId = tId;
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 
 	public void setcName(String cName) {
 		this.cName = cName;
 	}
 
-	public void setTuituion(int tuituion) {
-		this.tuituion = tuituion;
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+
+	public void setStudentGrade(StudentGrade studentGrade) {
+		this.studentGrade = studentGrade;
+	}
+
+	public void setTuition(int tuition) {
+		this.tuition = tuition;
 	}
 
 	public void setCapacity(int capacity) {
@@ -107,6 +116,18 @@ public class Course {
 
 	public void setcPicture(String cPicture) {
 		this.cPicture = cPicture;
+	}
+
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"Course [cNo=%s, teacher=%s, cName=%s, subject=%s, studentGrade=%s, tuition=%s, capacity=%s, cStartdate=%s, cEnddate=%s, classroom=%s, cContent=%s, cPicture=%s, isCanceled=%s]",
+				cNo, teacher, cName, subject, studentGrade, tuition, capacity, cStartdate, cEnddate, classroom,
+				cContent, cPicture, isCanceled);
 	}
 
 }
