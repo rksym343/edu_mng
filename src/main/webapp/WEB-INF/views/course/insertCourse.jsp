@@ -10,6 +10,7 @@
 		padding : 0;
 	}
 	label{
+		padding : 5px;
 		display : inline-block;
 		width : 100px;
 		font-weight: bold;
@@ -22,29 +23,41 @@
 	<form action="insertCourse" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="tId" value="aaa01">
 	
-		<label for="cName">강의명</label>
+		<label for="gdNo">수업대상</label>
+		<select id="gdNo" name="gdNo">
+			<c:forEach items="${studentGradeList }" var="grade">
+				<option value="${grade.gdNo }">${grade.gdName }</option>
+			</c:forEach>
+		</select>
+		
+		<label for="sbNo">교과목</label>
+		<select id="sbNo" name="sbNo">
+			<c:forEach items="${subjectList }" var="subject">
+				<option value="${subject.sbNo }">${subject.sbName }</option>
+			</c:forEach>
+		</select>
+		
+	
+		<label for="cName">수업명</label>
 		<input type="text" id="cName" name="cName">
 		
-		<label for="sbNo">해당교과</label>
-		<input type="text" id="sbNo" name="sbNo">
+		
 		<br>
 		
-		<label for="tuition">강의료</label>
+		<label for="tuition">수업료</label>
 		<input type="text" id="tuition" name="tuition">
 		<br>
 		
-		<label for="capacity">강의인원</label>
+		<label for="capacity">수업인원</label>
 		<input type="text" id="capacity" name="capacity">
 		<br>
 		
 		
 		
-		<label for="gdNo">강의대상학년</label>
-		<input type="text" id="gdNo" name="gdNo">
-		<br>
+		
 		
 		<p id="courseTime">
-		<label for="ttDay">강의요일</label>
+		<label for="ttDay">수업요일</label>
 		<select id="ttDay" name="ttDay">
 			<option value="0">월</option>
 			<option value="1">화</option>
@@ -89,7 +102,7 @@
 		<label for="ttEndtime" class="mid">종료시간</label>
 		<select id="ttEndtime" name="ttEndtime_hh">
 			<c:forEach begin="09" end="22" var="hh">
-			<c:if test="${hh > 12 }">
+			<c:if test="${hh > 11 }">
 					<c:if test="${(hh-12) < 10 }">
 						<option value="${hh }">오후 0${hh-12 }시</option>
 					</c:if>	
@@ -97,7 +110,7 @@
 						<option value="${hh }">오후  ${hh-12 }시</option>
 					</c:if>
 				</c:if>
-				<c:if test="${hh <= 12 }">
+				<c:if test="${hh <= 11 }">
 					<c:if test="${hh < 10 }">
 						<option value="${hh }">오전  0${hh }시</option>
 					</c:if>	
@@ -119,27 +132,27 @@
 			</c:forEach>
 		</select>
 		
-		<input type="button" id="addTimetable" value="+"> <!-- 누르면 강의시간 입력창 하나 더 추가 -->
+		<input type="button" id="addTimetable" value=" + "> <!-- 누르면 수업시간 입력창 하나 더 추가 -->
 		</p>
 		<br>
 		
-		<label for="cStart">강의시작일</label>
+		<label for="cStart">수업시작일</label>
 		<input type="text" id="cStart" name="cStart">
 		<br>
 		
-		<label for="cEnd">강의종료일</label>
+		<label for="cEnd">수업종료일</label>
 		<input type="text" id="cEnd" name="cEnd">
 		<br>
 		
-		<label for="classroom">강의실</label>
+		<label for="classroom">교실</label>
 		<input type="text" id="classroom" name="classroom">
 		<br>
 		
-		<label for="cContent">강의세부사항</label>
+		<label for="cContent">수업세부사항</label>
 		<textarea rows="10" cols="50" id="cContent" name="cContent"></textarea>
 		<br>
 		
-		<label for="picture">강의이미지</label>
+		<label for="picture">수업이미지</label>
 		<input type="file" id="picture" name="picture">
 		<br>
 
@@ -152,7 +165,7 @@
 			var pTag = $("<p>");
 			
 			var labelDay = $("<label>");
-			labelDay.html("강의요일");
+			labelDay.html("수업요일");
 			
 			var arrDay = ["월", "화", "수", "목", "금", "토", "일"];
 			var selectDay= $("<select>");
@@ -184,7 +197,7 @@
 			
 			for(var i = 09; i < 23; i++){
 				var optionTime ="<option";
-				if (i < 13){
+				if (i < 12){
 					if(i < 10){
 						optionTime +=  " value=" +i+"> 오전 0"+i+"시</option>";
 					}else{
@@ -204,7 +217,7 @@
 			
 			var selectStartMinute = $("<select>");
 			selectStartMinute.attr("name", "ttStarttime_MM");
-			var selectEndMinute = $("<select>");
+			var selectEndMinute = $("<select name='ttEndtime_MM'>");
 			selectEndMinute.attr("name", "ttEndtime_MM");
 			
 			

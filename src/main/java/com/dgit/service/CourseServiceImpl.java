@@ -24,11 +24,15 @@ public class CourseServiceImpl implements CourseService{
 	@Transactional
 	public void insertCourse(Course course, Timetable[] timetables) throws Exception {
 		dao.insertCourse(course);
+		System.out.println("-------------------------insertCourse----------------------");
 		int cNo = dao.lastCourseId();
-		course.setcNo(cNo);
-		for(Timetable tt : timetables){
-			tt.setCourse(course);
-			timetableDao.insertTimetable(tt);
+		System.out.println("-------------------------insertCourse lastCourseId " + cNo);
+		Course co = new Course();
+		co.setcNo(cNo);
+		for(Timetable ttt : timetables){
+			ttt.setCourse(co);
+			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
+			timetableDao.insertTimetable(ttt);
 		}		
 	}
 

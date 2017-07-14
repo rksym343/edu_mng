@@ -9,21 +9,21 @@
 		<result property="gdName" column="gd_name"/>
 	</resultMap>
 
-	<insert id="insertStudentGrade">
+	<insert id="insertStudentGrade" parameterType="StudentGrade">
 		INSERT INTO student_grade (gd_name) VALUES(#{gdName})
 	</insert>
 	
-	<update id="updateStudentGrade">
+	<update id="updateStudentGrade" parameterType="StudentGrade">
 		UPDATE student_grade SET gd_name=#{gdName} WHERE gd_no=#{gdNo}
 	</update>
 
 
-	<select id="selectAllStudentGrade">
+	<select id="selectAllStudentGrade" resultMap="StudentGradeResult">
 		SELECT * FROM student_grade
 	</select>
 
 
-	<select id="selectOneStudentGrade">
+	<select id="selectOneStudentGrade" resultMap="StudentGradeResult">
 		SELECT * FROM student_grade WHERE gd_no=#{gdNo}
 	</select>
 	

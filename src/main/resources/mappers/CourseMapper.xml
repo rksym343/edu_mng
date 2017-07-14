@@ -87,7 +87,8 @@
 	</select>
 	
 	<select id="lastCourseId" resultType="int">
-		select last_insert_id() from course
+		select max(c_no) from course 
+		<!-- select last_insert_id() from course -->
 	</select>
  
 </mapper>

@@ -34,6 +34,10 @@
 		inner join subject s on s.sb_no = c.sb_no
 		inner join student_grade sg on c.gd_no = sg.gd_no
 	</sql>
+	
+	<sql id="selectSqlOnlyTimeTable">
+		SELECT tt.* FROM timetable tt
+	</sql>
 
 	<insert id="insertTimetable" parameterType="Timetable">
 		INSERT INTO timetable (c_no, tt_day, tt_starttime, tt_endtime) VALUES(#{course.cNo}, #{ttDay}, #{ttStarttime}, #{ttEndtime})	
@@ -44,13 +48,14 @@
 	</delete>
 
 	<select id="selectAllTimetable" resultMap="TimetableReslutWithCourse">
-		<include refid="selectSql" />
-		order by tt.tt_day, tt.tt_starttime, tt.c_no
+		<include refid="selectSqlOnlyTimeTable" />
+		order by tt.c_no, tt.tt_day, tt.tt_starttime
 	</select>
 
 	<select id="selectTimetableByCri"  parameterType="Timetable" resultMap="TimetableReslutWithCourse">
 		<include refid="selectSql" />
 		<include refid="whereSql" />
+		order by tt.tt_day, tt.tt_starttime, tt.c_no
 	</select>
 	
 </mapper>

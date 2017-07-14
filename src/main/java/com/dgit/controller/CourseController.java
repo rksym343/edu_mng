@@ -19,6 +19,8 @@ import com.dgit.domain.Subject;
 import com.dgit.domain.Teacher;
 import com.dgit.domain.Timetable;
 import com.dgit.service.CourseService;
+import com.dgit.service.StudentGradeService;
+import com.dgit.service.SubjectService;
 import com.dgit.service.TimetableService;
 
 @Controller
@@ -29,7 +31,13 @@ public class CourseController {
 	private CourseService courseService;
 	
 	@Autowired
+	private StudentGradeService studentGradeService;
+	
+	@Autowired
 	private TimetableService timetableService;
+	
+	@Autowired
+	private SubjectService subjectService;
 	
 	@Resource(name = "uploadPath") // bean의 id 이름
 	String uploadPath;
@@ -37,7 +45,9 @@ public class CourseController {
 	private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
 
 	@RequestMapping(value="/insertCourse", method=RequestMethod.GET)
-	public void getInsertCourse(){
+	public void getInsertCourse(Model model) throws Exception{
+		model.addAttribute("studentGradeList", studentGradeService.selectAllStudentGrade()); // 전체학년
+		model.addAttribute("subjectList", subjectService.selectAllSubject()); // 전체교과
 	}
 	
 	@RequestMapping(value="/insertCourse", method=RequestMethod.POST)
@@ -49,25 +59,27 @@ public class CourseController {
 		course.setSubject(subject);
 		course.setTeacher(teacher);
 		
-		System.out.println("==============cStart  : " + cStart);
-		System.out.println("==============cEnd  : " + cEnd);
 		
-		System.out.println("=======================insertCourse Post===============");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
 		course.setcStartdate(sdf.parse(cStart));
 		course.setcEnddate(sdf.parse(cEnd));
 		course.setcPicture(picture.getOriginalFilename());
 		
 		Timetable[] timeTables = new Timetable[ttDay.length];
-		Timetable tt = new Timetable();
-		tt.setCourse(course);
 		for(int i = 0; i < timeTables.length; i++){
+			Timetable tt = new Timetable();
+			tt.setCourse(course);
 			tt.setTtDay(ttDay[i]);
 			tt.setTtStarttime(Integer.parseInt(String.format("%02d%02d", ttStarttime_hh[i], ttStarttime_MM[i])));
 			tt.setTtEndtime(Integer.parseInt(String.format("%02d%02d", ttEndtime_hh[i], ttEndtime_MM[i])));
 			timeTables[i] = tt;
-			System.out.println(tt);
 		}
+		
+		System.out.println("Controller에서 넘기기 전~~~~");
+		for(Timetable ttt : timeTables){
+			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
+		}
+		System.out.println("Controller에서 넘기기 전~~~~");
 		
 		courseService.insertCourse(course, timeTables);
 		
@@ -81,6 +93,7 @@ public class CourseController {
 		logger.info("======================== listCourses ========================");
 		model.addAttribute("listCourses", courseService.selectAllCourse());
 		model.addAttribute("Courses", timetableService.selectAllTimetable());
+		System.out.println("========================Courses size: "+timetableService.selectAllTimetable().size());
 		return "course/listCourses";
 	}
 	
