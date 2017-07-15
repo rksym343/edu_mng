@@ -1,5 +1,7 @@
 package com.dgit.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.text.SimpleDateFormat;
 
 import javax.annotation.Resource;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dgit.domain.CartCourse;
 import com.dgit.domain.Course;
 import com.dgit.domain.StudentGrade;
 import com.dgit.domain.Subject;
 import com.dgit.domain.Teacher;
 import com.dgit.domain.Timetable;
+import com.dgit.service.CartCourseService;
+import com.dgit.service.CourseRegisterService;
 import com.dgit.service.CourseService;
 import com.dgit.service.StudentGradeService;
 import com.dgit.service.SubjectService;
@@ -38,6 +43,12 @@ public class CourseController {
 	
 	@Autowired
 	private SubjectService subjectService;
+	
+	@Autowired
+	private CourseRegisterService courseRegisterService;
+	
+	@Autowired
+	private CartCourseService cartCourseService;
 	
 	@Resource(name = "uploadPath") // bean의 id 이름
 	String uploadPath;
@@ -96,5 +107,47 @@ public class CourseController {
 		System.out.println("========================Courses size: "+timetableService.selectAllTimetable().size());
 		return "course/listCourses";
 	}
+	
+	@RequestMapping(value="/registerCourses", method=RequestMethod.GET)
+	public void getRegisterCourses(Model model) throws Exception{
+		logger.info("======================== registerCourses GET ========================");
+		model.addAttribute("listCourses", courseService.selectAllCourse());
+		model.addAttribute("Courses", timetableService.selectAllTimetable());
+		System.out.println("========================Courses size: "+timetableService.selectAllTimetable().size());
+	}
+	
+	@RequestMapping(value="/registerCourses", method=RequestMethod.POST)
+	public String postRegisterCourses(String sId, Integer[] cNos, Model model) throws Exception{
+		logger.info("======================== registerCourses POST  ========================");
+		logger.info("===============  sId : " + sId);
+		// 장바구니에 담고
+		logger.info("======================== 카트상품 ========================");
+		CartCourse[] cartCourses = new CartCourse[cNos.length];
+		for(int i = 0; i < cNos.length; i++){
+			CartCourse cc = new CartCourse();
+			Course course = new Course();
+			course.setcNo(cNos[i]);
+			cc.setsId(sId);			
+			cc.setCourse(course);
+			cartCourses[i] = cc;
+			logger.info(cc.toString());
+		}
+		cartCourseService.insertCartCourse(cartCourses);
+		// 장바구니 페이지로... 
+		
+		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
+		
+		return "course/cartCourses";
+	}
+	
+	@RequestMapping(value="/cartCourses", method=RequestMethod.GET)
+	public void getCartCourses(String sId, Model model) throws Exception{
+		System.out.println("======================== cartCourses GET ========================");
+		System.out.println("=============== cart size   : "+cartCourseService.selectAllCoursesBySId(sId).size());
+		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
+		
+	}
+	
+	
 	
 }

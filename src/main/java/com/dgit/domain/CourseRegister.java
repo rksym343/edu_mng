@@ -4,9 +4,9 @@ public class CourseRegister {
 
 	private int regNo;
 	private int regMonth;
-	private Member member;
+	private Student student;
 	private Course course;
-	private boolean isRegistered;
+	private RegistrationStatus registrationStatus;
 
 	public int getRegNo() {
 		return regNo;
@@ -24,12 +24,12 @@ public class CourseRegister {
 		this.regMonth = regMonth;
 	}
 
-	public Member getMember() {
-		return member;
+	public Student getStudent() {
+		return student;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	public Course getCourse() {
@@ -40,12 +40,12 @@ public class CourseRegister {
 		this.course = course;
 	}
 
-	public boolean isRegistered() {
-		return isRegistered;
+	public RegistrationStatus getRegistrationStatus() {
+		return registrationStatus;
 	}
 
-	public void setRegistered(boolean isRegistered) {
-		this.isRegistered = isRegistered;
+	public void setRegistrationStatus(RegistrationStatus registrationStatus) {
+		this.registrationStatus = registrationStatus;
 	}
 
 }

@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp"%>
 
-	<form action="" method="post">
 	<table border='1'>
 		<tr>
 			<th>교과</th>
@@ -17,14 +16,10 @@
 				<td>${course.studentGrade.gdName }</td>
 				<td>${course.cName }</td>
 				<td>${course.teacher.tName }</td>
-				<td><input type="checkbox" name="hopeCourses" value="${course.cNo}"></td>
 			</tr>
 		</c:forEach>		
 	</table>
-		<input type="submit" value="신청">
-		<input type="reset" value="취소">
-	</form>
-	
+		
 	<hr>
 	
 	<table border='1'>
