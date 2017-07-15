@@ -1,6 +1,7 @@
 package com.dgit.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Student {
 
@@ -9,11 +10,12 @@ public class Student {
 	private String sName;
 	private String sPhone;
 	private TransferMethod transferMethod;
-	private String sSchool;
+	private String school;
 	private StudentGrade sGrade;
-	private Date sEnrollemnt;
+	private Date joinDate;
 	private String sPicture;
 	private String sMemo;
+	private List<Parents> parents;
 
 	public String getsId() {
 		return sId;
@@ -55,12 +57,12 @@ public class Student {
 		this.transferMethod = transferMethod;
 	}
 
-	public String getsSchool() {
-		return sSchool;
+	public String getSchool() {
+		return school;
 	}
 
-	public void setsSchool(String sSchool) {
-		this.sSchool = sSchool;
+	public void setSchool(String school) {
+		this.school = school;
 	}
 
 	public StudentGrade getsGrade() {
@@ -71,12 +73,12 @@ public class Student {
 		this.sGrade = sGrade;
 	}
 
-	public Date getsEnrollemnt() {
-		return sEnrollemnt;
+	public Date getJoinDate() {
+		return joinDate;
 	}
 
-	public void setsEnrollemnt(Date sEnrollemnt) {
-		this.sEnrollemnt = sEnrollemnt;
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
 	}
 
 	public String getsPicture() {
@@ -95,5 +97,12 @@ public class Student {
 		this.sMemo = sMemo;
 	}
 
+	public List<Parents> getParents() {
+		return parents;
+	}
+
+	public void setParents(List<Parents> parents) {
+		this.parents = parents;
+	}
 
 }

@@ -11,4 +11,6 @@ public interface StudentDAO {
 	public void deleteStudent(String sId) throws Exception;
 	public Student selectOneStudent(String sId) throws Exception;
 	public List<Student> selectAllStudent() throws Exception;
+	public List<Student> selectStudentsByCri(Student student) throws Exception;
+	
 }

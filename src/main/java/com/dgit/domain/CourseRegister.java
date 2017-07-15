@@ -4,7 +4,7 @@ public class CourseRegister {
 
 	private int regNo;
 	private int regMonth;
-	private Student student;
+	private Member member;
 	private Course course;
 	private boolean isRegistered;
 
@@ -24,12 +24,12 @@ public class CourseRegister {
 		this.regMonth = regMonth;
 	}
 
-	public Student getStudent() {
-		return student;
+	public Member getMember() {
+		return member;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 	public Course getCourse() {

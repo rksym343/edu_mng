@@ -6,19 +6,25 @@ public class Parents {
 	private String spPassword;
 	private String spName;
 	private String spPhone;
-	private int tmNo;
+	private TransferMethod transferMethod;
 	private String spRelationship;
 	private String spMemo;
+	private String sId;
 
-	
-	
-
-	public int getTmNo() {
-		return tmNo;
+	public String getsId() {
+		return sId;
 	}
 
-	public void setTmNo(int tmNo) {
-		this.tmNo = tmNo;
+	public void setsId(String sId) {
+		this.sId = sId;
+	}
+
+	public TransferMethod getTransferMethod() {
+		return transferMethod;
+	}
+
+	public void setTransferMethod(TransferMethod transferMethod) {
+		this.transferMethod = transferMethod;
 	}
 
 	public String getSpId() {
@@ -44,7 +50,6 @@ public class Parents {
 	public String getSpMemo() {
 		return spMemo;
 	}
-
 
 	public void setSpId(String spId) {
 		this.spId = spId;
