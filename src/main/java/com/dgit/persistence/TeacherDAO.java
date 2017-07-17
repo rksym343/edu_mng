@@ -10,6 +10,7 @@ public interface TeacherDAO {
 	public void updateTeacher(Teacher teacher) throws Exception;
 	public void deleteTeacher(String tId) throws Exception;
 	public Teacher selectOneTeacher(String tId) throws Exception;
+	public Teacher login(String tId, String tPassword) throws Exception;
 	public List<Teacher> selectAllTeacher() throws Exception;
 	
 }

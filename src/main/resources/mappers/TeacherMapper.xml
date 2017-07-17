@@ -14,6 +14,11 @@
 		<association property="tSubject"
 			resultMap="com.dgit.mapper.SubjectMapper.SubjectResult" />
 	</resultMap>
+	
+	<sql id="selectSql">
+		SELECT tt.*, ss.sb_name FROM teacher tt
+		inner join subject ss on tt.t_subject = ss.sb_no 
+	</sql>
 
 	<insert id="insertTeacher">
 		INSERT INTO teacher (t_id, t_password, t_name, t_phone, t_subject, t_picture, t_memo)
@@ -50,10 +55,16 @@
 	</delete>
 	
 	<select id="selectAllTeacher">
-		SELECT * FROM teacher
+		<include refid="selectSql"/>
 	</select>
 	
 	<select id="selectOneTeacher">
-		SELECT * FROM teacher WHERE t_id=#{tId}
+		<include refid="selectSql"/>
+		 WHERE tt.t_id=#{tId}
+	</select>
+	
+	<select id="login">
+		<include refid="selectSql"/>
+		 WHERE tt.t_id=#{tId} and tt.t_password = #{tPassword}
 	</select>
 </mapper>

@@ -30,7 +30,7 @@
 	</beans:bean>
 	
 	
-	<!-- <beans:bean id="loginInterceptor" class="com.dgit.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="loginInterceptor" class="com.dgit.interceptor.LoginInterceptor"></beans:bean>
 	
 	<beans:bean id="authInterceptor" class="com.dgit.interceptor.AuthInterceptor"></beans:bean>
 	
@@ -39,15 +39,15 @@
 				<mapping path="/user/loginPost"/>
 				<beans:ref bean="loginInterceptor"/>
 			</interceptor>
-			<interceptor>
+			<!-- <interceptor>
 				<mapping path="/sboard/register"/>
 				<mapping path="/sboard/modify"/>
 				<mapping path="/sboard/read"/>
 				<mapping path="/sboard/delete"/>
 				<beans:ref bean="authInterceptor"/>
-			</interceptor>
+			</interceptor> -->
 		</interceptors>
-	 -->
+	 
 	
 	<context:component-scan base-package="com.dgit.controller" />
 	

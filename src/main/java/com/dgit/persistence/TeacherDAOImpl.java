@@ -1,6 +1,8 @@
 package com.dgit.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,14 @@ public class TeacherDAOImpl implements TeacherDAO {
 	@Override
 	public List<Teacher> selectAllTeacher() throws Exception {
 		return session.selectList(namespace + ".selectAllTeacher");
+	}
+
+	@Override
+	public Teacher login(String tId, String tPassword) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("tId", tId);
+		map.put("tPassword", tPassword);
+		return session.selectOne(namespace + ".login", map);
 	}
 
 }
