@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.ParentsMapper">
+
+	<resultMap type="Parents" id="ParentsResult">
+		<id property="spId" column="sp_id"/>
+		<result property="spPassword" column="sp_password"/>
+		<result property="spName" column="sp_name"/>
+		<result property="spPhone" column="sp_phone"/>
+		<result property="spRelationship" column="sp_picture"/>
+		<result property="spMemo" column="sp_memo"/>
+		<result property="sId" column="s_id"/>
+		<association property="transferMethod"
+			resultMap="com.dgit.mapper.SubjectMapper.SubjectResult" />
+	</resultMap>
+
+	<sql id="selectSql">
+		SELECT pp.*, tm.* FROM parents pp
+		inner join transfer_method tm on pp.tm_no = tm.tm_no
+	</sql>
+
+	<insert id="insertParent">
+		INSERT INTO parents
+		(sp_id, sp_password, sp_name, sp_phone, tm_no, sp_relationship, sp_memo, s_id) VALUES 
+		(#{spId}, #{spPassword}, #{spName}, #{spPhone}, #{transferMethod.tmNo}, #{spRelationship}, #{spMemo}, #{sId} )
+	</insert>
+	
+	<update id="updateParent">
+		UPDATE parents
+		<set>
+				<if test="spPassword != null">
+					sp_password= #{spPassword},
+				</if>
+				<if test="spName != null">
+					sp_name=#{spName},
+				</if>
+				<if test="spPhone != null">
+					sp_phone= #{spPhone},
+				</if>
+				<if test="transferMethod != null">
+					tm_no=#{transferMethod.tmNo},
+				</if>
+				<if test="spRelationship != null">
+					sp_relationship=#{spRelationship},
+				</if>
+				<if test="spMemo != null">
+					sp_memo=#{spMemo},
+				</if>
+				<if test="sId != null">
+					s_id=#{sId}
+				</if>
+			</set>
+		WHERE sp_id=#{spId}			
+	</update>
+	
+	<delete id="deleteParent">
+		DELETE FROM  parents WHERE sp_id=#{spId}
+	</delete>
+	
+	<select id="selectAllParents">
+		<include refid="selectSql"/>
+	</select>
+	
+	<select id="selectOneParent">
+		<include refid="selectSql"/>
+		WHERE pp.sp_id=#{spId}
+	</select>
+	
+	<select id="selectParentsBysId">
+		<include refid="selectSql"/>
+		WHERE pp.s_id=#{sId}
+	</select>
+	
+	<select id="login" resultMap="ParentsResult">
+		<include refid="selectSql"/>
+		WHERE pp.sp_id=#{spId} and pp.sp_password= #{spPassword}
+	</select>
+</mapper>

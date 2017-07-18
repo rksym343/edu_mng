@@ -56,7 +56,7 @@
 		
 		
 		
-		<p id="courseTime">
+		<span id="courseTime">
 		<label for="ttDay">수업요일</label>
 		<select id="ttDay" name="ttDay">
 			<option value="0">월</option>
@@ -132,8 +132,9 @@
 			</c:forEach>
 		</select>
 		
+		
+		</span>
 		<input type="button" id="addTimetable" value=" + "> <!-- 누르면 수업시간 입력창 하나 더 추가 -->
-		</p>
 		<br>
 		
 		<label for="cStart">수업시작일</label>
@@ -162,10 +163,9 @@
 	
 	<script>
 		function addCourseTime() {
-			var pTag = $("<p>");
+			var pTag = $("<span>");
 			
 			var labelDay = $("<label>");
-			labelDay.html("수업요일");
 			
 			var arrDay = ["월", "화", "수", "목", "금", "토", "일"];
 			var selectDay= $("<select>");
@@ -248,6 +248,7 @@
 		}
 	
 		$("#addTimetable").click(function() {
+			$("#courseTime").append("<br>");
 			$("#courseTime").append(addCourseTime);
 		});
 	</script>

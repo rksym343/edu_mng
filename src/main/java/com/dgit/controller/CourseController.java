@@ -1,8 +1,8 @@
 package com.dgit.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -122,7 +122,7 @@ public class CourseController {
 		logger.info("===============  sId : " + sId);
 		// 장바구니에 담고
 		logger.info("======================== 카트상품 ========================");
-		CartCourse[] cartCourses = new CartCourse[cNos.length];
+		/*CartCourse[] cartCourses = new CartCourse[cNos.length];
 		for(int i = 0; i < cNos.length; i++){
 			CartCourse cc = new CartCourse();
 			Course course = new Course();
@@ -131,8 +131,26 @@ public class CourseController {
 			cc.setCourse(course);
 			cartCourses[i] = cc;
 			logger.info(cc.toString());
+		}*/
+		
+		CartCourse[] cartCourses = new CartCourse[cNos.length];
+		for(int i = 0; i < cNos.length; i++){
+			CartCourse cc = new CartCourse();
+			List<Course> courses = new ArrayList<>();
+			Course course = new Course();
+			course.setcNo(cNos[i]);
+			courses.add(course);			
+			cc.setsId(sId);			
+			cc.setCourses(courses);
+			cartCourses[i] = cc;
+			logger.info(cc.toString());
 		}
-		cartCourseService.insertCartCourse(cartCourses);
+		boolean res = cartCourseService.insertCartCourse(cartCourses);
+		if(res){
+			
+		}else{
+			
+		}
 		// 장바구니 페이지로... 
 		
 		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
@@ -143,7 +161,8 @@ public class CourseController {
 	@RequestMapping(value="/cartCourses", method=RequestMethod.GET)
 	public void getCartCourses(String sId, Model model) throws Exception{
 		System.out.println("======================== cartCourses GET ========================");
-		System.out.println("=============== cart size   : "+cartCourseService.selectAllCoursesBySId(sId).size());
+		sId = "sss01";
+		System.out.println("=============== cart size   : " + cartCourseService.selectAllCoursesBySId(sId).size());
 		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
 		
 	}

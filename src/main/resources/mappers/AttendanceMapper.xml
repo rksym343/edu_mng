@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.AttendanceMapper">
+
+
+	 <resultMap type="Attendance" id="AttendanceResult">
+		<id property="atNo" column="at_no"/>
+		<result property="theTime" column="the_time"/>
+		<association property="student" resultMap="com.dgit.mapper.StudentMapper.StudentResult"/>
+		<association property="attendanceStatus" resultMap="com.dgit.mapper.AttendanceStatusMapper.AttendanceStatusResult"/>
+	</resultMap>
+
+
+	<sql id="selectSql">
+		SELECT at_no, att.s_id, the_time, att.as_no, ass.as_status, ccc.c_no, ccc.c_name, sg.gd_name, sss.s_name
+		FROM attendance att
+		inner join student sss on sss.s_id = att.s_id 
+		inner join student_grade sg on sss.gd_no = sg.gd_no
+		inner join attendance_status ass on att.as_no = ass.as_no
+		left outer join course_register cr on att.s_id = reg_s_id
+		left outer join course ccc on ccc.c_no = cr.reg_c_no
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="atNo != null">
+				att.at_no = #{atNo}
+			</if>
+			<if test="student != null">
+				and att.s_id = #{student.sId}
+			</if>
+			<if test="theTime != null">
+				and att.the_time = #{theTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereSqlWithCri">
+		<where>
+			<if test="searchType != null">
+				<if test="searchType == 'sId'.toString()">
+					att.s_id = #{keyword}
+				</if>
+				<if test="searchType == 'date'.toString()">
+					<!-- 날짜  -->
+					and date_format(att.the_time, '%Y-%m-%d') = #{keyword}
+				</if>
+				<if test="searchType == 'month'.toString()">
+					<!-- 월별  -->
+					and date_format(att.the_time, '%Y-%m') = #{keyword}
+				</if>
+				<if test="searchType == 'period'.toString()">
+					<!-- 특정기간 ??? 어캐하지 -->
+					and att.the_time &gt; #{startDate} and att.the_time &lt; #{endDate}
+				</if>
+				<if test="searchType == 'course'.toString()">
+					<!-- 특정 수업 학생들.. -->
+					and ccc.c_no = #{keyword}
+				</if>	
+			</if>	
+				<if test="status != 0">
+					<!-- 출결상태  -->
+					and att.as_no = #{status}
+				</if>
+				
+			
+		</where>
+	</sql>
+	
+	
+	<insert id="insertAttendance"  parameterType="Attendance">
+		INSERT INTO attendance (s_id, the_time, as_no)
+		VALUES(#{student.sId}, current_timestamp,  #{attendanceStatus.asNo})
+	</insert>
+
+	<insert id="insertAttendanceToday">
+		INSERT INTO attendance (s_id, the_time, as_no)
+		VALUES(#{sId}, current_date, 1)
+	</insert>
+	
+	<update id="updateAttendanceToday" parameterType="Attendance">
+		UPDATE course_register
+		<set>
+			<if test="sId != null">
+				s_id=#{student.sId},
+			</if>
+			<if test="theTime != null">
+				the_time= current_timestamp,
+			</if>
+			<if test="attendanceStatus != null">
+				as_no= #{attendanceStatus.asNo}
+			</if>			
+		</set>
+			WHERE at_no = #{atNo}
+	</update>
+	
+	<update id="updateAttendance" parameterType="Attendance">
+		UPDATE course_register
+		<set>
+			<if test="sId != null">
+				s_id=#{student.sId},
+			</if>
+			<if test="theTime != null">
+				the_time= #{theTime},
+			</if>
+			<if test="attendanceStatus != null">
+				as_no= #{attendanceStatus.asNo}
+			</if>			
+		</set>
+			WHERE at_no = #{atNo}
+	</update>
+	
+	<update id="deleteAttendance">
+		DELETE FROM attendance WHERE at_no=#{atNo}
+
+	</update>
+	
+	<select id="selectAttendanceByCri" resultMap="AttendanceResult">
+		<include refid="selectSql"/>
+		<include refid="whereSqlWithCri"/>
+		order by att.the_time desc
+	</select>
+	
+	<select id="selectAttendanceBySIdAndMonth" resultMap="AttendanceResult">
+		<include refid="selectSql"/>
+		where att.s_id = #{sId} and date_format(att.the_time, '%Y-%m') = #{month}
+		order by att.the_time desc
+	</select>
+	
+	<select id="selectAllAttendance" resultMap="AttendanceResult">
+		<include refid="selectSql"/>
+		order by att.the_time desc
+	</select>
+	
+</mapper>

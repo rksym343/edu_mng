@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.CourseRegisterMapper">
+
+
+	 <resultMap type="CourseRegister" id="CourseRegisterResult">
+		<id property="regNo" column="reg_no"/>
+		<result property="regMonth" column="reg_month"/>
+		<association property="registrationStatus" resultMap="com.dgit.mapper.RegistrationStatusMapper.RegistrationStatusResult"/>
+		<association property="student" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
+		<association property="course" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>
+	</resultMap>
+
+
+	<sql id="selectSql">
+		SELECT cr.*, c.c_name FROM course_register cr
+		inner join course c on cr.reg_c_no = c.c_no
+		inner join registration_status rs on cr.rs_no = rs.rs_no
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="course != null">
+				reg_c_no = #{course.cNo}
+			</if>
+			<if test="student != null">
+				and reg_s_id  =#{student.sId}
+			</if>
+			<if test="regMonth != null">
+				and reg_month =#{regMonth}
+			</if>
+			<if test="registrationStatus != null">
+				and rs_no =#{registrationStatus.rsNo}
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insertCourseRegister" parameterType="CourseRegister">
+		INSERT INTO course_register
+		(reg_month, reg_s_id, reg_c_no, rs_no)
+		VALUES(#{regMonth}, #{student.sNo}, #{course.cNo}, #{registrationStatus.rsNo})
+	</insert>
+	
+	<update id="updateCourseRegister" parameterType="CourseRegister">
+		UPDATE course_register
+		<set>
+			<if test="student != null">
+				reg_s_id=#{student.sId},
+			</if>
+			<if test="course != null">
+				reg_c_no= #{course.cNo},
+			</if>
+			<if test="regMonth != null">
+				reg_month=#{regMonth},
+			</if>
+			<if test="registrationStatus != null">
+				rs_no= #{registrationStatus.rsNo}
+			</if>
+		</set>
+			WHERE reg_no=#{regNo}
+	</update>
+	
+	<update id="cancelCourseRegister">
+		UPDATE course_register set
+		 rs_no = (SELECT rs_no FROM registration_status where status = #{cancel})
+		where reg_no = #{regNo}
+	</update>
+	
+	<select id="selectCourseRegisterByCri" parameterType="CourseRegister" resultMap="CourseRegisterResult">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="selectAllCourseRegister" resultMap="CourseRegisterResult">
+		<include refid="selectSql"/>
+	</select>
+	
+</mapper>

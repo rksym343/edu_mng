@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.CartCoursesMapper">
+	
+	<resultMap type="CartCourse" id="CartCoursesResult">
+		<result property="sId" column="s_id"/>
+		<result property="cartDate" column="cart_date"/>
+		<collection property="courses" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>
+	</resultMap>
+
+	<insert id="insertCartCourse" parameterType="CartCourse">
+		INSERT INTO cart_courses (s_id, c_no, cart_date) VALUES(#{sId}, #{courses.cNo}, CURRENT_TIMESTAMP)
+
+	</insert>
+
+	<delete id="deleteOneCartCourse" parameterType="CartCourse">
+		DELETE FROM  cart_courses WHERE s_id=#{sId} AND c_no=#{courses.cNo} 
+	</delete>
+	
+	<delete id="deleteCartCoursesByDate">
+		DELETE FROM  cart_courses WHERE cart_date &lt; now()
+	</delete>
+	
+	<select id="selectAllCoursesBySId" resultMap="CartCoursesResult">
+		SELECT ccc.s_id, ccc.cart_date, c.* FROM cart_courses ccc
+		inner join course c on ccc.c_no = c.c_no
+		WHERE ccc.s_id=#{sId}
+		order by ccc.s_id, ccc.cart_date
+		
+		<!-- SELECT ccc.s_id, ccc.cart_date FROM cart_courses ccc
+		WHERE ccc.s_id=#{sId} -->
+	</select>
+	
+
+
+
+	
+</mapper>

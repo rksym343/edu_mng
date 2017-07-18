@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.StudentMapper">
+
+	<resultMap type="Student" id="StudentResult">
+		<id property="sId" column="s_id"/>
+		<result property="sPassword" column="s_password"/>
+		<result property="sName" column="s_name"/>
+		<result property="sPhone" column="s_phone"/>
+		<result property="school" column="school"/>
+		<result property="joinDate" column="join_date"/>
+		<result property="sPicture" column="s_picture"/>
+		<association property="transferMethod"
+			resultMap="com.dgit.mapper.TransferMethodMapper.TransferMethodResult" />
+		<association property="sGrade"
+			resultMap="com.dgit.mapper.StudentGradeMapper.StudentGradeResult" />
+		<collection property="parents" resultMap="com.dgit.mapper.ParentsMapper.ParentsResult"/>
+	</resultMap>
+	
+	<resultMap type="Student" id="StudentWithParentsResult" extends="StudentResult">
+			
+	</resultMap>
+	
+	<sql id="selectSql">
+		SELECT s.*, tm.*, sg.* FROM student s
+		inner join transfer_method tm on s.tm_no = tm.tm_no
+		inner join student_grade sg on s.gd_no = sg.gd_no
+	</sql>
+	
+	<sql id="selectWithParentsSql">
+		SELECT * FROM student s
+		inner join parents p on s.s_id = p.s_id
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="sId != null">
+				s.s_id =#{sId}
+			</if>
+			<if test="sName != null">
+				and s.s_name =#{sName}
+			</if>
+			<if test="sPhone != null">
+				and s.s_phone =#{sPhone}
+			</if>
+			<if test="school != null">
+				and s.school = #{school}
+			</if>
+			<if test="joinDate != null">
+				and s.join_date = #{joinDate}
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insertStudent">
+		INSERT INTO student (s_id, s_password, s_name, s_phone, tm_no, school, gd_no, join_date, s_picture, s_memo)
+		VALUES(#{sId}, #{sPassword}, #{sName}, #{sPhone}, #{transferMethod.tmNo}, #{school}, #{sGrade.gdNo}, now(), #{sPicture}, #{sMemo})
+	</insert>
+	
+	<update id="updateStudent">
+		UPDATE student
+			<set>
+				<if test="sPassword != null">
+					s_password= #{sPassword},
+				</if>
+				<if test="sName != null">
+					s_name=#{sName},
+				</if>
+				<if test="sPhone != null">
+					s_phone=#{sPhone},
+				</if>
+				<if test="school != null">
+					school= #{school},
+				</if>
+				<if test="transferMethod != null">
+					tm_no= #{transferMethod.tmNo},
+				</if>
+				<if test="sSchool != null">
+					s_school= #{sSchool},
+				</if>
+				<if test="sGrade != null">
+					gd_no= #{sGrade.gdNo},
+				</if>
+				<if test="joinDate != null">
+					join_date=#{joinDate},
+				</if>
+				<if test="sPicture != null">
+					s_picture=#{sPicture}
+				</if>
+			</set>
+		WHERE s_id=#{sId}
+	</update>
+	
+	<delete id="deleteStudent">
+		DELETE FROM student WHERE s_id=#{sId}
+	</delete>
+	
+	<select id="selectAllStudent">
+		<include refid="selectSql"/>
+	</select>
+	
+	<select id="selectOneStudent">
+		<include refid="selectSql"/>
+		WHERE s_id=#{sId}
+	</select>
+	
+	<select id="selectStudentsByCri">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="login" resultMap="StudentResult">
+		<include refid="selectSql"/>
+		WHERE s_id=#{sId} and s_password=#{sPassword}
+	</select>
+	
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.TransferMethodMapper">
+	
+	<resultMap type="TransferMethod" id="TransferMethodResult">
+		<id property="tmNo" column="tm_no"/>
+		<result property="tmMethod" column="tm_method"/>
+	</resultMap>
+	
+	<insert id="insertTransferMethod" parameterType="TransferMethod">
+		INSERT INTO transfer_method (tm_method) VALUES(#{tmMethod})
+	</insert>
+
+	<update id="updateTransferMethod" parameterType="TransferMethod">
+		UPDATE transfer_method SET tm_method=#{tmMethod} WHERE tm_no=#{tmNo}
+	</update>
+
+	<select id="selectAllTransferMethod" resultType="TransferMethod">
+		SELECT * FROM transfer_method 
+	</select>
+	
+	<select id="selectOneTransferMethod" resultType="TransferMethod">
+		SELECT * FROM transfer_method WHERE tm_no=#{tmNo}
+	</select>
+	
+</mapper>

@@ -39,11 +39,9 @@
 				<mapping path="/user/loginPost"/>
 				<beans:ref bean="loginInterceptor"/>
 			</interceptor>
-			<!-- <interceptor>
-				<mapping path="/sboard/register"/>
-				<mapping path="/sboard/modify"/>
-				<mapping path="/sboard/read"/>
-				<mapping path="/sboard/delete"/>
+		<!-- 	<interceptor>
+				<mapping path="/course/insertCourse"/>
+				<mapping path="/course/registerCourses"/>
 				<beans:ref bean="authInterceptor"/>
 			</interceptor> -->
 		</interceptors>

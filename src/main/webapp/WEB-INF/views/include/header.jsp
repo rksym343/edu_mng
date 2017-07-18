@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-
-<!-- // jQuery UI CSS파일  -->
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" /> 
-<!-- // jQuery 기본 js파일 --> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- // jQuery UI 라이브러리 js파일 -->
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
+		
+		<!-- // jQuery UI CSS파일 
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" /> 
+		 // jQuery 기본 js파일
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		 // jQuery UI 라이브러리 js파일
+		<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  --> 
 
   <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">학습관리 프로그램</a>
+                <a class="navbar-brand" href="index.html">학습관리 프로그램   [${memberType}] </a>
             </div>
             <!-- /.navbar-header -->
 
@@ -256,6 +257,20 @@
             </ul>
             <!-- /.navbar-top-links -->
 
-<%@ include file="../include/sidebar.jsp"%>
+<c:if test="${empty memberType }">
+	<%@ include file="../include/sidebar.jsp"%>
+</c:if>
+<c:if test="${memberType == 'student' }">
+	<%@ include file="../include/studentSidebar.jsp"%>
+</c:if>
+<c:if test="${memberType == 'parents' }">
+	<%@ include file="../include/parentsSidebar.jsp"%>
+</c:if>
+<c:if test="${memberType == 'teacher' }">
+	<%@ include file="../include/teacherSidebar.jsp"%>
+</c:if>
+
+
+
 <%@ include file="../include/contentDiv.jsp"%>
            

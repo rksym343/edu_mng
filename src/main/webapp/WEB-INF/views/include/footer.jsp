@@ -1,4 +1,4 @@
-<h1 style="background-color: black; color: white;">~~~~~~~~~FOOTER~~~~~~~~~</h1>
+<h1>~~~~~~~~~FOOTER~~~~~~~~~</h1>
 
 					</div>
                 <!-- /.row -->
@@ -20,5 +20,10 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/dist/js/sb-admin-2.js"></script>
+    
+      <!-- Custom my Calendar -->
+    <script src="${pageContext.request.contextPath}/resources/myjs/my_cal.js"></script>
+    
+    
 </body>
 </html>

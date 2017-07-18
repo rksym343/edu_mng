@@ -63,7 +63,7 @@
 		 WHERE tt.t_id=#{tId}
 	</select>
 	
-	<select id="login">
+	<select id="login" resultMap="TeacherResult">
 		<include refid="selectSql"/>
 		 WHERE tt.t_id=#{tId} and tt.t_password = #{tPassword}
 	</select>

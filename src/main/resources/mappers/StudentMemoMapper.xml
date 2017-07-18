@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.StudentMemoMapper">
+	
+	<resultMap type="StudentMemo" id="StudentMemoResult">
+		<result property="sMemo" column="s_memo"/>
+		<association property="student" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
+	</resultMap>
+
+	<insert id="insertStudentMemo" parameterType="StudentMemo">
+		INSERT INTO student_memo (s_id, s_memo) VALUES(#{student.sId},#{sMemo})
+	</insert>
+
+	<update id="updateStudentMemo" parameterType="StudentMemo">
+		UPDATE student_memo SET s_memo=#{sMemo} WHERE s_id=#{student.sId}
+	</update>
+
+	<update id="deleteStudentMemo">
+		delete from student_memo WHERE s_id=#{student.sId}
+	</update>
+
+	<select id="selectAllStudentMemoBySId" resultMap="StudentMemoResult">
+		SELECT * FROM student_memo WHERE s_id=#{student.sId}
+	</select>
+	
+</mapper>

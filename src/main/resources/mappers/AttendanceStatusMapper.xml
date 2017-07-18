@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.AttendanceStatusMapper">
+
+
+	 <resultMap type="AttendanceStatus" id="AttendanceStatusResult">
+		<id property="asNo" column="as_no"/>
+		<result property="asStatus" column="as_status"/>
+	</resultMap>
+	
+	<sql id="selectSql">
+		SELECT as_no, as_status FROM attendance_status
+		order by as_no
+	</sql>
+
+
+	<insert id="insertAttendanceStatus">
+		INSERT INTO attendance_status (as_status) VALUES (#{asStatus})
+	</insert>
+	
+	<select id="selectOneAttendanceStatus" resultMap="AttendanceStatusResult">
+		<include refid="selectSql"/>
+		where as_no = #{asNo}
+	</select>
+	
+	<select id="selectAllAttendanceStatus" resultMap="AttendanceStatusResult">
+		<include refid="selectSql"/>
+	</select>
+	
+</mapper>
