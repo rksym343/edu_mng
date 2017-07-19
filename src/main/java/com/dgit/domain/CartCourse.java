@@ -5,9 +5,18 @@ import java.util.List;
 
 public class CartCourse {
 
+	private int ccNo;
 	private String sId;
 	private List<Course> courses;
 	private Date cartDate;
+
+	public int getCcNo() {
+		return ccNo;
+	}
+
+	public void setCcNo(int ccNo) {
+		this.ccNo = ccNo;
+	}
 
 	public String getsId() {
 		return sId;
@@ -35,7 +44,7 @@ public class CartCourse {
 
 	@Override
 	public String toString() {
-		return String.format("CartCourse [sId=%s, course=%s, cartDate=%s]", sId, courses, cartDate);
+		return String.format("CartCourse [ccNo=%s, sId=%s, courses=%s, cartDate=%s]", ccNo, sId, courses, cartDate);
 	}
 
 }

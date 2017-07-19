@@ -258,7 +258,8 @@
             <!-- /.navbar-top-links -->
 
 <c:if test="${empty memberType }">
-	<%@ include file="../include/sidebar.jsp"%>
+	<%-- <%@ include file="../include/sidebar.jsp"%> --%>
+	<%@ include file="../include/studentSidebar.jsp"%>
 </c:if>
 <c:if test="${memberType == 'student' }">
 	<%@ include file="../include/studentSidebar.jsp"%>

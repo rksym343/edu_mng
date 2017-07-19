@@ -1,8 +1,8 @@
 
 
 function makeMyCalendar(y, m) {
+	var today = new Date();
 	
-
 	var theDate = new Date(y, m, 1); // 각달의 첫 날의 요일값을 구하기 위해 1일을 구함
 	var theDay = theDate.getDay(); //요일정보 / for 1일 이전에 빈칸갯수 구하는데 사용
 
@@ -44,7 +44,11 @@ function makeMyCalendar(y, m) {
 				// 마지막날 이후 칸을 공백처리
 				table += "<td> </td>";
 			} else {
-				table += "<td class='"+num+"'>" + num + "</td>";
+				if( y == today.getFullYear() && m == (today.getMonth()+1) && num == today.getDate()){
+					table += "<td class='"+num+"'><b>" + num + "</b></td>";
+				}else {
+					table += "<td class='"+num+"'>" + num + "</td>";
+				}
 				num++;
 			}
 

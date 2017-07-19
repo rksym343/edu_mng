@@ -168,5 +168,14 @@ public class CourseController {
 	}
 	
 	
+	@RequestMapping(value="/myRegisteredCourses", method=RequestMethod.GET)
+	public void getMyRegisteredCourses(String sId, Model model) throws Exception{
+		System.out.println("======================== myRegisteredCourses GET ========================");
+		sId = "sss01";
+		System.out.println("=============== cart size   : " + cartCourseService.selectAllCoursesBySId(sId).size());
+		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
+		
+	}
+	
 	
 }

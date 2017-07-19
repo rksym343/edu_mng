@@ -5,6 +5,7 @@
 <mapper namespace="com.dgit.mapper.CartCoursesMapper">
 	
 	<resultMap type="CartCourse" id="CartCoursesResult">
+		<id property="ccNo" column="cc_no"/>
 		<result property="sId" column="s_id"/>
 		<result property="cartDate" column="cart_date"/>
 		<collection property="courses" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>

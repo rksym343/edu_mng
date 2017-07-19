@@ -17,7 +17,13 @@
 	<sql id="selectSql">
 		SELECT cr.*, c.c_name FROM course_register cr
 		inner join course c on cr.reg_c_no = c.c_no
-		inner join registration_status rs on cr.rs_no = rs.rs_no
+		left outer join timetable ttt on ttt.c_no = cr.reg_c_no
+	</sql>
+	
+	<sql id="myCourseSelectSql">
+		SELECT cr.*, c.c_name, ttt.* FROM course_register cr
+		inner join course c on cr.reg_c_no = c.c_no
+		inner join timetable ttt on ttt.c_no = cr.reg_c_no
 	</sql>
 	
 	<sql id="whereSql">
@@ -26,7 +32,7 @@
 				reg_c_no = #{course.cNo}
 			</if>
 			<if test="student != null">
-				and reg_s_id  =#{student.sId}
+				and reg_s_id =#{student.sId}
 			</if>
 			<if test="regMonth != null">
 				and reg_month =#{regMonth}
@@ -69,7 +75,7 @@
 	</update>
 	
 	<select id="selectCourseRegisterByCri" parameterType="CourseRegister" resultMap="CourseRegisterResult">
-		<include refid="selectSql"/>
+		<include refid="myCourseSelectSql"/>
 		<include refid="whereSql"/>
 	</select>
 	

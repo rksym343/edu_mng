@@ -4,10 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dgit.mapper.TimetableMapper">
 	
-	<resultMap type="com.dgit.domain.Timetable" id="TimetableReslutWithCourse">		
+	<resultMap type="com.dgit.domain.Timetable" id="TimetableReslutWithCourse">	
+		<id property="ttNo" column="tt_no"/>	
 		<result property="ttDay" column="tt_day"/>
 		<result property="ttStarttime" column="tt_starttime"/>
 		<result property="ttEndtime" column="tt_endtime"/>
+		<result property="ttVersion" column="tt_version"/>
 		<association property="course" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>
 	</resultMap>
 	
@@ -24,6 +26,9 @@
 			</if>
 			<if test="ttEndtime != null">
 				and tt.tt_endtime =#{ttEndtime}
+			</if>
+			<if test="ttVersion != null">
+				and tt.tt_version =#{ttVersion}
 			</if>
 		</where>
 	</sql>

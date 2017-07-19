@@ -2,8 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
+<div class="col-lg-12">
+      <h1 class="page-header">출석기록</h1>
+</div>
+                    
 
-<%-- 
+
 	<table border ="1">
 		<tr>
 			<th>날짜</th>
@@ -20,20 +24,20 @@
 		</c:forEach>
 	</table> 
 	
-	<hr><hr> --%>
+	<hr><hr>
 	
 	<style>
-		.my-cal{
+		.my-cal th, .my-cal td{
 			text-align: center;
 		}
 	</style>
-	
+	 <div class="row">
 				<div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align: center">
-                           <a href="#"><span class="fa fa-angle-left"></span></a>
-                           		 <b> ${curYear }년 ${curMonth }월  </b> 
-                           	<a href="#"><span class="fa fa-angle-right"></span></a>
+                           <a id="prevMonth" href="#"><span class="fa fa-angle-left"></span></a>
+                           		 <b> <span class="mYear">${curYear }</span>년 <span class="mMonth">${curMonth }</span>월  </b> 
+                           	<a id="nextMonth" href="#"><span class="fa fa-angle-right"></span></a>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -48,7 +52,7 @@
                 </div>
                 <!-- /.col-lg-6 -->
                 
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <div class="panel panel-default">
                        <!--  <div class="panel-heading">
                             Basic Table
@@ -65,6 +69,12 @@
 	                                            <td class="col-lg-1">[${status.asNo }] : ${status.asStatus }</td>
 	                                    	</tr>
                                     	 </c:if>
+                                    	 <c:if test="${index.last }">
+                                    	 	<tr>
+	                                    		<td class="viewColor col-lg-1"></td>
+	                                            <td class="col-lg-1">지각&조퇴</td>
+	                                    	</tr>
+                                    	 </c:if>
                                     </c:forEach>
                                    
                                     
@@ -78,21 +88,22 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
+                </div>
                 <hr>
                 <hr>
                 <div class="row">
-                <table id ="test" border="1">
-                	<thead>
-                		<tr>
-                			<th>학생명</th>
-                			<th>시간</th>
-                			<th>날짜</th>
-                			<th>출석상태</th>
-                		</tr>
-                	</thead>
-                	<tbody id ="test2">
-                	</tbody>
-                </table>
+	                <table id ="test" border="1">
+	                	<thead>
+	                		<tr>
+	                			<th>학생명</th>
+	                			<th>시간</th>
+	                			<th>날짜</th>
+	                			<th>출석상태</th>
+	                		</tr>
+	                	</thead>
+	                	<tbody id ="test2">
+	                	</tbody>
+	                </table>
                
                </div>
 	
@@ -113,7 +124,7 @@
 	     var year = ${curYear };
     	 var month = ${curMonth };
     	 var sId = "sss01";
-    	 var arrColor = ["default","danger","info","warning","active"];
+    	 var arrColor = ["default","danger","info","warning","success","active"];
     	 
     	 Handlebars.registerHelper("tempdate", function(time) {
     		 // date형식 변환하여 date만 가져오기
@@ -122,19 +133,43 @@
  			return date;
  		});	
     	 
-	     $(function() {
-	    	 // 달력 만들기
-	          $(".view-my-calendar").html(makeMyCalendar(year, month));
-	          
+	     $(function() {	      
+	    	 newCalendarInfo();
 	          $(".viewColor").each(function(i, obj) {
 	        	  // 색깔 안내판
 					$(this).addClass(arrColor[i+1]);
 	        	  	$(this).html(arrColor[i+1]);
 				});
-	          getMyRecords();
 	     });
 	     
-	   
+	     $("#prevMonth").click(function(e) {
+	     	e.preventDefault();
+	     	if(month == 1){
+	     		year = year-1;
+	     		month = 12;
+	     	}else{
+	     		month = month-1;
+	     	}	
+	     	newCalendarInfo();
+	     });
+	     
+	     $("#nextMonth").click(function(e) {
+		     	e.preventDefault();
+		     	if(month == 12){
+		     		year = year+1;
+		     		month = 1;
+		     	}else{
+		     		month = month+1;
+		     	}	
+		     	newCalendarInfo();
+		 });
+	     
+	   function newCalendarInfo(){
+		   $(".mYear").html(year);
+		   $(".mMonth").html(month);
+		   $(".view-my-calendar").html(makeMyCalendar(year, month));
+		   getMyRecords();
+	   }
 	     
 	     function getMyRecords() {
 				$.ajax({
@@ -149,16 +184,35 @@
 						for(var i = 0; i < data.length ; i++){
 							var theDate = new Date(data[i].theTime).getDate();
 							var idx = data[i].attendanceStatus.asNo;
-							if(idx != 5){
 							var td = $("table.my-cal").find("td."+theDate);
-							td.removeClass();
-							td.addClass(theDate);
-							td.addClass(arrColor[idx]);
+							if(idx != 5){
+								/* var td = $("table.my-cal").find("td."+theDate);
+								td.removeClass();
+								td.addClass(theDate);
+								td.addClass(arrColor[idx]); */
+								//$("table.my-cal").find("td."+theDate).addClass(arrColor[idx]);
+								td.addClass(arrColor[idx]);
 							}
-							// $("table.my-cal").find("td."+theDate).addClass(arrColor[idx]);
+							/* if($("table.my-cal").find("td.warning").find(".success")){
+								alert($(this).html());
+							} */
 						}
 						
-						
+						$("table.my-cal td").each(function(i, element) {
+							if($(element).hasClass(arrColor[4])){
+								if($(element).hasClass(arrColor[2])){
+									// 조퇴 
+									$(element).removeClass();
+									$(element).addClass($(element).html());
+									$(element).addClass(arrColor[4]);
+								}else if($(element).hasClass(arrColor[3])){
+									// 조퇴 + 지각									
+									$(element).removeClass();
+									$(element).addClass($(element).html());
+									$(element).addClass(arrColor[5]);
+								}
+							}
+						});
 						
 						var source = $("#temp").html();
 						var template = Handlebars.compile(source);
