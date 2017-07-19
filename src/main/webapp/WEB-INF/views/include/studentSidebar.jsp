@@ -7,7 +7,10 @@
                             <a href="${pageContext.request.contextPath}/attend/myAttendance">출석기록</a>
                         </li>
                         <li>
-                            <a href="#">이번달 시간표 : 시간표랑 알림사항들</a>
+                            <a href="${pageContext.request.contextPath}/course/myRegisteredCourses">내가 신청한 수업들</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/course/myRegisteredCoursesTable">이번달 시간표 : 시간표랑 알림사항들</a>
                         </li>
                         <li>
                             <a href="#">내가 한 과제평가랑 시험성적</a>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.ExamItemMapper">
+	
+	<resultMap type="ExamItem" id="ExamItemResult">
+		<id property="eiNo" column="ei_no"/>
+		<result property="eiTitle" column="ei_title"/>
+	</resultMap>
+
+	<select id="selectAllExamItem" resultType="ExamItem">
+		SELECT * FROM exam_item 
+	</select>
+	
+	<select id="selectOneExamItem" resultType="ExamItem">
+		SELECT * FROM exam_item WHERE ei_no=#{eiNo}
+	</select>
+	
+</mapper>

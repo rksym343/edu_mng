@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.ExaminationMapper">
+
+
+	<resultMap type="Examination" id="ExaminationResult">
+		<id property="eNo" column="e_no"/>
+		<result property="sId" column="s_id"/>
+		<result property="eResult" column="t_picture"/>
+		<result property="eMemo" column="t_memo"/>
+		<association property="examItem"
+			resultMap="com.dgit.mapper.ExamItemMapper.ExamItemResult" />
+		<association property="course"
+			resultMap="com.dgit.mapper.CourseMapper.CourseResult" />	
+	</resultMap>
+	
+	<sql id="selectSql">
+		SELECT e.*, ei.ei_title, c.c_name FROM examination e
+		inner join exam_item ei on e.ei_no = ei.ei_no
+		inner join course c on c.c_no = e.e_no
+	</sql>
+	<sql id="whereSql">
+		<where>
+			<if test="sId != null">
+				e.s_id = #{sId}
+			</if>
+			<if test="course != null">
+				and e.c_no =#{course.cNo}
+			</if>
+			<if test="examItem != null">
+				and e.ei_no =#{examItem.eiNo}
+			</if>
+			<if test="eNo != null">
+				and e.e_no =#{eNo}
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insertExamination">
+		INSERT INTO examination (s_id, c_no, ei_no, e_result, e_memo) VALUES 
+		(#{sId}, #{course.cNo}, #{examItem.eiNo}, #{eResult}, #{eMemo})
+	</insert>
+	
+	<update id="updateExamination">
+		UPDATE Examination
+			<set>
+				<if test="sId != null">
+					s_id= #{sId},
+				</if>
+				<if test="cNo != null">
+					c_no=#{course.cNo},
+				</if>
+				<if test="examItem != null">
+					ei_no= #{eiNo},
+				</if>
+				<if test="eResult != null">
+					e_result=#{eResult},
+				</if>
+				<if test="eMemo != null">
+					e_memo=#{eMemo}
+				</if>
+			</set>
+		WHERE e_no=#{eNo}
+	</update>
+	
+	<delete id="deleteExamination">
+		DELETE FROM Examination WHERE e_no=#{eNo}
+	</delete>
+	
+	<select id="selectAllExamination"  resultMap="ExaminationResult">
+		<include refid="selectSql"/>
+	</select>
+	<select id="selectOneExamination"  resultMap="ExaminationResult">
+		<include refid="selectSql"/>
+		WHERE e_no=#{eNo}
+	</select>
+	
+	<select id="selectExaminationByCri" parameterType="Examination" resultMap="ExaminationResult">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+	</select>
+	
+	
+</mapper>

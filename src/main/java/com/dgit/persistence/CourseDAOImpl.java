@@ -1,6 +1,8 @@
 package com.dgit.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,16 @@ public class CourseDAOImpl implements CourseDAO {
 	public int lastCourseId() throws Exception {
 		return session.selectOne(namespace+".lastCourseId");
 	}
+
+	@Override
+	public List<Course> selectMyRegistedCourses(String sId, int registrationStatus, int regMonth)
+			throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sId", sId);
+		map.put("registrationStatus", registrationStatus);
+		map.put("regMonth", regMonth);
+		return session.selectList(namespace+".selectMyRegistedCourses", map);
+	}
+
 
 }

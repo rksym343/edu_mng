@@ -4,6 +4,7 @@
 <div class="col-lg-12">
       <h1 class="page-header">출석기록</h1>
 </div>
+</div>
 
 
 <%@ include file="../include/footer.jsp"%>	

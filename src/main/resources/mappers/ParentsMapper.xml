@@ -13,7 +13,7 @@
 		<result property="spMemo" column="sp_memo"/>
 		<result property="sId" column="s_id"/>
 		<association property="transferMethod"
-			resultMap="com.dgit.mapper.SubjectMapper.SubjectResult" />
+			resultMap="com.dgit.mapper.TransferMethodMapper.TransferMethodResult" />
 	</resultMap>
 
 	<sql id="selectSql">

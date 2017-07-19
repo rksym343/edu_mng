@@ -56,4 +56,10 @@ public class CourseServiceImpl implements CourseService{
 		return dao.selectAllCourse();
 	}
 
+	@Override
+	public List<Course> selectMyRegistedCourses(String sId, int registrationStatus, int regMonth)
+			throws Exception {
+		return dao.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+	}
+
 }

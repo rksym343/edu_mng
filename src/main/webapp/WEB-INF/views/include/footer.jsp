@@ -21,9 +21,15 @@
     <!-- Custom Theme JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/dist/js/sb-admin-2.js"></script>
     
-      <!-- Custom my Calendar -->
+    <!-- Flot -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/flot/js/jquery.flot.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/flot/js/jquery.flot.pie.js"></script>
+    
+    <!-- my Calendar -->
     <script src="${pageContext.request.contextPath}/resources/myjs/my_cal.js"></script>
     
+    
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
     
 </body>
 </html>

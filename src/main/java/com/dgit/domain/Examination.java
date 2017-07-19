@@ -4,8 +4,8 @@ public class Examination {
 
 	private int eNo;
 	private String sId;
-	private int cNo;
-	private int eiNo;
+	private Course course;
+	private ExamItem examItem;
 	private int eResult;
 	private String eMemo;
 
@@ -17,12 +17,12 @@ public class Examination {
 		return sId;
 	}
 
-	public int getcNo() {
-		return cNo;
+	public Course getCourse() {
+		return course;
 	}
 
-	public int getEiNo() {
-		return eiNo;
+	public ExamItem getExamItem() {
+		return examItem;
 	}
 
 	public int geteResult() {
@@ -41,12 +41,12 @@ public class Examination {
 		this.sId = sId;
 	}
 
-	public void setcNo(int cNo) {
-		this.cNo = cNo;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
-	public void setEiNo(int eiNo) {
-		this.eiNo = eiNo;
+	public void setExamItem(ExamItem examItem) {
+		this.examItem = examItem;
 	}
 
 	public void seteResult(int eResult) {
@@ -55,6 +55,12 @@ public class Examination {
 
 	public void seteMemo(String eMemo) {
 		this.eMemo = eMemo;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Examination [eNo=%s, sId=%s, course=%s, examItem=%s, eResult=%s, eMemo=%s]", eNo, sId,
+				course, examItem, eResult, eMemo);
 	}
 
 }

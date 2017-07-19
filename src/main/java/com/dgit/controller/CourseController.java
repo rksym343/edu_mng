@@ -2,6 +2,8 @@ package com.dgit.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,14 +11,21 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dgit.domain.Attendance;
 import com.dgit.domain.CartCourse;
 import com.dgit.domain.Course;
+import com.dgit.domain.CourseRegister;
+import com.dgit.domain.RegistrationStatus;
+import com.dgit.domain.Student;
 import com.dgit.domain.StudentGrade;
 import com.dgit.domain.Subject;
 import com.dgit.domain.Teacher;
@@ -116,6 +125,12 @@ public class CourseController {
 		System.out.println("========================Courses size: "+timetableService.selectAllTimetable().size());
 	}
 	
+	@RequestMapping(value="/readCourse", method=RequestMethod.GET)
+	public void getReadCourse(int cNo, Model model) throws Exception{
+		logger.info("======================== readCourse GET ========================");
+		model.addAttribute("course", courseService.selectOneCourse(cNo));
+	}
+	
 	@RequestMapping(value="/registerCourses", method=RequestMethod.POST)
 	public String postRegisterCourses(String sId, Integer[] cNos, Model model) throws Exception{
 		logger.info("======================== registerCourses POST  ========================");
@@ -172,9 +187,47 @@ public class CourseController {
 	public void getMyRegisteredCourses(String sId, Model model) throws Exception{
 		System.out.println("======================== myRegisteredCourses GET ========================");
 		sId = "sss01";
-		System.out.println("=============== cart size   : " + cartCourseService.selectAllCoursesBySId(sId).size());
-		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
 		
+		int registrationStatus = 1; // 결제됨
+		Calendar cal = Calendar.getInstance();
+		int regMonth = Integer.parseInt(String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1));
+		
+		List<Course> list = courseService.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+		System.out.println("=========================== CourseRegister List ======================== ["+list.size()+"]");
+		
+		model.addAttribute("list", list);
+	}
+	
+	@RequestMapping(value="/myRegisteredCoursesTable", method=RequestMethod.GET)
+	public void getMyRegisteredCoursesTable(String sId, Model model) throws Exception{
+		System.out.println("======================== myRegisteredCourses GET ========================");
+		sId = "sss01";
+		
+		int registrationStatus = 1; // 결제됨
+		Calendar cal = Calendar.getInstance();
+		int regMonth = Integer.parseInt(String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1));
+		
+		List<Course> list = courseService.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+		System.out.println("=========================== CourseRegister List ======================== ["+list.size()+"]");
+		
+		model.addAttribute("list", list);
+	}
+	
+	
+	
+	@RequestMapping(value="/myRegisteredCourses/{sId}/{year}/{month}/{rsNo}", method=RequestMethod.GET)
+	public ResponseEntity<List<Course>> getMyRegisteredCourses(
+			@PathVariable("sId") String sId, @PathVariable("rsNo") int rsNo,
+			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		ResponseEntity<List<Course>> entity = null;
+		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
+		try{
+			List<Course> list = courseService.selectMyRegistedCourses(sId, rsNo, regMonth);
+			entity = new ResponseEntity<List<Course>>(list, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<List<Course>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 	
 	

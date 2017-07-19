@@ -19,7 +19,39 @@
 		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
 		<association property="subject" resultMap="com.dgit.mapper.SubjectMapper.SubjectResult"/>
 		<association property="studentGrade" resultMap="com.dgit.mapper.StudentGradeMapper.StudentGradeResult"/>
+		<collection property="timetables" resultMap="com.dgit.mapper.TimetableMapper.TimetableReslutWithCourse"/>
+		<collection property="courseRegisters" resultMap="com.dgit.mapper.CourseRegisterMapper.CourseRegisterResult"/>
 	</resultMap>
+	
+	<sql id="selectMyCourses">
+		SELECT cr.*, c.c_name, ttt.*, t.t_name FROM  course c
+		inner join course_register cr on cr.reg_c_no = c.c_no
+		inner join teacher t on t.t_id = c.t_id
+		inner join timetable ttt on ttt.c_no = cr.reg_c_no
+	</sql>
+	<sql id="selectCourse">
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		inner join timetable ttt on ttt.c_no = c.c_no
+	</sql>
+	<sql id="whereMyCourses">
+		<where>
+			<if test="course != null">
+				cr.reg_c_no = #{course}
+			</if>
+			<if test="sId != null">
+				and cr.reg_s_id =#{sId}
+			</if>
+			<if test="regMonth != null">
+				and cr.reg_month =#{regMonth}
+			</if>
+			<if test="registrationStatus != null">
+				and cr.rs_no =#{registrationStatus}
+			</if>
+		</where>
+	</sql>
 
 
 	<insert id="insertCourse" parameterType="Course">
@@ -71,11 +103,8 @@
 	</delete>
 	
 	<select id="selectOneCourse"  resultMap="CourseResult">
-		SELECT c.*, t.t_name, sg.gd_name, s.sb_name FROM course c 
-		inner join subject s on c.sb_no = s.sb_no
-		inner join teacher t on c.t_id = t.t_id
-		inner join student_grade sg on c.gd_no = sg.gd_no
-		WHERE c_no=#{cNo}
+		<include refid="selectCourse"/>
+		WHERE c.c_no=#{cNo}
 	</select>
 	
 	<select id="selectAllCourse" resultMap="CourseResult">
@@ -89,6 +118,12 @@
 	<select id="lastCourseId" resultType="int">
 		select max(c_no) from course 
 		<!-- select last_insert_id() from course -->
+	</select>
+	
+	<select id ="selectMyRegistedCourses" parameterType="Hashmap"  resultMap="CourseResult">
+		<include refid="selectMyCourses"/>
+		<include refid="whereMyCourses"/>
+		order by ttt.tt_day, ttt.tt_starttime
 	</select>
  
 </mapper>

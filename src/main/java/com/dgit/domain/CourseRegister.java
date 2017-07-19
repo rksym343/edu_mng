@@ -4,8 +4,8 @@ public class CourseRegister {
 
 	private int regNo;
 	private int regMonth;
+	private int cNo;
 	private Student student;
-	private Course course;
 	private RegistrationStatus registrationStatus;
 
 	public int getRegNo() {
@@ -32,12 +32,13 @@ public class CourseRegister {
 		this.student = student;
 	}
 
-	public Course getCourse() {
-		return course;
+	
+	public int getcNo() {
+		return cNo;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setcNo(int cNo) {
+		this.cNo = cNo;
 	}
 
 	public RegistrationStatus getRegistrationStatus() {
@@ -46,6 +47,13 @@ public class CourseRegister {
 
 	public void setRegistrationStatus(RegistrationStatus registrationStatus) {
 		this.registrationStatus = registrationStatus;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"CourseRegister [regNo=%s, regMonth=%s, student=%s, course=%s, registrationStatus=%s]",
+				regNo, regMonth, student, cNo, registrationStatus);
 	}
 
 }

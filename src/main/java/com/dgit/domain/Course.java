@@ -1,6 +1,7 @@
 package com.dgit.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Course {
 
@@ -17,6 +18,8 @@ public class Course {
 	private String cContent;
 	private String cPicture;
 	private boolean isCanceled;
+	private List<Timetable> timetables;
+	private List<CourseRegister> courseRegisters;
 
 	public int getcNo() {
 		return cNo;
@@ -122,12 +125,30 @@ public class Course {
 		this.isCanceled = isCanceled;
 	}
 
+	public List<Timetable> getTimetables() {
+		return timetables;
+	}
+
+	public List<CourseRegister> getCourseRegisters() {
+		return courseRegisters;
+	}
+
+	public void setTimetables(List<Timetable> timetables) {
+		this.timetables = timetables;
+	}
+
+	public void setCourseRegisters(List<CourseRegister> courseRegisters) {
+		this.courseRegisters = courseRegisters;
+	}
+
 	@Override
 	public String toString() {
 		return String.format(
-				"Course [cNo=%s, teacher=%s, cName=%s, subject=%s, studentGrade=%s, tuition=%s, capacity=%s, cStartdate=%s, cEnddate=%s, classroom=%s, cContent=%s, cPicture=%s, isCanceled=%s]",
+				"Course [cNo=%s, teacher=%s, cName=%s, subject=%s, studentGrade=%s, tuition=%s, capacity=%s, cStartdate=%s, cEnddate=%s, classroom=%s, cContent=%s, cPicture=%s, isCanceled=%s, timetables=%s, courseRegisters=%s]",
 				cNo, teacher, cName, subject, studentGrade, tuition, capacity, cStartdate, cEnddate, classroom,
-				cContent, cPicture, isCanceled);
+				cContent, cPicture, isCanceled, timetables, courseRegisters);
 	}
+
+	
 
 }

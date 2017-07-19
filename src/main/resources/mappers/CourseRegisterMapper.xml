@@ -8,9 +8,9 @@
 	 <resultMap type="CourseRegister" id="CourseRegisterResult">
 		<id property="regNo" column="reg_no"/>
 		<result property="regMonth" column="reg_month"/>
+		<result property="cNo" column="c_no"/>
 		<association property="registrationStatus" resultMap="com.dgit.mapper.RegistrationStatusMapper.RegistrationStatusResult"/>
-		<association property="student" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
-		<association property="course" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>
+		<association property="student" resultMap="com.dgit.mapper.StudentMapper.StudentResult"/>
 	</resultMap>
 
 
@@ -21,9 +21,13 @@
 	</sql>
 	
 	<sql id="myCourseSelectSql">
-		SELECT cr.*, c.c_name, ttt.* FROM course_register cr
+		<!-- SELECT cr.*, c.c_name, ttt.* FROM course_register cr
 		inner join course c on cr.reg_c_no = c.c_no
-		inner join timetable ttt on ttt.c_no = cr.reg_c_no
+		inner join timetable ttt on ttt.c_no = cr.reg_c_no -->
+		SELECT cr.*, c.c_name, ttt.*, t.t_name FROM course_register cr
+		inner join course c on cr.reg_c_no = c.c_no
+		inner join teacher t on t.t_id = c.t_id
+		inner join timetable ttt on ttt.c_no = c.c_no
 	</sql>
 	
 	<sql id="whereSql">

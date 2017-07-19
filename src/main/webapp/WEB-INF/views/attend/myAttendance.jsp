@@ -5,9 +5,10 @@
 <div class="col-lg-12">
       <h1 class="page-header">출석기록</h1>
 </div>
+</div> <!-- div row -->
                     
 
-
+<%-- 
 	<table border ="1">
 		<tr>
 			<th>날짜</th>
@@ -24,7 +25,7 @@
 		</c:forEach>
 	</table> 
 	
-	<hr><hr>
+	<hr><hr> --%>
 	
 	<style>
 		.my-cal th, .my-cal td{
@@ -66,7 +67,7 @@
                                     	 <c:if test="${!index.last }">
 	                                    	<tr>
 	                                    		<td class="viewColor col-lg-1"></td>
-	                                            <td class="col-lg-1">[${status.asNo }] : ${status.asStatus }</td>
+	                                            <td class="col-lg-1">${status.asStatus }</td>
 	                                    	</tr>
                                     	 </c:if>
                                     	 <c:if test="${index.last }">
@@ -89,41 +90,37 @@
                 </div>
                 <!-- /.col-lg-6 -->
                 </div>
-                <hr>
-                <hr>
                 <div class="row">
-	                <table id ="test" border="1">
-	                	<thead>
-	                		<tr>
-	                			<th>학생명</th>
-	                			<th>시간</th>
-	                			<th>날짜</th>
-	                			<th>출석상태</th>
-	                		</tr>
-	                	</thead>
-	                	<tbody id ="test2">
-	                	</tbody>
-	                </table>
-               
-               </div>
+                	  <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pie Chart Example
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-pie-chart">
+                                	<div id="placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                </div>
+                
 	
 <%@ include file="../include/footer.jsp"%>	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<script id="temp" type="text/x-handlevars-template">
-		{{#each.}}
-			<tr class="rrr">
-			<td>{{student.sName}}</td>
-			<td> {{theTime}} </td>
-			<td> {{tempdate theTime}} </td>
-			<td> {{attendanceStatus.asNo}} -- {{attendanceStatus.asStatus}}</td>
-			</tr>
-		{{/each}}
-</script>
 
 	 <script>
-	     var year = ${curYear };
-    	 var month = ${curMonth };
-    	 var sId = "sss01";
+
+		
+	 	var sId = "sss01";
+	 	var today = new Date();
+		var year = today.getFullYear();
+		var month = today.getMonth()+1;
+		
     	 var arrColor = ["default","danger","info","warning","success","active"];
     	 
     	 Handlebars.registerHelper("tempdate", function(time) {
@@ -133,40 +130,53 @@
  			return date;
  		});	
     	 
-	     $(function() {	      
+	     $(function() {	   
+	    	 
+	    		// Example Data
+
+	 		var data = [
+	 			{ label: "Series1",  data: 10},
+	 			{ label: "Series2",  data: 30},
+	 			{ label: "Series3",  data: 90},
+	 			{ label: "Series4",  data: 70},
+	 			{ label: "Series5",  data: 80},
+	 			{ label: "Series6",  data: 110}
+	 		];
+
+	    	 
 	    	 newCalendarInfo();
-	          $(".viewColor").each(function(i, obj) {
+	         $(".viewColor").each(function(i, obj) {
 	        	  // 색깔 안내판
 					$(this).addClass(arrColor[i+1]);
-	        	  	$(this).html(arrColor[i+1]);
-				});
+			 });
+	         
+	         $.plot($("#placeholder"), [ [[0, 0], [1, 1]] ], { yaxis: { max: 1 } });
 	     });
-	     
+
 	     $("#prevMonth").click(function(e) {
-	     	e.preventDefault();
-	     	if(month == 1){
-	     		year = year-1;
-	     		month = 12;
-	     	}else{
-	     		month = month-1;
-	     	}	
-	     	newCalendarInfo();
-	     });
-	     
-	     $("#nextMonth").click(function(e) {
-		     	e.preventDefault();
-		     	if(month == 12){
-		     		year = year+1;
-		     		month = 1;
-		     	}else{
-		     		month = month+1;
-		     	}	
-		     	newCalendarInfo();
-		 });
-	     
+	      	e.preventDefault();
+	      	if(month == 1){
+	      		year = year-1;
+	      		month = 12;
+	      	}else{
+	      		month = month-1;
+	      	}	
+	      	newCalendarInfo();
+	      });
+	      
+	      $("#nextMonth").click(function(e) {
+	          	e.preventDefault();
+	          	if(month == 12){
+	          		year = year+1;
+	          		month = 1;
+	          	}else{
+	          		month = month+1;
+	          	}	
+	          newCalendarInfo();
+	      });
+	   
 	   function newCalendarInfo(){
-		   $(".mYear").html(year);
-		   $(".mMonth").html(month);
+		   changeCalTitle();
 		   $(".view-my-calendar").html(makeMyCalendar(year, month));
 		   getMyRecords();
 	   }
@@ -214,13 +224,10 @@
 							}
 						});
 						
-						var source = $("#temp").html();
-						var template = Handlebars.compile(source);
-						$(".rrr").remove();
-						$("#test2").append(template(data));
+					
 					}
 						
-				})
+				});
 			} 
      </script>
      

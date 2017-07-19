@@ -59,13 +59,13 @@
 		<span id="courseTime">
 		<label for="ttDay">수업요일</label>
 		<select id="ttDay" name="ttDay">
-			<option value="0">월</option>
-			<option value="1">화</option>
-			<option value="2">수</option>
-			<option value="3">목</option>
-			<option value="4">금</option>
-			<option value="5">토</option>
-			<option value="6">일</option>
+			<option value="1">월</option>
+			<option value="2">화</option>
+			<option value="3">수</option>
+			<option value="4">목</option>
+			<option value="5">금</option>
+			<option value="6">토</option>
+			<option value="0">일</option>
 		</select>
 		<label for="ttStarttime" class="mid">시작시간</label>
 		<select id="ttStarttime" name="ttStarttime_hh">
@@ -167,7 +167,7 @@
 			
 			var labelDay = $("<label>");
 			
-			var arrDay = ["월", "화", "수", "목", "금", "토", "일"];
+			var arrDay = ["일", "월", "화", "수", "목", "금", "토"];
 			var selectDay= $("<select>");
 			selectDay.attr("name","ttDay");
 			
