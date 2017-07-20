@@ -7,7 +7,7 @@
 </div>
 
 	<div class="row">
-		<table>
+		<table border="1">
 			<thead>
 				<tr>
 					<th>평가번호</th>
@@ -29,6 +29,7 @@
 <%@ include file="../include/footer.jsp"%>	
 
 <script>
+	var sId = "sss01";
 	var cNo = 0;
 $(function() {
 	getMyExamRecord();
@@ -46,7 +47,7 @@ function getMyExamRecord(){
 						"<tr>"+
 							"<td>"+v.eNo+"</td>"+
 							"<td>"+v.course.cName+"</td>"+
-							"<td>"+v.examItem.eiName+"</td>"+
+							"<td>"+v.examItem.eiTitle+"</td>"+
 							"<td>"+v.eResult+"</td>"+
 							"<td>"+v.eMemo+"</td>"+						
 						"</tr>";

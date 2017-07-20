@@ -19,10 +19,7 @@
 		<collection property="parents" resultMap="com.dgit.mapper.ParentsMapper.ParentsResult"/>
 	</resultMap>
 	
-	<resultMap type="Student" id="StudentWithParentsResult" extends="StudentResult">
-			
-	</resultMap>
-	
+
 	<sql id="selectSql">
 		SELECT s.*, tm.*, sg.* FROM student s
 		inner join transfer_method tm on s.tm_no = tm.tm_no
@@ -97,7 +94,7 @@
 		DELETE FROM student WHERE s_id=#{sId}
 	</delete>
 	
-	<select id="selectAllStudent">
+	<select id="selectAllStudent" resultMap="StudentResult">
 		<include refid="selectSql"/>
 	</select>
 	

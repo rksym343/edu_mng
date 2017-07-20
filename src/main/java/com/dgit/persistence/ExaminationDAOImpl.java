@@ -43,7 +43,11 @@ public class ExaminationDAOImpl implements ExaminationDAO {
 
 		@Override
 		public List<Examination> selectExaminationByCri(Examination examination) throws Exception {
-			return session.selectList(namespace+".selectAllExamination", examination);
+			System.out.println("==================DAO==========================");
+			System.out.println("=============== examination : "+examination);
+			System.out.println("=============== examination.getCourse : "+examination.getCourse());
+			System.out.println("==================DAO==========================");
+			return session.selectList(namespace+".selectExaminationByCri", examination);
 		}
 
 

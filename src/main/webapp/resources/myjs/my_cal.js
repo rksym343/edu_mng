@@ -65,7 +65,7 @@ function makeMyCalendar(y, m) {
 
 function changeCalTitle(){
 	 $(".mYear").html(year);
-	 $(".mMonth").html(month);
+	 $(".mMonth").html(month+1);
 }
 
  

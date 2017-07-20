@@ -116,7 +116,7 @@
 <script>
 	var today = new Date();
 	var year = today.getFullYear();
-	var month = today.getMonth()+1;
+	var month = today.getMonth();
 
 	var sId="sss01";
 	var sWeek = ["일","월","화","수","목","금","토"];
@@ -163,7 +163,7 @@
 	function getMyCourses(){
 		$.ajax({
 			// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
-			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+month+"/"+1,
+			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
 			type : "get",
 			dataType: "json",
 			success:function(data){

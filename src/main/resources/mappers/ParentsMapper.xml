@@ -59,7 +59,7 @@
 		DELETE FROM  parents WHERE sp_id=#{spId}
 	</delete>
 	
-	<select id="selectAllParents">
+	<select id="selectAllParents" resultMap="ParentsResult">
 		<include refid="selectSql"/>
 	</select>
 	

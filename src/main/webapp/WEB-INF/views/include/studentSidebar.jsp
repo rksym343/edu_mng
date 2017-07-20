@@ -13,7 +13,16 @@
                             <a href="${pageContext.request.contextPath}/course/myRegisteredCoursesTable">이번달 시간표 : 시간표랑 알림사항들</a>
                         </li>
                         <li>
-                            <a href="#">내가 한 과제평가랑 시험성적</a>
+                            <a href="${pageContext.request.contextPath}/exam/viewStudentExam">내가 한 과제평가랑 시험성적</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/message/listMsg">내가 받은 메세지</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/message/listMySendMsg">내가 보낸 메세지</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/message/writeAllMsg">메세지 작성하기</a>
                         </li>
                         <li>
                             ---------------------------------

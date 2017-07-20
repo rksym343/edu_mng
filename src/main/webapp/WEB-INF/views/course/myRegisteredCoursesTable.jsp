@@ -65,11 +65,11 @@
 	var sId="sss01";
 	var today = new Date();
 	var year = today.getFullYear();
-	var month = today.getMonth()+1;
+	var month = today.getMonth();
 	var date = today.getDate();
 	var day = today.getDay();
 	//해당주 첫째날
-	var firstDate = new Date(year, month-1, date-day); 
+	var firstDate = new Date(year, month, date-day); 
 	
 	$(function() {	   
 		getMyCourses();
@@ -91,6 +91,7 @@
 	      	}else{
 	      		month = month-1;
 	      	}	
+	      	getMyCourses();
 	      });
 	      
 	      $("#nextMonth").click(function(e) {
@@ -101,23 +102,29 @@
 	          	}else{
 	          		month = month+1;
 	          	}	
+	          	getMyCourses();
 	      });
 	      
 	      
 	   
 	      function getMyCourses(){
+	    	  changeCalTitle();
 	  		$.ajax({
 	  			// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
-	  			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+month+"/"+1,
+	  			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
 	  			type : "get",
 	  			dataType: "json",
 	  			success:function(data){
+	  				console.log(data);
+	  				$(".c-timetable").remove();
 	  				for(var i = 0; i < data.length; i++){
-	  					$.each(data[i].timetables, function(i, v) {
+	  					$.each(data[i].timetables, function(idx, v) {
 	  						/* console.log(i + " " + v.ttDay);
 	  						console.log(i + " " + v.ttStarttime);
 	  						console.log(i + " " + v.ttEndtime); */
 	  						var liTag = "<li class='c-timetable'><b>"+data[i].cName+"</b><br>"+viewTimes(v.ttStarttime, v.ttEndtime)+"</li>";
+	  						//$("td.d"+v.ttDay+" ul").html("");
+	  						
 	  						$("td.d"+v.ttDay+" ul").append(liTag);
 	  					});
 	  					//console.log("=======");

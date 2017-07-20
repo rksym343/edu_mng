@@ -8,8 +8,8 @@
 	<resultMap type="Examination" id="ExaminationResult">
 		<id property="eNo" column="e_no"/>
 		<result property="sId" column="s_id"/>
-		<result property="eResult" column="t_picture"/>
-		<result property="eMemo" column="t_memo"/>
+		<result property="eResult" column="e_result"/>
+		<result property="eMemo" column="e_memo"/>
 		<association property="examItem"
 			resultMap="com.dgit.mapper.ExamItemMapper.ExamItemResult" />
 		<association property="course"
@@ -19,7 +19,7 @@
 	<sql id="selectSql">
 		SELECT e.*, ei.ei_title, c.c_name FROM examination e
 		inner join exam_item ei on e.ei_no = ei.ei_no
-		inner join course c on c.c_no = e.e_no
+		inner join course c on c.c_no = e.c_no
 	</sql>
 	<sql id="whereSql">
 		<where>
@@ -27,10 +27,10 @@
 				e.s_id = #{sId}
 			</if>
 			<if test="course != null">
-				and e.c_no =#{course.cNo}
-			</if>
+				and e.c_no = #{course.cNo}
+			</if> 
 			<if test="examItem != null">
-				and e.ei_no =#{examItem.eiNo}
+				and e.ei_no = #{examItem.eiNo}
 			</if>
 			<if test="eNo != null">
 				and e.e_no =#{eNo}
@@ -49,7 +49,7 @@
 				<if test="sId != null">
 					s_id= #{sId},
 				</if>
-				<if test="cNo != null">
+				<if test="course != null">
 					c_no=#{course.cNo},
 				</if>
 				<if test="examItem != null">

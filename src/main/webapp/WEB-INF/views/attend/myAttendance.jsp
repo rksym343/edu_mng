@@ -119,7 +119,19 @@
 	 	var sId = "sss01";
 	 	var today = new Date();
 		var year = today.getFullYear();
-		var month = today.getMonth()+1;
+		var month = today.getMonth();
+		
+		// Example Data
+
+ 		var data = [
+ 			{ label: "Series1",  data: 10},
+ 			{ label: "Series2",  data: 30},
+ 			{ label: "Series3",  data: 90},
+ 			{ label: "Series4",  data: 70},
+ 			{ label: "Series5",  data: 80},
+ 			{ label: "Series6",  data: 110}
+ 		];
+
 		
     	 var arrColor = ["default","danger","info","warning","success","active"];
     	 
@@ -130,34 +142,21 @@
  			return date;
  		});	
     	 
-	     $(function() {	   
-	    	 
-	    		// Example Data
-
-	 		var data = [
-	 			{ label: "Series1",  data: 10},
-	 			{ label: "Series2",  data: 30},
-	 			{ label: "Series3",  data: 90},
-	 			{ label: "Series4",  data: 70},
-	 			{ label: "Series5",  data: 80},
-	 			{ label: "Series6",  data: 110}
-	 		];
-
-	    	 
+	     $(function() {	 
 	    	 newCalendarInfo();
 	         $(".viewColor").each(function(i, obj) {
 	        	  // 색깔 안내판
 					$(this).addClass(arrColor[i+1]);
 			 });
+	         $.plot($("#placeholder"), data, { yaxis: { max: 1 } });
 	         
-	         $.plot($("#placeholder"), [ [[0, 0], [1, 1]] ], { yaxis: { max: 1 } });
 	     });
 
 	     $("#prevMonth").click(function(e) {
 	      	e.preventDefault();
-	      	if(month == 1){
+	      	if(month == 0){
 	      		year = year-1;
-	      		month = 12;
+	      		month = 11;
 	      	}else{
 	      		month = month-1;
 	      	}	
@@ -166,9 +165,9 @@
 	      
 	      $("#nextMonth").click(function(e) {
 	          	e.preventDefault();
-	          	if(month == 12){
+	          	if(month == 11){
 	          		year = year+1;
-	          		month = 1;
+	          		month = 0;
 	          	}else{
 	          		month = month+1;
 	          	}	
@@ -185,7 +184,7 @@
 				$.ajax({
 					//pageContext.getRequest().getContextPath(); 
 					// '/'를 포함한 프로젝트 이름을 반환한다  : '/ex01'
-					url: "${pageContext.request.contextPath}/attend/myAttendanceRecord/"+sId+"/"+year+"/"+month,
+					url: "${pageContext.request.contextPath}/attend/myAttendanceRecord/"+sId+"/"+year+"/"+(month+1),
 					type : "get",
 					dataType: "json",
 					success:function(data){
@@ -230,7 +229,5 @@
 				});
 			} 
      </script>
-     
-
      
      
