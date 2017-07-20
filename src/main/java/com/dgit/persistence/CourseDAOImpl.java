@@ -50,13 +50,23 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public List<Course> selectMyRegistedCourses(String sId, int registrationStatus, int regMonth)
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth)
 			throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		map.put("sId", sId);
-		map.put("registrationStatus", registrationStatus);
-		map.put("regMonth", regMonth);
-		return session.selectList(namespace+".selectMyRegistedCourses", map);
+		if(!sId.trim().equals("")){
+			map.put("sId", sId);
+		}
+		if(!tId.trim().equals("")){
+			map.put("tId", tId);
+		}
+		if( registrationStatus != 0){
+			map.put("registrationStatus", registrationStatus);			
+		}
+		if( regMonth != 0){
+			map.put("regMonth", regMonth);		
+		}
+		
+		return session.selectList(namespace+".selectCoursesByCri", map);
 	}
 
 

@@ -1,5 +1,7 @@
 package com.dgit.service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +59,10 @@ public class CourseServiceImpl implements CourseService{
 	}
 
 	@Override
-	public List<Course> selectMyRegistedCourses(String sId, int registrationStatus, int regMonth)
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth)
 			throws Exception {
-		return dao.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+		List<Course> list = dao.selectCoursesByCri(sId, tId, registrationStatus, regMonth);
+		return list;
 	}
 
 }

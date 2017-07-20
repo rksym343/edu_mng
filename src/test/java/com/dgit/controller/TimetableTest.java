@@ -61,7 +61,7 @@ public class TimetableTest {
 		Calendar cal = Calendar.getInstance();
 		int regMonth = Integer.parseInt(String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1));
 		
-		List<Course> list = courseService.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+		List<Course> list = courseService.selectCoursesByCri(sId, "", registrationStatus, regMonth);
 		System.out.println("=========================== CourseRegister List ======================== ["+list.size()+"]");
 		for(Course cc : list){
 			System.out.println(cc.toString());

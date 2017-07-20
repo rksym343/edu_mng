@@ -38,14 +38,17 @@ public class CourseRegisterDAOImpl implements CourseRegisterDAO {
 
 	@Override
 	public List<CourseRegister> selectCourseRegisterByCri(CourseRegister courseRegister) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList(namespace+".selectCourseRegisterByCri", courseRegister);
 	}
 
 	@Override
 	public List<CourseRegister> selectAllCourseRegister() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList(namespace+".selectAllCourseRegister");
+	}
+
+	@Override
+	public List<CourseRegister> selectRegisteredStudent(CourseRegister courseRegister) throws Exception {
+		return session.selectList(namespace+".selectRegisteredStudent", courseRegister);
 	}
 
 }

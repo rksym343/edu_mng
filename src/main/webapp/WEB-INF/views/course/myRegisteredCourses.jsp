@@ -123,11 +123,13 @@
 	Handlebars.registerHelper("dayToHangle", function(day) {
 		return sWeek[day];
 	});
+	
 	Handlebars.registerHelper("timeview", function(time) {
 		var timeStr = time.toString();
 		var viewTime = timeStr.substr(0,2)+":"+timeStr.substr(2,2);
 		return viewTime;
-	})
+	});
+	
  
 
 	$(function() {	      

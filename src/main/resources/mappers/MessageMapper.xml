@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.MessageMapper">
+
+	<resultMap type="Message" id="MessageResult">
+		<id property="msgNo" column="msg_no"/>
+		<result property="tId" column="t_id"/>
+		<result property="cNo" column="c_no"/>
+		<result property="sId" column="s_id"/>
+		<result property="spId" column="sp_id"/>
+		<result property="msgContent" column="msg_content"/>
+		<result property="isChecked" column="is_checked"/>
+		<result property="regDate" column="reg_date"/>
+	</resultMap>
+
+	<sql id="selectSql">
+		SELECT * FROM message m
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="tId != null">
+				m.t_id = #{tId}
+			</if>
+			<if test="cNo != null">
+				and m.c_no = #{cNo}
+			</if>
+			<if test="sId != null">
+				and m.s_id = #{sId}
+			</if>
+			<if test="spId != null">
+				and m.sp_id = #{spId}
+			</if>
+			<if test="isChecked != null">
+				and m.is_checked = 0
+			</if>
+			<if test="unchecked != null">
+				and m.is_checked != 0
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insertMessage" parameterType="Message">
+		INSERT INTO message (t_id, c_no, s_id, sp_id, msg_content, is_checked, reg_date) VALUES
+		(#{tId}, #{cNo}, #{sId}, #{spId}, #{msgContent}, 0, current_timestamp)
+	</insert>
+	
+	<insert id="insertNotCourseMessage" parameterType="Message">
+		INSERT INTO message (t_id, s_id, sp_id, msg_content, is_checked, reg_date) VALUES
+		(#{tId}, #{sId}, #{spId}, #{msgContent}, 0, current_timestamp)
+	</insert>
+	
+	<update id="updateMessage" parameterType="Message">
+		UPDATE message
+			<set>
+				<if test="tId != null">
+					t_id=#{tId},
+				</if>
+				<if test="cNo != null">
+					c_no = #{cNo},
+				</if>
+				<if test="sId != null">
+					s_id = #{sId},
+				</if>
+				<if test="spId != null">
+					sp_id = #{spId},
+				</if>
+				<if test="msgContent != null">
+					msg_content = #{msgContent},
+				</if>
+				<if test="isChecked != null">
+					is_checked = #{isChecked},
+				</if>		
+				reg_date = current_timestamp
+			</set>
+		WHERE msg_no=#{msgNo}
+	</update>
+
+
+	<select id="selectAllMessage" resultMap="MessageResult">
+		<include refid="selectSql"/>
+		order by m.is_checked, m.reg_date desc
+	</select>
+
+
+	<select id="selectOneMessage" resultMap="MessageResult">
+		<include refid="selectSql"/>
+		WHERE msg_no=#{msgNo}
+	</select>
+	
+	<select id="selectMessageByCri" parameterType="hashmap" resultMap="MessageResult">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+		order by m.is_checked, m.reg_date desc
+		<if test="cnt != null">
+			limit #{cnt}
+		</if>
+	</select>
+	
+</mapper>

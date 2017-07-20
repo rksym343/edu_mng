@@ -9,7 +9,7 @@
 		<result property="spPassword" column="sp_password"/>
 		<result property="spName" column="sp_name"/>
 		<result property="spPhone" column="sp_phone"/>
-		<result property="spRelationship" column="sp_picture"/>
+		<result property="spRelationship" column="sp_relationship"/>
 		<result property="spMemo" column="sp_memo"/>
 		<result property="sId" column="s_id"/>
 		<association property="transferMethod"

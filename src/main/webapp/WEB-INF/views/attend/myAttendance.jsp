@@ -7,26 +7,6 @@
 </div>
 </div> <!-- div row -->
                     
-
-<%-- 
-	<table border ="1">
-		<tr>
-			<th>날짜</th>
-			<th>출결번호</th>
-			<th>출결상태</th>
-		</tr>
-	
-		<c:forEach items="${list }" var="myAt">
-			<tr class="myRecord">
-				<td><fmt:formatDate value="${myAt.theTime }" pattern="yyyy-MM-dd aa hh:mm:ss"/></td>
-				<td>${myAt.attendanceStatus.asNo }</td>
-				<td>${myAt.attendanceStatus.asStatus }</td>
-			</tr>		
-		</c:forEach>
-	</table> 
-	
-	<hr><hr> --%>
-	
 	<style>
 		.my-cal th, .my-cal td{
 			text-align: center;
@@ -120,18 +100,8 @@
 	 	var today = new Date();
 		var year = today.getFullYear();
 		var month = today.getMonth();
+		var series = [];
 		
-		// Example Data
-
- 		var data = [
- 			{ label: "Series1",  data: 10},
- 			{ label: "Series2",  data: 30},
- 			{ label: "Series3",  data: 90},
- 			{ label: "Series4",  data: 70},
- 			{ label: "Series5",  data: 80},
- 			{ label: "Series6",  data: 110}
- 		];
-
 		
     	 var arrColor = ["default","danger","info","warning","success","active"];
     	 
@@ -148,8 +118,6 @@
 	        	  // 색깔 안내판
 					$(this).addClass(arrColor[i+1]);
 			 });
-	         $.plot($("#placeholder"), data, { yaxis: { max: 1 } });
-	         
 	     });
 
 	     $("#prevMonth").click(function(e) {
@@ -182,8 +150,6 @@
 	     
 	     function getMyRecords() {
 				$.ajax({
-					//pageContext.getRequest().getContextPath(); 
-					// '/'를 포함한 프로젝트 이름을 반환한다  : '/ex01'
 					url: "${pageContext.request.contextPath}/attend/myAttendanceRecord/"+sId+"/"+year+"/"+(month+1),
 					type : "get",
 					dataType: "json",
@@ -195,16 +161,8 @@
 							var idx = data[i].attendanceStatus.asNo;
 							var td = $("table.my-cal").find("td."+theDate);
 							if(idx != 5){
-								/* var td = $("table.my-cal").find("td."+theDate);
-								td.removeClass();
-								td.addClass(theDate);
-								td.addClass(arrColor[idx]); */
-								//$("table.my-cal").find("td."+theDate).addClass(arrColor[idx]);
 								td.addClass(arrColor[idx]);
 							}
-							/* if($("table.my-cal").find("td.warning").find(".success")){
-								alert($(this).html());
-							} */
 						}
 						
 						$("table.my-cal td").each(function(i, element) {

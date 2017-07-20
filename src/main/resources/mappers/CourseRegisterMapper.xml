@@ -30,15 +30,24 @@
 		inner join timetable ttt on ttt.c_no = c.c_no
 	</sql>
 	
+	<sql id="selectRegisteredStudentSql">
+		SELECT cr.*, c.c_name, s.*, p.sp_id, p.sp_name, p.sp_phone, sp_relationship FROM course_register cr
+		inner join course c on cr.reg_c_no = c.c_no
+		inner join student s on cr.reg_s_id = s.s_id
+		left outer join parents p on p.s_id = s.s_id
+	</sql>
+	
+	
+	
 	<sql id="whereSql">
 		<where>
-			<if test="course != null">
-				reg_c_no = #{course.cNo}
+			<if test="cNo != 0">
+				reg_c_no = #{cNo}
 			</if>
 			<if test="student != null">
 				and reg_s_id =#{student.sId}
 			</if>
-			<if test="regMonth != null">
+			<if test="regMonth != 0">
 				and reg_month =#{regMonth}
 			</if>
 			<if test="registrationStatus != null">
@@ -59,8 +68,8 @@
 			<if test="student != null">
 				reg_s_id=#{student.sId},
 			</if>
-			<if test="course != null">
-				reg_c_no= #{course.cNo},
+			<if test="cNo != null">
+				reg_c_no= #{cNo},
 			</if>
 			<if test="regMonth != null">
 				reg_month=#{regMonth},
@@ -86,5 +95,13 @@
 	<select id="selectAllCourseRegister" resultMap="CourseRegisterResult">
 		<include refid="selectSql"/>
 	</select>
+	
+	<select id="selectRegisteredStudent" resultMap="CourseRegisterResult">
+		<include refid="selectRegisteredStudentSql"/>
+		<include refid="whereSql"/>
+		group by s.s_id, p.sp_id
+	</select>
+	
+	
 	
 </mapper>

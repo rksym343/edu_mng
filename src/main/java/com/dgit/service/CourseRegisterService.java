@@ -11,5 +11,6 @@ public interface CourseRegisterService {
 	public void cancelCourseRegister(String cancel, int regNo) throws Exception;
 	public List<CourseRegister> selectCourseRegisterByCri(CourseRegister courseRegister) throws Exception;
 	public List<CourseRegister> selectAllCourseRegister() throws Exception;
+	public List<CourseRegister> selectRegisteredStudent(int cNo, int regMonth, int rsNo) throws Exception;
 	
 }

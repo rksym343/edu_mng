@@ -72,7 +72,7 @@ $(function() {
 function getMyMsg(){
 		$.ajax({
 			// "/message/listMsg/{memberType}/{id}"
-			url: "${pageContext.request.contextPath}/message/listMsg/"+memberType+"/"+id,
+			url: "${pageContext.request.contextPath}/message/listMsg/"+memberType+"/"+id+"/"+0,
 			type : "get",
 			dataType: "json",
 			success:function(data){
@@ -93,12 +93,11 @@ function getMyMsg(){
 					$("#ttbody").append(trTag);
 				});
 			}
-			
-				
 		});
+		
 		$.ajax({
 			// "/message/listMsg/{memberType}/{id}"
-			url: "${pageContext.request.contextPath}/message/listMsg/"+memberType+"/"+"sss02",
+			url: "${pageContext.request.contextPath}/message/listMsg/"+memberType+"/"+"sss02"+"/"+0,
 			type : "get",
 			dataType: "json",
 			success:function(data){
@@ -124,7 +123,7 @@ function getMyMsg(){
 		});
 		$.ajax({
 			// "/message/listMsg/{memberType}/{id}"
-			url: "${pageContext.request.contextPath}/message/listMsg/"+"parents"+"/"+"sp01",
+			url: "${pageContext.request.contextPath}/message/listMsg/"+"parents"+"/"+"sp01"+"/"+0,
 			type : "get",
 			dataType: "json",
 			success:function(data){

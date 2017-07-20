@@ -22,7 +22,13 @@
                             <a href="${pageContext.request.contextPath}/message/listMySendMsg">내가 보낸 메세지</a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/message/writeAllMsg">메세지 작성하기</a>
+                            <a href="${pageContext.request.contextPath}/message/writeAllMsg">단체 메세지 작성하기</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/message/writeMsg">메세지 작성하기</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/exam/viewChart">차트예제</a>
                         </li>
                         <li>
                             ---------------------------------

@@ -39,7 +39,7 @@
 				<mapping path="/user/loginPost"/>
 				<beans:ref bean="loginInterceptor"/>
 			</interceptor>
-		<!-- 	<interceptor>
+		<!-- <interceptor>
 				<mapping path="/course/insertCourse"/>
 				<mapping path="/course/registerCourses"/>
 				<beans:ref bean="authInterceptor"/>

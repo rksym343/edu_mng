@@ -38,6 +38,12 @@ public class ExaminationController {
 		model.addAttribute("list", list);*/
 	}
 	
+	@RequestMapping(value="/viewChart", method=RequestMethod.GET)
+	public void viewChart(Model model) throws Exception{
+		logger.info("==================viewStudentExam GET================");
+		
+	}
+	
 	@RequestMapping(value="/viewStudentExam/{sId}/{cNo}", method=RequestMethod.GET)
 	public ResponseEntity<List<Examination>> getMyAttendanceRecord(
 			@PathVariable("sId") String sId, @PathVariable("cNo") int cNo) throws Exception{

@@ -44,7 +44,7 @@ function makeMyCalendar(y, m) {
 				// 마지막날 이후 칸을 공백처리
 				table += "<td> </td>";
 			} else {
-				if( y == curDate.getFullYear() && m == (curDate.getMonth()+1) && num == curDate.getDate()){
+				if( y == curDate.getFullYear() && m == curDate.getMonth() && num == curDate.getDate()){
 					table += "<td class='"+num+" day"+k+"'><b>" + num + "</b></td>";
 				}else {
 					table += "<td class='"+num+"'>" + num + "</td>";

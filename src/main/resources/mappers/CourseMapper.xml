@@ -23,12 +23,13 @@
 		<collection property="courseRegisters" resultMap="com.dgit.mapper.CourseRegisterMapper.CourseRegisterResult"/>
 	</resultMap>
 	
-	<sql id="selectMyCourses">
+	<sql id="selectCoursesByCri">
 		SELECT cr.*, c.c_name, ttt.*, t.t_name FROM  course c
 		inner join course_register cr on cr.reg_c_no = c.c_no
 		inner join teacher t on t.t_id = c.t_id
 		inner join timetable ttt on ttt.c_no = cr.reg_c_no
 	</sql>
+	
 	<sql id="selectCourse">
 		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
 		inner join subject s on c.sb_no = s.sb_no
@@ -36,13 +37,16 @@
 		inner join student_grade sg on c.gd_no = sg.gd_no
 		inner join timetable ttt on ttt.c_no = c.c_no
 	</sql>
-	<sql id="whereMyCourses">
+	<sql id="whereCoursesByCri">
 		<where>
 			<if test="course != null">
 				cr.reg_c_no = #{course}
 			</if>
 			<if test="sId != null">
 				and cr.reg_s_id =#{sId}
+			</if>
+			<if test="tId != null">
+				and t.t_id =#{tId}
 			</if>
 			<if test="regMonth != null">
 				and cr.reg_month =#{regMonth}
@@ -120,10 +124,9 @@
 		<!-- select last_insert_id() from course -->
 	</select>
 	
-	<select id ="selectMyRegistedCourses" parameterType="Hashmap"  resultMap="CourseResult">
-		<include refid="selectMyCourses"/>
-		<include refid="whereMyCourses"/>
-		order by ttt.tt_day, ttt.tt_starttime
+	<select id ="selectCoursesByCri" parameterType="Hashmap"  resultMap="CourseResult">
+		<include refid="selectCoursesByCri"/>
+		<include refid="whereCoursesByCri"/>
 	</select>
  
 </mapper>

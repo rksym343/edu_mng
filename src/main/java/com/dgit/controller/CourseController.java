@@ -192,7 +192,7 @@ public class CourseController {
 		Calendar cal = Calendar.getInstance();
 		int regMonth = Integer.parseInt(String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1));
 		
-		List<Course> list = courseService.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+		List<Course> list = courseService.selectCoursesByCri(sId, "", registrationStatus, regMonth);
 		System.out.println("=========================== CourseRegister List ======================== ["+list.size()+"]");
 		
 		model.addAttribute("list", list);
@@ -207,7 +207,7 @@ public class CourseController {
 		Calendar cal = Calendar.getInstance();
 		int regMonth = Integer.parseInt(String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1));
 		
-		List<Course> list = courseService.selectMyRegistedCourses(sId, registrationStatus, regMonth);
+		List<Course> list = courseService.selectCoursesByCri(sId, "", registrationStatus, regMonth);
 		System.out.println("=========================== CourseRegister List ======================== ["+list.size()+"]");
 		
 		model.addAttribute("list", list);
@@ -222,10 +222,25 @@ public class CourseController {
 		ResponseEntity<List<Course>> entity = null;
 		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
 		try{
-			List<Course> list = courseService.selectMyRegistedCourses(sId, rsNo, regMonth);
+			List<Course> list = courseService.selectCoursesByCri(sId, "", rsNo, regMonth);
 			entity = new ResponseEntity<List<Course>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Course>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@RequestMapping(value="/myRegisteredStudents/{cNo}/{year}/{month}/{rsNo}", method=RequestMethod.GET)
+	public ResponseEntity<List<CourseRegister>> getMyRegisteredStudents(
+			@PathVariable("cNo") int cNo, @PathVariable("rsNo") int rsNo,
+			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		ResponseEntity<List<CourseRegister>> entity = null;
+		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
+		try{
+			List<CourseRegister> list = courseRegisterService.selectRegisteredStudent(cNo, regMonth, rsNo);
+			entity = new ResponseEntity<List<CourseRegister>>(list, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<List<CourseRegister>>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}

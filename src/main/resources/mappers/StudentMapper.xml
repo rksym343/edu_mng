@@ -27,7 +27,7 @@
 	</sql>
 	
 	<sql id="selectWithParentsSql">
-		SELECT * FROM student s
+		SELECT s.s_name, s.s_phone, s.tm_no, p.tm_no, p.sp_name, p.sp_phone, p.sp_relationship FROM student s
 		inner join parents p on s.s_id = p.s_id
 	</sql>
 	
@@ -111,6 +111,11 @@
 	<select id="login" resultMap="StudentResult">
 		<include refid="selectSql"/>
 		WHERE s_id=#{sId} and s_password=#{sPassword}
+	</select>
+	
+	<select id="selectStudentWithParents" resultMap="StudentResult">
+		<include refid="selectWithParentsSql"/>
+		where 
 	</select>
 	
 </mapper>

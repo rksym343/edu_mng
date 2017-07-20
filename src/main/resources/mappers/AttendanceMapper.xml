@@ -40,7 +40,7 @@
 	<sql id="whereByAttendanceType">
 		<where>
 			<if test="sId != null">
-				att.s_id = #{sId}
+				a.s_id = #{sId} and a.as_no= 1
 			</if>
 		<!--  (1, '결석'),(2, '등원'),(3, '지각'),(4, '조퇴'),(5, '하원') -->
 			<if test="searchType != null">
@@ -149,7 +149,9 @@
 	</select>
 	
 	<select id="selectCntByAttendanceType" resultType="int">
-		select count(att.at_no) from attendance att
+		select count(a.at_no) from attendance a 
+		left outer join attendance a2 
+		on Date(a.the_time) = Date(a2.the_time) and a.at_no <> a2.at_no and a.s_id = a2.s_id
 		<include refid="whereByAttendanceType"/>
 	</select>
 	

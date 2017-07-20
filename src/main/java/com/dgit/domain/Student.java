@@ -105,4 +105,11 @@ public class Student {
 		this.parents = parents;
 	}
 
+	@Override
+	public String toString() {
+		return String.format(
+				"Student [sId=%s, sPassword=%s, sName=%s, sPhone=%s, transferMethod=%s, school=%s, sGrade=%s, joinDate=%s, sPicture=%s, sMemo=%s, parents=%s]",
+				sId, sPassword, sName, sPhone, transferMethod, school, sGrade, joinDate, sPicture, sMemo, parents);
+	}
+
 }

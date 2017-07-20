@@ -24,15 +24,15 @@
 	<sql id="whereSql">
 		<where>
 			<if test="sId != null">
-				e.s_id = #{sId}
+				e.s_id = #{sId} 
+			</if>			
+			<if test="examItem != null">
+				and e.ei_no = #{examItem.eiNo}
 			</if>
 			<if test="course != null">
 				and e.c_no = #{course.cNo}
 			</if> 
-			<if test="examItem != null">
-				and e.ei_no = #{examItem.eiNo}
-			</if>
-			<if test="eNo != null">
+			<if test="eNo != 0">
 				and e.e_no =#{eNo}
 			</if>
 		</where>

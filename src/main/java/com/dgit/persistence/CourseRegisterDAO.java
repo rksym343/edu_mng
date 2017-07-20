@@ -11,5 +11,6 @@ public interface CourseRegisterDAO {
 	public void cancelCourseRegister(String cancel, int regNo) throws Exception;
 	public List<CourseRegister> selectCourseRegisterByCri(CourseRegister courseRegister) throws Exception;
 	public List<CourseRegister> selectAllCourseRegister() throws Exception;
+	public List<CourseRegister> selectRegisteredStudent(CourseRegister courseRegister) throws Exception;
 	
 }

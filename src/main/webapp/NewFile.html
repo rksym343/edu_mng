@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+<title>날짜 계산 </title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+    var today = new Date();
+    var dat1 = new Date(2017,6,20, 15,04,50);
+    // 날짜 차이 알아 내기
+    
+    var diff = today - dat1;
+    var currMinite = 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+    var currHour = 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+    var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+     
+    document.write("* 날짜 두개 : " + today + " /  " + dat1 + "<br/>");
+
+    document.write("* 분 차이 : " + parseInt(diff/currMinite) + " 분<br/>");
+    document.write("* 시간 차이 : " + parseInt(diff/currHour) + " 시간<br/>");
+    document.write("* 일수 차이 : " + parseInt(diff/currDay) + " 일<br/>");
+     
+    // 또 다른 날짜 구하는 방법
+    dat1.setMonth(dat1.getMonth() + 3);
+    document.write("* 3개월 더하기 : " + dat1.toLocaleString() + "<br/>");
+     
+</script>
+ 
+</head>
+<body>
+</body>
+</html>
