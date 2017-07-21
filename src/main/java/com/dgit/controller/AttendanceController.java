@@ -1,7 +1,9 @@
 package com.dgit.controller;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -86,6 +88,25 @@ public class AttendanceController {
 			entity = new ResponseEntity<List<Attendance>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Attendance>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/viewChart/{sId}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> viewAttendanceChartBySId(@PathVariable("sId") String sId) throws Exception{
+		logger.info("==================viewStudentExam GET================");
+		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> map = new HashMap<>();
+		try{
+			map.put("결석", attendanceService.selectCntByAttendanceType(sId, "a"));
+			map.put("등원", attendanceService.selectCntByAttendanceType(sId, "n"));
+			map.put("지각", attendanceService.selectCntByAttendanceType(sId, "e"));
+			map.put("조퇴", attendanceService.selectCntByAttendanceType(sId, "l"));
+			map.put("지각&조퇴", attendanceService.selectCntByAttendanceType(sId, "el"));
+			entity = new ResponseEntity<>(map, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		return entity;

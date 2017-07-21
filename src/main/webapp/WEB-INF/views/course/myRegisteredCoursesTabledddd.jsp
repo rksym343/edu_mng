@@ -117,19 +117,12 @@
 	  			success:function(data){
 	  				console.log(data);
 	  				$(".c-timetable").remove();
+	  				
 	  				for(var i = 0; i < data.length; i++){
-	  					$.each(data[i].timetables, function(idx, v) {
-	  						/* console.log(i + " " + v.ttDay);
-	  						console.log(i + " " + v.ttStarttime);
-	  						console.log(i + " " + v.ttEndtime); */
-	  						var liTag = "<li class='c-timetable'><b>"+data[i].cName+"</b><br>"+viewTimes(v.ttStarttime, v.ttEndtime)+"</li>";
-	  						//$("td.d"+v.ttDay+" ul").html("");
-	  						
-	  						$("td.d"+v.ttDay+" ul").append(liTag);
-	  					});
-	  					//console.log("=======");
+	  					var liTag = "<li class='c-timetable'><b>"+data[i].cName+"</b><br>"+viewTimes(data[i].timetables.ttStarttime, data[i].timetables.ttEndtime)+"</li>";
+	  					$("td.d"+data[i].timetables.ttDay+" ul").append(liTag);	  					
 	  				}
-	  			}
+	  			} 
 	  				
 	  			})
 	  		}

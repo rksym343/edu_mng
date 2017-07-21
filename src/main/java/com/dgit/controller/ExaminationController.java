@@ -1,6 +1,8 @@
 package com.dgit.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dgit.domain.Attendance;
 import com.dgit.domain.Course;
 import com.dgit.domain.Examination;
+import com.dgit.service.AttendanceService;
 import com.dgit.service.ExaminationService;
 
 @Controller
@@ -24,6 +28,10 @@ public class ExaminationController {
 	@Autowired
 	private ExaminationService examinationService;
 	
+	@Autowired
+	private AttendanceService attendanceService;
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(ExaminationController.class);
 
 	
@@ -31,11 +39,6 @@ public class ExaminationController {
 	@RequestMapping(value="/viewStudentExam", method=RequestMethod.GET)
 	public void getListAttendance(Model model) throws Exception{
 		logger.info("==================viewStudentExam GET================");
-		/*String sId = "sss01";
-		Examination examination = new Examination();
-		examination.setsId(sId);
-		List<Examination> list = examinationService.selectExaminationByCri(examination);
-		model.addAttribute("list", list);*/
 	}
 	
 	@RequestMapping(value="/viewChart", method=RequestMethod.GET)
@@ -43,6 +46,8 @@ public class ExaminationController {
 		logger.info("==================viewStudentExam GET================");
 		
 	}
+	
+	
 	
 	@RequestMapping(value="/viewStudentExam/{sId}/{cNo}", method=RequestMethod.GET)
 	public ResponseEntity<List<Examination>> getMyAttendanceRecord(

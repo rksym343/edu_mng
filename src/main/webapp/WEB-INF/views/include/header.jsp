@@ -84,19 +84,19 @@
 
 <c:if test="${empty memberType }">
 	<%-- <%@ include file="../include/sidebar.jsp"%> --%>
-	<%@ include file="../include/studentSidebar.jsp"%>
+	<%@ include file="studentSidebar.jsp"%>
 </c:if>
 <c:if test="${memberType == 'student' }">
-	<%@ include file="../include/studentSidebar.jsp"%>
+	<%@ include file="studentSidebar.jsp"%>
 </c:if>
 <c:if test="${memberType == 'parents' }">
-	<%@ include file="../include/parentsSidebar.jsp"%>
+	<%@ include file="parentsSidebar.jsp"%>
 </c:if>
 <c:if test="${memberType == 'teacher' }">
-	<%@ include file="../include/teacherSidebar.jsp"%>
+	<%@ include file="teacherSidebar.jsp"%>
 </c:if>
 
 
 
-<%@ include file="../include/contentDiv.jsp"%>
+<%@ include file="contentDiv.jsp"%>
            

@@ -40,12 +40,23 @@
 	<sql id="whereByAttendanceType">
 		<where>
 			<if test="sId != null">
-				a.s_id = #{sId} and a.as_no= 1
+				a.s_id = #{sId}
 			</if>
-		<!--  (1, '결석'),(2, '등원'),(3, '지각'),(4, '조퇴'),(5, '하원') -->
 			<if test="searchType != null">
-				<if test="searchType == '결석'.toString()">
-					and att.as_no = 1
+				<if test="searchType == 'a'.toString()">
+					and a.as_no= 1
+				</if>
+				<if test="searchType == 'n'.toString()">
+					and a.as_no= 2 and a2.as_no = 5
+				</if>
+				<if test="searchType == 'e'.toString()">
+					and a.as_no= 2 and a2.as_no = 4
+				</if>
+				<if test="searchType == 'l'.toString()">
+					and a.as_no= 3 and a2.as_no = 5
+				</if>
+				<if test="searchType == 'el'.toString()">
+					and a.as_no= 3 and a2.as_no = 4
 				</if>
 			</if>
 		</where>
@@ -148,10 +159,10 @@
 		order by att.the_time desc
 	</select>
 	
-	<select id="selectCntByAttendanceType" resultType="int">
+	<select id="selectCntByAttendanceType" parameterType="hashmap" resultType="int">
 		select count(a.at_no) from attendance a 
 		left outer join attendance a2 
-		on Date(a.the_time) = Date(a2.the_time) and a.at_no <> a2.at_no and a.s_id = a2.s_id
+		on Date(a.the_time) = Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id
 		<include refid="whereByAttendanceType"/>
 	</select>
 	

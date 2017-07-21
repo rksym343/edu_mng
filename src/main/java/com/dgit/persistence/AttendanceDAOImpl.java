@@ -56,11 +56,13 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 	}
 
 	@Override
-	public List<Attendance> selectAttendanceBySIdAndMonth(String month, String sId) throws Exception {
-		Map<String, Object> map = new HashMap<>();
-		map.put("month", month);
-		map.put("sId", sId);
+	public List<Attendance> selectAttendanceBySIdAndMonth(Map<String, Object> map) throws Exception {
 		return session.selectList(namespace+".selectAttendanceBySIdAndMonth", map);
+	}
+
+	@Override
+	public int selectCntByAttendanceType(Map<String, Object> map) throws Exception {
+		return session.selectOne(namespace+".selectCntByAttendanceType", map);
 	}
 
 }

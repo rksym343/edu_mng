@@ -1,6 +1,8 @@
 package com.dgit.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,13 +55,24 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public List<Attendance> selectAttendanceBySIdAndMonth(String month, String sId) throws Exception {
-		List<Attendance> list = dao.selectAttendanceBySIdAndMonth(month, sId);
+		Map<String, Object> map = new HashMap<>();
+		map.put("month", month);
+		map.put("sId", sId);
+		List<Attendance> list = dao.selectAttendanceBySIdAndMonth(map);
 		System.out.println("=======================at list===========");
 		for (Attendance at : list){
 			System.out.println(at.toString());
 		}
 		return list;
 		
+	}
+
+	@Override
+	public int selectCntByAttendanceType(String sId, String searchType) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("sId", sId);
+		return dao.selectCntByAttendanceType(map);
 	}
 
 }

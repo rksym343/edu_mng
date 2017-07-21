@@ -11,9 +11,17 @@
 		.my-cal th, .my-cal td{
 			text-align: center;
 		}
+		.color-label{
+			margin : 0 auto;
+		}
+		.color-label td {
+			margin : 5px;
+			text-align: center;
+			height: 40px;
+		}
 	</style>
 	 <div class="row">
-				<div class="col-lg-6">
+				<div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align: center">
                            <a id="prevMonth" href="#"><span class="fa fa-angle-left"></span></a>
@@ -26,6 +34,30 @@
                                 
                             </div>
                             <!-- /.table-responsive -->
+                            <div class="col-lg-10 color-label" >
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+	                                    <c:forEach items="${statusList }" var="status" varStatus="index">
+	                                   		<td class="viewColor col-lg-1"> </td>
+	                                    </c:forEach>
+                                    </tr>
+                                    <tr>
+	                                    <c:forEach items="${statusList }" var="status" varStatus="index">
+	                                    	<c:if test="${!index.last }">
+	                                            <td class="col-lg-1">${status.asStatus }</td>
+                                    	 	</c:if>
+                                    	 <c:if test="${index.last }">
+	                                            <td class="col-lg-1">지각&조퇴</td>
+                                    	 </c:if>
+	                                    </c:forEach>
+                                    </tr>
+                                   
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -33,13 +65,10 @@
                 </div>
                 <!-- /.col-lg-6 -->
                 
-                <div class="col-lg-3">
+                <%-- <div class="col-lg-2">
                     <div class="panel panel-default">
-                       <!--  <div class="panel-heading">
-                            Basic Table
-                        </div>
-                        /.panel-heading -->
-                        <div class="panel-body">
+                    
+                       <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <tbody>
@@ -57,38 +86,25 @@
 	                                    	</tr>
                                     	 </c:if>
                                     </c:forEach>
-                                   
-                                    
                                     </tbody>
                                 </table>
+                                
                             </div>
                             <!-- /.table-responsive -->
                         </div>
-                        <!-- /.panel-body -->
+                        <!-- /.panel-body --> 
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-6 -->
+                <!-- /.col-lg-6 --> --%>
+                
+                <div class="col-lg-4">
+                 	<div id="donut-attendance-chart"></div>
                 </div>
-                <div class="row">
-                	  <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Pie Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-pie-chart">
-                                	<div id="placeholder"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+                
+                
                 </div>
-                </div>
+                
                 
 	
 <%@ include file="../include/footer.jsp"%>	
@@ -100,10 +116,13 @@
 	 	var today = new Date();
 		var year = today.getFullYear();
 		var month = today.getMonth();
-		var series = [];
 		
 		
     	 var arrColor = ["default","danger","info","warning","success","active"];
+    	 
+    	 
+    	
+    	 
     	 
     	 Handlebars.registerHelper("tempdate", function(time) {
     		 // date형식 변환하여 date만 가져오기
@@ -112,12 +131,21 @@
  			return date;
  		});	
     	 
+    	 
+    	 
 	     $(function() {	 
 	    	 newCalendarInfo();
 	         $(".viewColor").each(function(i, obj) {
 	        	  // 색깔 안내판
 					$(this).addClass(arrColor[i+1]);
 			 });
+	         attendanceData();
+	         /* 
+	         Morris.Donut({
+		   		  element: 'donut-attendance-chart',
+	 	   		  data: $.parseJSON( attendanceData()),
+	 	   		 colors: ["#EC407A","#2196F3","#8BC34A","#AB47BC", "#dddddd"],
+	 	   	}); */
 	     });
 
 	     $("#prevMonth").click(function(e) {
@@ -186,6 +214,49 @@
 						
 				});
 			} 
+	     
+	     function attendanceData(){
+	 		var sId= "sss01";
+	 		var arr =[];
+	 		$.ajax({
+	 			url: "${pageContext.request.contextPath}/attend/viewChart/"+sId,
+	 			type : "get",
+	 			dataType: "json",
+	 			success:function(v){
+	 				console.log("size: "+v.len);
+	 				console.log('Size of object: '+ Object.keys(v).length);
+	 				console.log('KEYS: '+ Object.keys(v));
+	 				
+	 				var size = Object.keys(v).length;
+	 				
+	 				var idx = 0;
+	 				$.each(v, function(key, value) {
+	 					if(idx != size){
+	 						console.log(key + " : " + value);
+	 						arr[idx] = {
+	 								label: key,
+	 								value: value
+	 							}
+	 						idx++;
+	 						
+	 					}
+	 				});
+	 				showGraph(arr);
+	 			}
+	 		});
+	 		
+	 		
+	 		return arr;
+	 	}
+	     
+	     function showGraph(myData){
+	    	 Morris.Donut({
+	   		  element: 'donut-attendance-chart',
+	   		  data: myData,
+	   		 colors: ["#dddddd", "#EC407A","#E5D85C","#2196F3","#8BC34A"],
+	   		});
+	     }
      </script>
+     <!-- ["#F2DEDE","#D9EDF7","#FCF8E3","#DFF0D8", "#F5F5F5"] -->
      
      
