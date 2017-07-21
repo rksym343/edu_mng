@@ -1,7 +1,5 @@
 package com.dgit.service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dgit.domain.Course;
+import com.dgit.domain.CourseDetail;
+import com.dgit.domain.CourseImage;
 import com.dgit.domain.Timetable;
 import com.dgit.persistence.CourseDAO;
 import com.dgit.persistence.TimetableDAO;
@@ -27,12 +27,24 @@ public class CourseServiceImpl implements CourseService{
 	public void insertCourse(Course course, Timetable[] timetables) throws Exception {
 		dao.insertCourse(course);
 		System.out.println("-------------------------insertCourse----------------------");
+		
 		int cNo = dao.lastCourseId();
+		course.setcNo(cNo);
 		System.out.println("-------------------------insertCourse lastCourseId " + cNo);
-		Course co = new Course();
-		co.setcNo(cNo);
+		
+		if(course.getPictures() != null){// 보호처리
+			for(CourseImage img : course.getPictures()){
+				img.setcNo(cNo);
+				dao.insertCourseImage(img);
+			}
+		}
+		if(course.getContent() != null){
+			CourseDetail courseDetail = course.getContent();
+			courseDetail.setcNo(cNo);
+			dao.insertCourseDetail(courseDetail);
+		}
 		for(Timetable ttt : timetables){
-			ttt.setCourse(co);
+			ttt.setCourse(course);
 			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
 			timetableDao.insertTimetable(ttt);
 		}		
@@ -41,16 +53,29 @@ public class CourseServiceImpl implements CourseService{
 	@Override
 	public void updateCourse(Course course) throws Exception {
 		dao.updateCourse(course);
+		if(course.getContent() != null){
+			dao.updateCourseDetail(course.getContent());
+		}
+		if(course.getPictures().size() != 0){
+			dao.deleteCourseImageByCno(course.getcNo());
+			for(CourseImage img : course.getPictures()){
+				dao.insertCourseImage(img);
+			}
+		}
 	}
 
 	@Override
 	public void deleteCourse(int cNo) throws Exception {
 		dao.deleteCourse(cNo);
+		//dao.deleteCourseDetail(cNo);
+		//dao.deleteCourseImageByCno(cNo);
 	}
 
 	@Override
 	public Course selectOneCourse(int cNo) throws Exception {
-		return dao.selectOneCourse(cNo);
+		Course course = dao.selectOneCourse(cNo);
+		course.setContent(dao.selectOneCourseDetial(cNo));
+		return course;
 	}
 
 	@Override

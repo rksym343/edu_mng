@@ -48,7 +48,12 @@ public class MessageController {
 		logger.info("==================postWriteAllMsg ================");
 		logger.info("==================message : " + message);
 		logger.info("==================cName : " + cName);
-		String msg = String.format("[ %s ] %s", cName, message.getMsgContent());
+		String msg = "";
+		if(!cName.equals("")){
+			msg = String.format("[ %s ] %s", cName, message.getMsgContent());
+		}else{
+			 msg = message.getMsgContent();
+		}
 		message.setMsgContent(msg);
 		for(String ss : sId){
 			logger.info("==================sId[] : " + ss);

@@ -6,8 +6,8 @@
       <h1 class="page-header">출석기록</h1>
 </div>
 </div> <!-- div row -->
-                    
-	<style>
+
+<style>
 		.my-cal th, .my-cal td{
 			text-align: center;
 		}
@@ -17,9 +17,13 @@
 		.color-label td {
 			margin : 5px;
 			text-align: center;
-			height: 40px;
+			height: 30px;
+			font-size: 14px;
+			border-top: none;
 		}
 	</style>
+                    
+	
 	 <div class="row">
 				<div class="col-lg-8">
                     <div class="panel panel-default">
@@ -34,25 +38,26 @@
                                 
                             </div>
                             <!-- /.table-responsive -->
-                            <div class="col-lg-10 color-label" >
+                            <div class="color-label" >
                                 <table class="table">
                                     <tbody>
                                     <tr>
 	                                    <c:forEach items="${statusList }" var="status" varStatus="index">
-	                                   		<td class="viewColor col-lg-1"> </td>
-	                                    </c:forEach>
-                                    </tr>
-                                    <tr>
-	                                    <c:forEach items="${statusList }" var="status" varStatus="index">
-	                                    	<c:if test="${!index.last }">
+	                                   			<td class="viewColor col-lg-1"> </td>
+	                                   		<c:if test="${!index.last }">
 	                                            <td class="col-lg-1">${status.asStatus }</td>
                                     	 	</c:if>
-                                    	 <c:if test="${index.last }">
-	                                            <td class="col-lg-1">지각&조퇴</td>
-                                    	 </c:if>
+	                                    	 <c:if test="${index.last }">
+		                                         <td class="col-lg-1">지각&조퇴</td>
+	                                    	 </c:if>
 	                                    </c:forEach>
                                     </tr>
-                                   
+                                    <%-- <tr>
+	                                    <c:forEach items="${statusList }" var="status" varStatus="index">
+	                                    	
+	                                    </c:forEach>
+                                    </tr>
+                                    --%>
                                     </tbody>
                                 </table>
                                 
@@ -108,6 +113,7 @@
                 
 	
 <%@ include file="../include/footer.jsp"%>	
+
 
 	 <script>
 
@@ -174,10 +180,12 @@
 		   changeCalTitle();
 		   $(".view-my-calendar").html(makeMyCalendar(year, month));
 		   getMyRecords();
+		   attendanceData();
 	   }
 	     
 	     function getMyRecords() {
 				$.ajax({
+					
 					url: "${pageContext.request.contextPath}/attend/myAttendanceRecord/"+sId+"/"+year+"/"+(month+1),
 					type : "get",
 					dataType: "json",
@@ -219,7 +227,8 @@
 	 		var sId= "sss01";
 	 		var arr =[];
 	 		$.ajax({
-	 			url: "${pageContext.request.contextPath}/attend/viewChart/"+sId,
+	 			//viewAttendanceChart/{sId}/{year}/{month}
+	 			url: "${pageContext.request.contextPath}/attend/viewAttendanceChart/"+sId+"/"+year+"/"+(month+1),
 	 			type : "get",
 	 			dataType: "json",
 	 			success:function(v){

@@ -18,9 +18,6 @@
                                         <tr>
                                             <th>담당선생님</th>
                                             <td>${course.teacher.tName}</td>
-                                            <td rowspan="7">
-                                            	${course.cPicture}
-                                            </td>
                                         </tr>
                                         <tr>
                                             <th>해당학년</th>
@@ -47,7 +44,7 @@
                                             <td>
                                             	<ul>
 		                                            <c:forEach items="${course.timetables}" var="timetable">
-		                                            	<li>[${timetable.ttDay }] : ${timetable.ttStarttime }~${timetable.ttEndtime }</li>
+		                                            	<li>[<span class="ttDay">${timetable.ttDay }</span>] : ${timetable.ttStarttime }~${timetable.ttEndtime }</li>
 		                                       		</c:forEach>
                                        			</ul>
                                        		</td>
@@ -60,9 +57,23 @@
                                         
                                         <tr>    
                                             <th>수업상세설명</th>
-                                            <td>${course.cContent}</td>
+                                            <td>${course.content.cContent}</td>
                                         </tr>
-                                        
+                                        <c:if test="${empty course.pictures}">
+	                                            		
+	                                    </c:if> <c:if test="${!empty course.pictures}">
+	                                     <tr>    
+                                            <th>수업이미지</th>
+                                            <td>
+	                                            <ul>
+				                                    <c:forEach items="${course.pictures}" var="pic">
+				                                         <li><img src="displayFile?filename=${pic.cPicture }"></li>
+				                                    </c:forEach>
+	                                            	
+	                                       		</ul>
+                                       		</td>
+                                        </tr>
+                                        </c:if>
                                 </table>
                             </div>
                             <!-- /.table-responsive -->

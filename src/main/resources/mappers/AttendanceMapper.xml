@@ -42,6 +42,9 @@
 			<if test="sId != null">
 				a.s_id = #{sId}
 			</if>
+			<if test="month != null">
+				and date_format(att.the_time, '%Y-%m') = #{month}
+			</if>
 			<if test="searchType != null">
 				<if test="searchType == 'a'.toString()">
 					and a.as_no= 1

@@ -3,6 +3,7 @@ package com.dgit.service;
 import java.util.List;
 
 import com.dgit.domain.Course;
+import com.dgit.domain.CourseDetail;
 import com.dgit.domain.Timetable;
 
 public interface CourseService {

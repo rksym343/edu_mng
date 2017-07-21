@@ -44,7 +44,7 @@
 	</sql>
 
 	<insert id="insertTimetable" parameterType="Timetable">
-		INSERT INTO timetable (c_no, tt_day, tt_starttime, tt_endtime) VALUES(#{course.cNo}, #{ttDay}, #{ttStarttime}, #{ttEndtime})	
+		INSERT INTO timetable (c_no, tt_day, tt_starttime, tt_endtime, tt_version) VALUES(#{course.cNo}, #{ttDay}, #{ttStarttime}, #{ttEndtime}, 1)	
 	</insert>
 
 	<delete id="deleteTimetable" parameterType="Timetable">

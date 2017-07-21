@@ -1,9 +1,10 @@
 package com.dgit.persistence;
 
 import java.util.List;
-import java.util.Map;
 
 import com.dgit.domain.Course;
+import com.dgit.domain.CourseDetail;
+import com.dgit.domain.CourseImage;
 
 public interface CourseDAO {
 
@@ -13,7 +14,19 @@ public interface CourseDAO {
 	public Course selectOneCourse(int cNo) throws Exception;
 	public List<Course> selectAllCourse() throws Exception;
 	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth) throws Exception;
-	
 	public int lastCourseId() throws Exception;
+	
+	public void insertCourseDetail(CourseDetail courseDetail) throws Exception;
+	public void updateCourseDetail(CourseDetail courseDetail) throws Exception;
+	public void deleteCourseDetail(int cNo) throws Exception;
+	public CourseDetail selectOneCourseDetial(int cNo) throws Exception;
+	
+	
+	public void insertCourseImage(CourseImage courseImage) throws Exception;
+	public void deleteCourseImage(String cPicture) throws Exception;	
+	public void deleteCourseImageByCno(int cNo) throws Exception;
+	public CourseImage selectOneCourseImage(String cPicture) throws Exception;
+	public List<CourseImage> selectListCourseImage(int cNo) throws Exception;
+	
 	
 }

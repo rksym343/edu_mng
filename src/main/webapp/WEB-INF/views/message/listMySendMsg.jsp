@@ -7,6 +7,79 @@
 </div>
 
 	<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            DataTables Advanced Tables
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>메시지번호</th>
+                                        <th>발신자아이디</th>
+										<th>강의번호</th>
+										<th>수신자아이디</th>
+										<th>메시지 내용</th>
+										<th>확인여부</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tttbody">
+                                    
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
+	<div class="row">
+	
+		 <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Hover Rows
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+											<th>메시지번호</th>
+                                            <th>발신자아이디</th>
+											<th>강의번호</th>
+											<th>수신자아이디</th>
+											<th>메시지 내용</th>
+											<th>확인여부</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                  
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+	
 		<div class="col-lg-3">
 		<table border="1">
 			<thead>
@@ -25,6 +98,7 @@
 		</table>
 		
 	</div>
+	</div>
 
 
 <%@ include file="../include/footer.jsp"%>	
@@ -32,7 +106,7 @@
 <script>
 	var id = "aaa01";
 $(function() {
-	getMyMsg();
+	
 })
 function getMyMsg(){
 		$.ajax({
@@ -56,6 +130,7 @@ function getMyMsg(){
 							"<td>"+isCh+"</td>"+						
 						"</tr>";
 					$("#ttbody").append(trTag);
+					$("#tttbody").append(trTag);
 				});
 			}
 			

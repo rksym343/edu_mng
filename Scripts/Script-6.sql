@@ -130,23 +130,23 @@ left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_n
 where a.s_id ='sss01' and a.as_no= 1;
 
 -- 2. 등원하원
-select a.s_id, a.at_no a1_no, a2.at_no a2_no, a.the_time a1_time, a2.the_time a2_time, a.as_no a1_as_no, a2.as_no a2_as_no from attendance a 
-left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no <> a2.at_no and a.s_id = a2.s_id
+select count(a.at_no) from attendance a 
+left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id
 where a.s_id ='sss01' and a.as_no= 2 and a2.as_no = 5; 
 
 -- 3. 등원조퇴
-select a.s_id, a.at_no a1_no, a2.at_no a2_no, a.the_time a1_time, a2.the_time a2_time, a.as_no a1_as_no, a2.as_no a2_as_no from attendance a 
-left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no <> a2.at_no and a.s_id = a2.s_id
+select count(a.at_no) from attendance a 
+left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id
 where a.s_id ='sss01' and a.as_no= 2 and a2.as_no = 4; 
 
 -- 4. 지각 하원
-select a.s_id, a.at_no a1_no, a2.at_no a2_no, a.the_time a1_time, a2.the_time a2_time, a.as_no a1_as_no, a2.as_no a2_as_no from attendance a 
-left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no <> a2.at_no and a.s_id = a2.s_id
+select count(a.at_no) from attendance a 
+left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id
 where a.s_id ='sss01' and a.as_no= 3 and a2.as_no = 5; 
 
 -- 5. 지각 조퇴
 select count(a.at_no) from attendance a 
-left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no <> a2.at_no and a.s_id = a2.s_id
+left outer join attendance a2 on Date(a.the_time) = Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id
 where a.s_id ='sss01' and a.as_no= 3 and a2.as_no = 4; 
 
 
@@ -155,3 +155,15 @@ where a.s_id ='sss01' and a.as_no= 3 and a2.as_no = 4;
 where a.as_no = 2 and a2.as_no = 4 ;
 Date(a.the_time) in
 	(select Date(a2.the_time) from attendance a2);
+	
+	select count(a.at_no) from attendance a left outer join attendance a2 on Date(a.the_time) = 
+Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id WHERE a.s_id = 'sss01' and a.as_no= 
+1 and a.as_no= 3 and a2.as_no = 4 ;
+
+select count(a.at_no) from attendance a left outer join attendance a2 on Date(a.the_time) = 
+Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id WHERE a.s_id = 'sss01' and a.as_no= 
+1 and a.as_no= 3 and a2.as_no = 4;
+
+ SELECT cr.*, c.c_name, ttt.*, t.t_name FROM course c inner join course_register cr on cr.reg_c_no 
+= c.c_no inner join teacher t on t.t_id = c.t_id inner join timetable ttt on ttt.c_no = cr.reg_c_no 
+WHERE cr.reg_s_id ='sss01' and cr.reg_month =201707 and cr.rs_no =1;

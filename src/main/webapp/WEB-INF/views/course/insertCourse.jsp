@@ -2,197 +2,258 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
+<div class="col-lg-12">
+      <h1 class="page-header">강의개설</h1>
+</div>
+</div> <!-- div row -->
+	<style>
+		div.center > div {
+			margin : 0 auto;
+		}
+		.form-group{
+			padding : 10px;
+		}
+		tr{
+			padding : 10px 0;
+		}
+	</style>
 
-<style>
-
-	*{
-		margin : 0;
-		padding : 0;
-	}
-	label{
-		padding : 5px;
-		display : inline-block;
-		width : 100px;
-		font-weight: bold;
-	}
-	label.mid{
-		text-align: right;
-	}
-</style>
-		
-	<form action="insertCourse" method="post" enctype="multipart/form-data">
+	<div class="center">
+		<div class="col-lg-10">	
+	<form role="form" action="insertCourse" method="post" enctype="multipart/form-data" id="f1">
 		<input type="hidden" name="tId" value="aaa01">
+		
+		<div class="row">
+		<div class="form-group">
+		    <label class="col-sm-1 control-label" for="gdNo">수업대상</label>
+		    <div class="col-sm-5">
+		    	<select id="gdNo" name="gdNo"  class="form-control">
+					<c:forEach items="${studentGradeList }" var="grade">
+						<option value="${grade.gdNo }">${grade.gdName }</option>
+					</c:forEach>
+				</select>
+		    </div>
+		    
+		    <label class="col-sm-1 control-label" for="sbNo">교과목</label>
+		    <div class="col-sm-5">
+		    	<select id="sbNo" name="sbNo" class="form-control">
+					<c:forEach items="${subjectList }" var="subject">
+						<option value="${subject.sbNo }">${subject.sbName }</option>
+					</c:forEach>
+				</select>
+		    </div>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+		    <label class="col-sm-1 control-label" for="cName">수업명</label>
+		    <div class="col-sm-11">
+		    	<input class="form-control" type="text" id="cName" name="cName" placeholder="수업명">
+		    </div>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+		    <label class="col-sm-1 control-label" for="tuition">수업료</label>
+		    <div class="col-sm-11">
+		    	<input class="form-control" type="text" id="tuition" name="tuition" placeholder="수업료">
+		    </div>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+		    <label class="col-sm-1 control-label" for="capacity">수업인원</label>
+		    <div class="col-sm-11">
+		    	<input class="form-control" type="text" id="capacity" name="capacity" placeholder="수업인원">
+		    </div>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+		    <label class="col-sm-1 control-label" for="ttDay">수업시간</label>
+		    <div class="col-sm-10">
+		    	<table  id="courseTime">
+		    		<tr>
+		    			<td class="col-sm-2">
+					    	<select id="ttDay" name="ttDay" class="form-control col-sm-2">
+								<option value="1">월</option>
+								<option value="2">화</option>
+								<option value="3">수</option>
+								<option value="4">목</option>
+								<option value="5">금</option>
+								<option value="6">토</option>
+								<option value="0">일</option>
+							</select>
+						</td>
+						<td class="col-sm-2">
+							<select id="ttStarttime" name="ttStarttime_hh" class="form-control col-sm-2">
+								<c:forEach begin="09" end="22" var="hh">
+									<c:if test="${hh > 12 }">
+										<c:if test="${(hh-12) < 10 }">
+											<option value="${hh }">오후 0${hh-12 }시</option>
+										</c:if>	
+										<c:if test="${(hh-12) >= 10 }">
+											<option value="${hh }">오후  ${hh-12 }시</option>
+										</c:if>
+									</c:if>
+									<c:if test="${hh == 12 }">
+										<option value="${hh }">오후  ${hh }시</option>
+									</c:if>
+									<c:if test="${hh < 12 }">
+										<c:if test="${hh < 10 }">
+											<option value="${hh }">오전  0${hh }시</option>
+										</c:if>	
+										<c:if test="${hh >= 10 }">
+											<option value="${hh }">오전  ${hh }시</option>
+										</c:if>
+										
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+						<td class="col-sm-2">
+							<select name="ttStarttime_MM" class="form-control col-sm-2">
+								<c:forEach begin="00" end="50" var="MM" step="10">
+									<c:if test="${MM == 0 }">
+										<option value="${MM }">00분</option>
+									</c:if>
+									<c:if test="${MM != 0 }">
+										<option value="${MM }">${MM}분</option>
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+						<td class="col-sm-1">
+							<label class="control-label" style="text-align : center">~</label>
+						</td>
+						<td class="col-sm-2">
+							<select id="ttEndtime" name="ttEndtime_hh" class="form-control col-sm-2">
+								<c:forEach begin="09" end="22" var="hh">
+									<c:if test="${hh > 12 }">
+										<c:if test="${(hh-12) < 10 }">
+											<option value="${hh }">오후 0${hh-12 }시</option>
+										</c:if>	
+										<c:if test="${(hh-12) >= 10 }">
+											<option value="${hh }">오후  ${hh-12 }시</option>
+										</c:if>
+									</c:if>
+									<c:if test="${hh == 12 }">
+										<option value="${hh }">오후  ${hh }시</option>
+									</c:if>
+									<c:if test="${hh < 12 }">
+										<c:if test="${hh < 10 }">
+											<option value="${hh }">오전  0${hh }시</option>
+										</c:if>	
+										<c:if test="${hh >= 10 }">
+											<option value="${hh }">오전  ${hh }시</option>
+										</c:if>
+										
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+						<td class="col-sm-2">
+							<select name="ttEndtime_MM" class="form-control col-sm-2">
+								<c:forEach begin="00" end="50" var="MM" step="10">
+									<c:if test="${MM == 0 }">
+										<option value="${MM }">00분</option>
+									</c:if>
+									<c:if test="${MM != 0 }">
+										<option value="${MM }">${MM}분</option>
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+		    		</tr>
+		    	</table>
+		    </div>
+		     <div class="col-sm-1">
+		     	<button type="button" class="btn btn-default" id="addTimetable"> + </button>
+		     </div>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+			<label class="col-sm-1 control-label">수업기간</label>
+			<div class="col-sm-5">
+				<input class="form-control"  type="text" id="cStart" name="cStart">
+			</div>
+			<label class="col-sm-1 control-label">~</label>
+			<div class="col-sm-5">
+				<input class="form-control"  type="text" id="cEnd" name="cEnd">
+			</div>
+		</div>
+		</div>
+		
+		
+		<div class="row">
+		<div class="form-group">
+			<label  class="col-sm-1 control-label" for="classroom">교실</label>
+			<div class="col-sm-11">
+			<input class="form-control" type="text" id="classroom" name="classroom">
+			</div>
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+			<label class="col-sm-1 control-label"  for="cContent">수업설명</label>
+			<div class="col-sm-11">
+			<textarea class="form-control" rows="10" cols="50" id="cContent" name="cContent"></textarea>
+			</div>
+		</div>
+		</div>	
+		
+		<div class="row">
+		<div class="form-group">
+		  	<label class="col-sm-1 control-label"  for="pics">수업이미지</label>
+		  	<div class="col-sm-11">
+			<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">
+			</div>
+		</div>
+		</div>
 	
-		<label for="gdNo">수업대상</label>
-		<select id="gdNo" name="gdNo">
-			<c:forEach items="${studentGradeList }" var="grade">
-				<option value="${grade.gdNo }">${grade.gdName }</option>
-			</c:forEach>
-		</select>
-		
-		<label for="sbNo">교과목</label>
-		<select id="sbNo" name="sbNo">
-			<c:forEach items="${subjectList }" var="subject">
-				<option value="${subject.sbNo }">${subject.sbName }</option>
-			</c:forEach>
-		</select>
-		
+		<div class="row">
+		<div class="form-group" style="text-align : center">      
+			<input type="submit" class=" btn btn-primary btn-lg" value="등록">
+			<input type="reset" class=" btn btn-default btn-lg" value="취소">
+		</div>
+		</div>
 	
-		<label for="cName">수업명</label>
-		<input type="text" id="cName" name="cName">
-		
-		
-		<br>
-		
-		<label for="tuition">수업료</label>
-		<input type="text" id="tuition" name="tuition">
-		<br>
-		
-		<label for="capacity">수업인원</label>
-		<input type="text" id="capacity" name="capacity">
-		<br>
-		
-		
-		
-		
-		
-		<span id="courseTime">
-		<label for="ttDay">수업요일</label>
-		<select id="ttDay" name="ttDay">
-			<option value="1">월</option>
-			<option value="2">화</option>
-			<option value="3">수</option>
-			<option value="4">목</option>
-			<option value="5">금</option>
-			<option value="6">토</option>
-			<option value="0">일</option>
-		</select>
-		<label for="ttStarttime" class="mid">시작시간</label>
-		<select id="ttStarttime" name="ttStarttime_hh">
-			<c:forEach begin="09" end="22" var="hh">
-				<c:if test="${hh > 12 }">
-					<c:if test="${(hh-12) < 10 }">
-						<option value="${hh }">오후 0${hh-12 }시</option>
-					</c:if>	
-					<c:if test="${(hh-12) >= 10 }">
-						<option value="${hh }">오후  ${hh-12 }시</option>
-					</c:if>
-				</c:if>
-				<c:if test="${hh <= 12 }">
-					<c:if test="${hh < 10 }">
-						<option value="${hh }">오전  0${hh }시</option>
-					</c:if>	
-					<c:if test="${hh >= 10 }">
-						<option value="${hh }">오전  ${hh }시</option>
-					</c:if>
-					
-				</c:if>
-			</c:forEach>
-		</select>
-		<select name="ttStarttime_MM">
-			<c:forEach begin="00" end="50" var="MM" step="10">
-				<c:if test="${MM == 0 }">
-					<option value="${MM }">00분</option>
-				</c:if>
-				<c:if test="${MM != 0 }">
-					<option value="${MM }">${MM}분</option>
-				</c:if>
-			</c:forEach>
-		</select>
-		<label for="ttEndtime" class="mid">종료시간</label>
-		<select id="ttEndtime" name="ttEndtime_hh">
-			<c:forEach begin="09" end="22" var="hh">
-			<c:if test="${hh > 11 }">
-					<c:if test="${(hh-12) < 10 }">
-						<option value="${hh }">오후 0${hh-12 }시</option>
-					</c:if>	
-					<c:if test="${(hh-12) >= 10 }">
-						<option value="${hh }">오후  ${hh-12 }시</option>
-					</c:if>
-				</c:if>
-				<c:if test="${hh <= 11 }">
-					<c:if test="${hh < 10 }">
-						<option value="${hh }">오전  0${hh }시</option>
-					</c:if>	
-					<c:if test="${hh >= 10 }">
-						<option value="${hh }">오전  ${hh }시</option>
-					</c:if>
-					
-				</c:if>
-			</c:forEach>
-		</select>
-		<select name="ttEndtime_MM">
-			<c:forEach begin="00" end="50" var="MM" step="10">
-				<c:if test="${MM == 0 }">
-					<option value="${MM }">00분</option>
-				</c:if>
-				<c:if test="${MM != 0 }">
-					<option value="${MM }">${MM}분</option>
-				</c:if>
-			</c:forEach>
-		</select>
-		
-		
-		</span>
-		<input type="button" id="addTimetable" value=" + "> <!-- 누르면 수업시간 입력창 하나 더 추가 -->
-		<br>
-		
-		<label for="cStart">수업시작일</label>
-		<input type="text" id="cStart" name="cStart">
-		<br>
-		
-		<label for="cEnd">수업종료일</label>
-		<input type="text" id="cEnd" name="cEnd">
-		<br>
-		
-		<label for="classroom">교실</label>
-		<input type="text" id="classroom" name="classroom">
-		<br>
-		
-		<label for="cContent">수업세부사항</label>
-		<textarea rows="10" cols="50" id="cContent" name="cContent"></textarea>
-		<br>
-		
-		<label for="picture">수업이미지</label>
-		<input type="file" id="picture" name="picture">
-		<br>
 
-		<input type="submit" value="등록">
-		<input type="reset" value="취소">
+		
 	</form>
+	</div>
+	</div>
 	
-	<script>
-		function addCourseTime() {
-			var pTag = $("<span>");
+	
+<%@ include file="../include/footer.jsp"%>	
+
+<script>
+		 function addCourseTime() {
+			var trTag = $("<tr>");
 			
-			var labelDay = $("<label>");
+			var selectDay= $("<select class='form-control' name='ttDay'>");
 			
-			var arrDay = ["일", "월", "화", "수", "목", "금", "토"];
-			var selectDay= $("<select>");
-			selectDay.attr("name","ttDay");
-			
-			
-			for(var i =0; i < 7; i++){
+			for(var i =1; i < 7; i++){
 				var optionDay = $("<option>");
 				optionDay.val(i);
 				optionDay.html(arrDay[i]);
 				selectDay.append(optionDay);
 			}
+			var optionDay0 = $("<option>");
+			optionDay0.val(0);
+			optionDay0.html(arrDay[0]);
+			selectDay.append(optionDay0);
 			
-			var labelStart  = $("<label>");
-			labelStart.html("시작시간");
-			labelStart.addClass("mid");
-
-			var labelEnd  = $("<label>");
-			labelEnd.html("종료시간");
-			labelEnd.addClass("mid");
 			
-			var selectStartTime = $("<select>");
-			selectStartTime.attr("name", "ttStarttime_hh");
-			
-			var selectEndTime = $("<select>");
-			selectEndTime.attr("name", "ttEndtime_hh");
-			
+			var selectStartTime = $("<select class='form-control' name='ttStarttime_hh'>");
+			var selectEndTime =$("<select class='form-control' name='ttEndtime_hh'>");			
 			
 			
 			for(var i = 09; i < 23; i++){
@@ -203,6 +264,8 @@
 					}else{
 						optionTime +=  " value=" +i+"> 오전 "+i+"시</option>";
 					}
+				}else if( i == 12){
+					optionTime +=  " value=" +i+"> 오후 "+i+"시</option>";
 				}else{
 					if( (i-12) < 10){
 						optionTime +=  " value=" +i+"> 오후 0"+(i-12)+"시</option>";
@@ -215,10 +278,8 @@
 			}
 			
 			
-			var selectStartMinute = $("<select>");
-			selectStartMinute.attr("name", "ttStarttime_MM");
-			var selectEndMinute = $("<select name='ttEndtime_MM'>");
-			selectEndMinute.attr("name", "ttEndtime_MM");
+			var selectStartMinute = $("<select class='form-control' name='ttStarttime_MM'>");
+			var selectEndMinute = $("<select class='form-control' name='ttEndtime_MM'>");
 			
 			
 			for(var j =0; j < 6; j++){
@@ -231,27 +292,38 @@
 				selectEndMinute.append(optionMinute);
 			}
 			
+			var labelTag = "<label class='control-label' style='text-align : center'> ~ </label>";
 			
-			pTag.append(labelDay);
-			pTag.append(selectDay);
+			var tdSelectDay = $("<td class='col-sm-2'>");
+			tdSelectDay.append(selectDay);
+			trTag.append(tdSelectDay);
 			
-			pTag.append(labelStart);
-			pTag.append(selectStartTime);
-			pTag.append(selectStartMinute);
+			var tdselectStartTime = $("<td class='col-sm-2'>");
+			tdselectStartTime.append(selectStartTime);
+			trTag.append(tdselectStartTime);
 			
-
-			pTag.append(labelEnd);
-			pTag.append(selectEndTime);
-			pTag.append(selectEndMinute);
+			var tdselectStartMinute = $("<td class='col-sm-2'>");
+			tdselectStartMinute.append(selectStartMinute);
+			trTag.append(tdselectStartMinute);
 			
-			return pTag;
+			
+			trTag.append("<td class='col-sm-1'>" +labelTag + "</td>");
+			
+			var tdselectEndTime = $("<td class='col-sm-2'>");
+			tdselectEndTime.append(selectEndTime);
+			trTag.append(tdselectEndTime);
+			
+			
+			var tdselectEndMinute = $("<td class='col-sm-2'>");
+			tdselectEndMinute.append(selectEndMinute);
+			trTag.append(tdselectEndMinute);
+			
+			
+			return trTag;
 		}
 	
 		$("#addTimetable").click(function() {
-			$("#courseTime").append("<br>");
-			$("#courseTime").append(addCourseTime);
-		});
+			$("#courseTime").append(addCourseTime());
+			
+		}); 
 	</script>
-	
-	
-<%@ include file="../include/footer.jsp"%>	

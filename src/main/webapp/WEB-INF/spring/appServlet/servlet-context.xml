@@ -26,7 +26,7 @@
 	</beans:bean>
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="c:/zzz/upload"></beans:constructor-arg>
+		<beans:constructor-arg value="c:/edu_mng/upload"></beans:constructor-arg>
 	</beans:bean>
 	
 	

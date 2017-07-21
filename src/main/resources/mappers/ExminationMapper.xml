@@ -43,6 +43,7 @@
 		(#{sId}, #{course.cNo}, #{examItem.eiNo}, #{eResult}, #{eMemo})
 	</insert>
 	
+	
 	<update id="updateExamination">
 		UPDATE Examination
 			<set>

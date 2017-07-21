@@ -19,7 +19,7 @@
       <li class="divider"></li>
                         
       <li>
-         <a class="text-center" href="#">
+         <a class="text-center" href="${pageContext.request.contextPath}/message/listMsg">
 	         <strong>Read All Messages</strong>
 	         <i class="fa fa-angle-right"></i>
          </a>

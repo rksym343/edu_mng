@@ -13,14 +13,24 @@
 		<result property="cStartdate" column="c_startdate"/>
 		<result property="cEnddate" column="c_enddate"/>
 		<result property="classroom" column="classroom"/>
-		<result property="cContent" column="c_content"/>
-		<result property="cPicture" column="c_picture"/>
 		<result property="isCanceled" column="is_canceled"/>
 		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
-		<association property="subject" resultMap="com.dgit.mapper.SubjectMapper.SubjectResult"/>
+		<association property="subject" resultMap="com.dgit.mapper.SubjectMapper.SubjectResult"/>		
 		<association property="studentGrade" resultMap="com.dgit.mapper.StudentGradeMapper.StudentGradeResult"/>
+		<association property="content" resultMap="com.dgit.mapper.CourseMapper.CourseDetailResult"/>
+		<collection property="pictures" resultMap="com.dgit.mapper.CourseMapper.CourseImageResult"/>
 		<collection property="timetables" resultMap="com.dgit.mapper.TimetableMapper.TimetableReslutWithCourse"/>
 		<collection property="courseRegisters" resultMap="com.dgit.mapper.CourseRegisterMapper.CourseRegisterResult"/>
+	</resultMap>
+	
+	<resultMap type="CourseImage" id="CourseImageResult">
+		<id property="cPicture" column="c_picture"/>
+		<result property="cNo" column="c_no"/>
+	</resultMap>
+	
+	<resultMap type="CourseDetail" id="CourseDetailResult">
+		<id property="cNo" column="c_no"/>
+		<result property="cContent" column="c_content"/>
 	</resultMap>
 	
 	<sql id="selectCoursesByCri">
@@ -35,8 +45,19 @@
 		inner join subject s on c.sb_no = s.sb_no
 		inner join teacher t on c.t_id = t.t_id
 		inner join student_grade sg on c.gd_no = sg.gd_no
-		inner join timetable ttt on ttt.c_no = c.c_no
+		left outer join timetable ttt on ttt.c_no = c.c_no
 	</sql>
+	
+	<sql id="selectCourseDetail">
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.*, cd.c_content, ci.c_picture FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		left outer join course_detail cd on cd.c_no = c.c_no
+		left outer join course_image ci on ci.c_no = c.c_no
+		left outer join timetable ttt on ttt.c_no = c.c_no
+	</sql>
+	
 	<sql id="whereCoursesByCri">
 		<where>
 			<if test="course != null">
@@ -60,10 +81,42 @@
 
 	<insert id="insertCourse" parameterType="Course">
 		INSERT INTO course 
-		(t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, c_content, c_picture, sb_no, gd_no, is_canceled)
+		(t_id, c_name, tuition, capacity, c_startdate, c_enddate, classroom, sb_no, gd_no, is_canceled)
 		VALUES(#{teacher.tId}, #{cName}, #{tuition}, #{capacity}, #{cStartdate}, #{cEnddate}, 
-				#{classroom}, #{cContent}, #{cPicture}, #{subject.sbNo}, #{studentGrade.gdNo}, 0)
+				#{classroom}, #{subject.sbNo}, #{studentGrade.gdNo}, 0)
 	</insert>
+	
+	<insert id="insertCourseDetail" parameterType="CourseDetail">
+		INSERT INTO course_detail (c_no, c_content) VALUES(#{cNo}, #{cContent})
+	</insert>
+	<insert id="insertCourseImage" parameterType="CourseImage">
+		INSERT INTO course_image (c_picture, c_no) VALUES(#{cPicture}, #{cNo})
+	</insert>
+	
+	<update id="updateCourseDetail" parameterType="CourseDetail">
+		UPDATE course_detail SET c_content=#{cContent} WHERE c_no=#{cNo}
+	</update>
+	
+	<delete id="deleteCourseDetail">
+		DELETE FROM course_detail WHERE c_no=#{cNo}
+	</delete>
+	<delete id="deleteCourseImage" >
+		DELETE FROM  course_image WHERE c_picture=#{cPicture}
+	</delete>
+	<delete id="deleteCourseImageByCno" >
+		DELETE FROM  course_image WHERE c_no=#{cNo}
+	</delete>
+	
+	<select id="selectOneCourseImage" resultMap="CourseImageResult">
+		SELECT c_picture, c_no FROM course_image WHERE c_picture=#{cPicture}
+	</select>
+	<select id="selectListCourseImage" resultMap="CourseImageResult">
+		SELECT c_picture, c_no FROM course_image WHERE c_no=#{cNo}
+	</select>
+	
+	<select id="selectOneCourseDetial" resultMap="CourseDetailResult">
+		SELECT c_no, c_content FROM course_detail WHERE c_no=#{cNo}
+	</select>
 	
 	<update id="updateCourse" parameterType="Course">
 		UPDATE course
@@ -89,9 +142,6 @@
 			<if test="classroom != null">
 				classroom=#{classroom},
 			</if>
-			<if test="cContent != null">
-				c_content=#{cContent},
-			</if>
 			<if test="subject != null">
 				sb_no=#{subject.sbNo},
 			</if>
@@ -107,15 +157,12 @@
 	</delete>
 	
 	<select id="selectOneCourse"  resultMap="CourseResult">
-		<include refid="selectCourse"/>
+		<include refid="selectCourseDetail"/>
 		WHERE c.c_no=#{cNo}
 	</select>
 	
 	<select id="selectAllCourse" resultMap="CourseResult">
-		SELECT c.*, t.t_name, sg.gd_name, s.sb_name FROM course c 
-		inner join subject s on c.sb_no = s.sb_no
-		inner join teacher t on c.t_id = t.t_id
-		inner join student_grade sg on c.gd_no = sg.gd_no
+		<include refid="selectCourse"/>
 		WHERE is_canceled=0
 	</select>
 	

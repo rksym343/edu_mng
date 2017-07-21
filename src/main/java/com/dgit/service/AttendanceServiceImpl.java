@@ -68,10 +68,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 	}
 
 	@Override
-	public int selectCntByAttendanceType(String sId, String searchType) throws Exception {
+	public int selectCntByAttendanceType(String sId, String searchType, String month) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchType", searchType);
 		map.put("sId", sId);
+		if(month.trim().equals("")){
+			map.put("month", month);
+		}
 		return dao.selectCntByAttendanceType(map);
 	}
 

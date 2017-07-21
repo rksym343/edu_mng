@@ -93,17 +93,19 @@ public class AttendanceController {
 		return entity;
 	}
 	
-	@RequestMapping(value="/viewChart/{sId}", method=RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> viewAttendanceChartBySId(@PathVariable("sId") String sId) throws Exception{
+	@RequestMapping(value="/viewAttendanceChart/{sId}/{year}/{month}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> viewAttendanceChartBySId(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
 		logger.info("==================viewStudentExam GET================");
 		ResponseEntity<Map<String, Object>> entity = null;
 		Map<String, Object> map = new HashMap<>();
+		String yearMonth = String.format("%04d-%02d", year, month);
 		try{
-			map.put("결석", attendanceService.selectCntByAttendanceType(sId, "a"));
-			map.put("등원", attendanceService.selectCntByAttendanceType(sId, "n"));
-			map.put("지각", attendanceService.selectCntByAttendanceType(sId, "e"));
-			map.put("조퇴", attendanceService.selectCntByAttendanceType(sId, "l"));
-			map.put("지각&조퇴", attendanceService.selectCntByAttendanceType(sId, "el"));
+			map.put("결석", attendanceService.selectCntByAttendanceType(sId, "a", yearMonth));
+			map.put("등원", attendanceService.selectCntByAttendanceType(sId, "n", yearMonth));
+			map.put("지각", attendanceService.selectCntByAttendanceType(sId, "e", yearMonth));
+			map.put("조퇴", attendanceService.selectCntByAttendanceType(sId, "l", yearMonth));
+			map.put("지각&조퇴", attendanceService.selectCntByAttendanceType(sId, "el", yearMonth));
 			entity = new ResponseEntity<>(map, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);

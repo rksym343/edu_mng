@@ -44,7 +44,7 @@
  			<div class="col-lg-12">
 		         <label>수업</label>
 		         <select class="form-control" name="cNo">
-		         	<option value="0">---------</option>
+		         	<option value="0">전체보기</option>
 		         	<c:forEach items="${courseList }" var="course">
 		         		<option value="${course.cNo }">${course.cName }</option>
 		         	</c:forEach>

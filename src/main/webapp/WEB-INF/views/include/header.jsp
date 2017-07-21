@@ -96,6 +96,10 @@
 	<%@ include file="teacherSidebar.jsp"%>
 </c:if>
 
+<script>
+
+	var arrDay = ["일", "월", "화", "수", "목", "금", "토"];
+</script>
 
 
 <%@ include file="contentDiv.jsp"%>

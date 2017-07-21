@@ -2,6 +2,9 @@
  		<div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
+                   		<li>
+                            ---------------학생-------------
+                        </li>
                     
                         <li>
                             <a href="${pageContext.request.contextPath}/attend/myAttendance">출석기록</a>
@@ -18,6 +21,19 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/message/listMsg">내가 받은 메세지</a>
                         </li>
+                         <li>
+                            <a href="${pageContext.request.contextPath}/course/registerCourses">수강신청하기</a>
+                        </li>
+                        
+                        <li>
+                            ---------------선생님--------------
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/course/insertCourse">강의 개설하기</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/course/listCourses">개설된 강좌</a>
+                        </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/message/listMySendMsg">내가 보낸 메세지</a>
                         </li>
@@ -27,16 +43,14 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/message/writeMsg">메세지 작성하기</a>
                         </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/exam/viewChart">차트예제</a>
-                        </li>
-                        <li>
+                         <li>
                             ---------------------------------
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/course/registerCourses">수강신청하기</a>
+                            <a href="${pageContext.request.contextPath}/exam/viewChart">차트예제</a>
                         </li>
-                        
+                       
+                       
                         
                     </ul>
                 </div>

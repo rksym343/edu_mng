@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<h1>~~~~~~~~~FOOTER~~~~~~~~~</h1>
+
 
 					</div>
                 <!-- /.row -->
@@ -35,13 +35,16 @@
 	<script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
    
     <!-- my Message -->
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 	<%@ include file="myMsg.jsp"%>
-	<script type="text/javascript">
 	
-<!--
-
-//-->
-</script>
-    
+	<script>
+	$(function() {
+		$(".ttDay").each(function(idx, obj) {
+			$(obj).html(arrDay[$(obj).html()]);
+		})		
+	})
+	</script>
+	
 </body>
 </html>
