@@ -31,6 +31,12 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
+	@RequestMapping(value="/registerMember", method=RequestMethod.GET)
+	public void getRegisterMember(Model model) throws Exception{
+		
+	}
+	
+	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public void getLogin(Model model) throws Exception{
 		

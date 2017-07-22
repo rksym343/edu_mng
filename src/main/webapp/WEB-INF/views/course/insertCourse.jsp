@@ -47,8 +47,16 @@
 		
 		<div class="row">
 		<div class="form-group">
+			<label class="col-sm-1 control-label" for="gdNo">담당선생님</label>
+		    <div class="col-sm-2">
+		    	<select id="gdNo" name="gdNo"  class="form-control">
+					<c:forEach items="${TeacherList }" var="teacher">
+						<option value="${teacher.tId }">${teacher.tName }</option>
+					</c:forEach>
+				</select>
+		    </div>
 		    <label class="col-sm-1 control-label" for="cName">수업명</label>
-		    <div class="col-sm-11">
+		    <div class="col-sm-8">
 		    	<input class="form-control" type="text" id="cName" name="cName" placeholder="수업명">
 		    </div>
 		</div>
@@ -195,7 +203,7 @@
 		<div class="form-group">
 			<label  class="col-sm-1 control-label" for="classroom">교실</label>
 			<div class="col-sm-11">
-			<input class="form-control" type="text" id="classroom" name="classroom">
+			<input class="form-control" type="text" id="classroom" name="classroom" placeholder="교실">
 			</div>
 		</div>
 		</div>
@@ -204,7 +212,7 @@
 		<div class="form-group">
 			<label class="col-sm-1 control-label"  for="cContent">수업설명</label>
 			<div class="col-sm-11">
-			<textarea class="form-control" rows="10" cols="50" id="cContent" name="cContent"></textarea>
+			<textarea class="form-control" rows="10" cols="50" id="cContent" name="cContent" placeholder="수업에 대한 상세설명을 입력해주세요."></textarea>
 			</div>
 		</div>
 		</div>	

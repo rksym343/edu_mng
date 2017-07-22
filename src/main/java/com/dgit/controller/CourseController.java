@@ -40,6 +40,7 @@ import com.dgit.service.CourseRegisterService;
 import com.dgit.service.CourseService;
 import com.dgit.service.StudentGradeService;
 import com.dgit.service.SubjectService;
+import com.dgit.service.TeacherService;
 import com.dgit.service.TimetableService;
 import com.dgit.util.MediaUtils;
 import com.dgit.util.UploadFileUtils;
@@ -66,6 +67,9 @@ public class CourseController {
 	@Autowired
 	private CartCourseService cartCourseService;
 	
+	@Autowired
+	private TeacherService teacherService;
+	
 	@Resource(name = "uploadPath") // bean의 id 이름
 	String uploadPath;
 	
@@ -85,6 +89,7 @@ public class CourseController {
 			// 이미지 종류별로 형식이 다르다. byte 배열순이 다름...
 			// BMP는 565... jpg는 다르게...
 			// >>>>>>>>>> 이미지타입을 알려줘야 한다
+			//filename = filename.substring(0,filename.indexOf("s_"))+filename.substring(filename.indexOf("s_")+2);
 			String formatName = filename.substring(filename.lastIndexOf(".") + 1);
 			MediaType mType = MediaUtils.getMediaType(formatName);
 			HttpHeaders header = new HttpHeaders();
@@ -110,6 +115,7 @@ public class CourseController {
 	public void getInsertCourse(Model model) throws Exception{
 		model.addAttribute("studentGradeList", studentGradeService.selectAllStudentGrade()); // 전체학년
 		model.addAttribute("subjectList", subjectService.selectAllSubject()); // 전체교과
+		model.addAttribute("TeacherList", teacherService.selectAllTeacher()); // 선생님이름
 	}
 	
 	@RequestMapping(value="/insertCourse", method=RequestMethod.POST)
@@ -189,6 +195,18 @@ public class CourseController {
 		logger.info(course.toString());
 		logger.info("==========img List =========== : " + course.getPictures().size());
 		// 생성되는데 이미지 null일 경우 어찌할 것인가
+		model.addAttribute("course", course);
+	}
+	
+	@RequestMapping(value="/updateCourse", method=RequestMethod.GET)
+	public void getUpdateCourse(int cNo, Model model) throws Exception{
+		logger.info("======================== readCourse POST ========================");
+		Course course = courseService.selectOneCourse(cNo);
+		logger.info(course.toString());
+		// 생성되는데 이미지 null일 경우 어찌할 것인가
+		model.addAttribute("studentGradeList", studentGradeService.selectAllStudentGrade()); // 전체학년
+		model.addAttribute("subjectList", subjectService.selectAllSubject()); // 전체교과
+		model.addAttribute("TeacherList", teacherService.selectAllTeacher()); // 선생님이름
 		model.addAttribute("course", course);
 	}
 	

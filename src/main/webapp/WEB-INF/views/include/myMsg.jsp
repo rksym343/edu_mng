@@ -4,13 +4,13 @@
 		{{#each.}}
 			<li>
          		<a href="#">
-           		<div {{textColorChg isChecked}}>
- 	            	<strong>{{msgTitle msgContent cNo}}</strong>
+           		<div>
+ 	            	<strong> <span class='{{isCh isChecked}}'</span> {{msgTitle msgContent cNo}}</strong>
                     <span class="pull-right text-muted">
                     <em>{{tempdate regDate}}</em>
                     </span>
              	</div>
-                <div {{textColorChg isChecked}}>{{msgContent msgContent}}</div>
+                <div>{{msgContent msgContent}}</div>
           </a>          
       </li>
       
@@ -24,9 +24,11 @@
 	var id="sss01";
 	var isCheckedCnt = 0;
 	
-	Handlebars.registerHelper("textColorChg", function(isChecked) {
+	Handlebars.registerHelper("isCh", function(isChecked) {
 		if (isChecked == 0){
-			return "class='text-muted'";
+			return "fa   fa-bell ";
+		}else{
+			//return "fa  fa-check-square-o";
 		}		
 	});
 	

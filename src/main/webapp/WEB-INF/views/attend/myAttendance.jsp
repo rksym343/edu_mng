@@ -21,12 +21,15 @@
 			font-size: 14px;
 			border-top: none;
 		}
+		.view-empty-chart{
+			line-height: 
+		}
 	</style>
                     
 	
 	 <div class="row">
 				<div class="col-lg-8">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" >
                         <div class="panel-heading" style="text-align: center">
                            <a id="prevMonth" href="#"><span class="fa fa-angle-left"></span></a>
                            		 <b> <span class="mYear">${curYear }</span>년 <span class="mMonth">${curMonth }</span>월  </b> 
@@ -68,40 +71,7 @@
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-6 -->
-                
-                <%-- <div class="col-lg-2">
-                    <div class="panel panel-default">
-                    
-                       <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <tbody>
-                                    <c:forEach items="${statusList }" var="status" varStatus="index">
-                                    	 <c:if test="${!index.last }">
-	                                    	<tr>
-	                                    		<td class="viewColor col-lg-1"></td>
-	                                            <td class="col-lg-1">${status.asStatus }</td>
-	                                    	</tr>
-                                    	 </c:if>
-                                    	 <c:if test="${index.last }">
-                                    	 	<tr>
-	                                    		<td class="viewColor col-lg-1"></td>
-	                                            <td class="col-lg-1">지각&조퇴</td>
-	                                    	</tr>
-                                    	 </c:if>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                                
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body --> 
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 --> --%>
+                <!-- /.col-lg-8 -->
                 
                 <div class="col-lg-4">
                  	<div id="donut-attendance-chart"></div>
@@ -124,11 +94,25 @@
 		var month = today.getMonth();
 		
 		
-    	 var arrColor = ["default","danger","info","warning","success","active"];
+    	var arrColor = ["default","danger","info","warning","success","active"];/* 
+    	var arrChartKey = ["지각&조퇴", "결석","지각","등원","조퇴"];
+    	var arrChartColor = ["#dddddd", "#EC407A","#E5D85C","#2196F3","#8BC34A"]; */
     	 
+    	 $(function() {	 
+    		
+	    	 newCalendarInfo();
+	         $(".viewColor").each(function(i, obj) {
+	        	  // 색깔 안내판
+					$(this).addClass(arrColor[i+1]);
+			 });
+	     });
     	 
-    	
-    	 
+    	 function newCalendarInfo(){
+  		   changeCalTitle();
+  		   $(".view-my-calendar").html(makeMyCalendar(year, month));
+  		   getMyRecords();
+  		   attendanceData();
+  	   }
     	 
     	 Handlebars.registerHelper("tempdate", function(time) {
     		 // date형식 변환하여 date만 가져오기
@@ -136,23 +120,6 @@
  			var date = dateObj.getDate();
  			return date;
  		});	
-    	 
-    	 
-    	 
-	     $(function() {	 
-	    	 newCalendarInfo();
-	         $(".viewColor").each(function(i, obj) {
-	        	  // 색깔 안내판
-					$(this).addClass(arrColor[i+1]);
-			 });
-	         attendanceData();
-	         /* 
-	         Morris.Donut({
-		   		  element: 'donut-attendance-chart',
-	 	   		  data: $.parseJSON( attendanceData()),
-	 	   		 colors: ["#EC407A","#2196F3","#8BC34A","#AB47BC", "#dddddd"],
-	 	   	}); */
-	     });
 
 	     $("#prevMonth").click(function(e) {
 	      	e.preventDefault();
@@ -176,21 +143,15 @@
 	          newCalendarInfo();
 	      });
 	   
-	   function newCalendarInfo(){
-		   changeCalTitle();
-		   $(".view-my-calendar").html(makeMyCalendar(year, month));
-		   getMyRecords();
-		   attendanceData();
-	   }
+	   
 	     
 	     function getMyRecords() {
 				$.ajax({
-					
 					url: "${pageContext.request.contextPath}/attend/myAttendanceRecord/"+sId+"/"+year+"/"+(month+1),
 					type : "get",
 					dataType: "json",
 					success:function(data){
-						console.log(data);
+		                                  				console.log(data);
 						var myCal = $(".my-cal");
 						for(var i = 0; i < data.length ; i++){
 							var theDate = new Date(data[i].theTime).getDate();
@@ -224,7 +185,6 @@
 			} 
 	     
 	     function attendanceData(){
-	 		var sId= "sss01";
 	 		var arr =[];
 	 		$.ajax({
 	 			//viewAttendanceChart/{sId}/{year}/{month}
@@ -232,30 +192,41 @@
 	 			type : "get",
 	 			dataType: "json",
 	 			success:function(v){
-	 				console.log("size: "+v.len);
 	 				console.log('Size of object: '+ Object.keys(v).length);
 	 				console.log('KEYS: '+ Object.keys(v));
 	 				
 	 				var size = Object.keys(v).length;
+
+	 				console.log("size: "+size);
 	 				
 	 				var idx = 0;
-	 				$.each(v, function(key, value) {
-	 					if(idx != size){
-	 						console.log(key + " : " + value);
-	 						arr[idx] = {
-	 								label: key,
-	 								value: value
-	 							}
+	 				$.each(v, function(key, val) {
+	 					console.log(key + " : " + val);
+	 					if(val != 0){
+	 						console.log("===저장 : "+key + " : "  + val);
+		 					arr[idx] = {
+		 						label: key,
+		 						value: val
+		 						}
 	 						idx++;
-	 						
 	 					}
 	 				});
-	 				showGraph(arr);
+	 				$("#donut-attendance-chart").css("height", $(".view-my-calendar").parent().parent().css("height"));
+	 				$("#donut-attendance-chart").css("text-align","center");
+	 				console.log("arr.length : " + arr.length);
+	 				for(var k  = 0; k <arr.length; k++){
+	 					console.log("arr["+k+"] : " + arr[k]);
+	 				}
+	 				if(arr.length > 0){
+	 					
+	 					showGraph(arr);
+	 				}else{
+	 					$("#donut-attendance-chart").html("<p>데이터없음</p>");
+	 					$("#donut-attendance-chart").find("p").css("line-height",$("#donut-attendance-chart").css("height"));
+	 					$("#donut-attendance-chart").find("p").addClass("text-muted")
+	 				}
 	 			}
 	 		});
-	 		
-	 		
-	 		return arr;
 	 	}
 	     
 	     function showGraph(myData){

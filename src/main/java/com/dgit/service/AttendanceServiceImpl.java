@@ -72,7 +72,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchType", searchType);
 		map.put("sId", sId);
-		if(month.trim().equals("")){
+		if(!month.trim().equals("")){
 			map.put("month", month);
 		}
 		return dao.selectCntByAttendanceType(map);

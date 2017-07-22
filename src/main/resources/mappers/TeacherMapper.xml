@@ -54,11 +54,11 @@
 		DELETE FROM  teacher WHERE t_id=#{tId}
 	</delete>
 	
-	<select id="selectAllTeacher">
+	<select id="selectAllTeacher" resultMap="TeacherResult">
 		<include refid="selectSql"/>
 	</select>
 	
-	<select id="selectOneTeacher">
+	<select id="selectOneTeacher" resultMap="TeacherResult">
 		<include refid="selectSql"/>
 		 WHERE tt.t_id=#{tId}
 	</select>

@@ -6,18 +6,23 @@
 	</div>
 </div> <!-- div row -->
 
-
+			
 			<div class="row">
                   <div class="panel panel-default">
                  	<div class="panel-heading">
-                         <h4>${course.cName }</h4>
+                         <h4>${course.cName } 
+                         	<span class="text-right">
+                         		<button class="btn btn-default">
+                         			<a href="updateCourse?cNo=${course.cNo }">
+                         			수정</a></button>
+                         	</span></h4>
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table">
                                         <tr>
                                             <th>담당선생님</th>
-                                            <td>${course.teacher.tName}</td>
+                                            <td class="form-control-static">${course.teacher.tName}</td>
                                         </tr>
                                         <tr>
                                             <th>해당학년</th>
@@ -29,7 +34,7 @@
                                         </tr>
                                         <tr>    
                                             <th>수강료</th>
-                                            <td>${course.tuition}</td>
+                                            <td  class="form-control-static">${course.tuition}</td>
                                         </tr>
                                         <tr>    
                                             <th>수강인원</th>
@@ -67,7 +72,9 @@
                                             <td>
 	                                            <ul>
 				                                    <c:forEach items="${course.pictures}" var="pic">
-				                                         <li><img src="displayFile?filename=${pic.cPicture }"></li>
+				                                    	<c:if test="${!empty pic.cPicture }">
+				                                         	<li><img src="displayFile?filename=${pic.cPicture }"></li>
+				                                         </c:if>
 				                                    </c:forEach>
 	                                            	
 	                                       		</ul>
