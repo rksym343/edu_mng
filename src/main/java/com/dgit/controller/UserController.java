@@ -48,6 +48,26 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
+	@RequestMapping(value="/readTeacherInfo", method=RequestMethod.GET)
+	public void readTeacherInfo(Model model) throws Exception{
+		String tId = "ttt01";
+		model.addAttribute("teacher",teacherService.selectOneTeacher(tId));
+	}
+	
+	@RequestMapping(value="/readParentsInfo", method=RequestMethod.GET)
+	public void readParentsInfo(Model model) throws Exception{
+		String spId = "mmm01";
+		Parents parents = parentsService.selectOneParents(spId);
+		model.addAttribute("parents", parents);
+		model.addAttribute("student",studentService.selectOneStudent(parents.getsId()));
+	}
+	
+	@RequestMapping(value="/readStudentInfo", method=RequestMethod.GET)
+	public void readStudentInfo(Model model) throws Exception{
+		String sId = "sss01";
+		model.addAttribute("student",studentService.selectOneStudent(sId));
+	}
+	
 	@RequestMapping(value="/registerMember", method=RequestMethod.GET)
 	public void getRegisterMember(Model model) throws Exception{
 		

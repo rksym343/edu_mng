@@ -21,7 +21,7 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/message/listMsg">내가 받은 메세지</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="${pageContext.request.contextPath}/course/registerCourses">수강신청하기</a>
                         </li>
                         
@@ -51,6 +51,15 @@
                         </li>
                         <li>
                             ---------------------------------
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/user/readStudentInfo">학생 회원정보</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/user/readParentsInfo">학부모 회원정보</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/user/readTeacherInfo">선생님 회원정보</a>
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/exam/viewChart">차트예제</a>

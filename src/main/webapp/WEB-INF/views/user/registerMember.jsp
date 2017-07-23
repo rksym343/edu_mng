@@ -24,7 +24,11 @@
 	}
 	
 	.input-group{
-		margin : 10px auto;
+		margin : 30px auto;
+	}
+	
+	.form-group{
+		padding : 20px;
 	}
 	 
 </style>
@@ -172,7 +176,7 @@
 					</div>
 					
 					<div class="form-group" style="text-align:center">
-					    <button type="button" id="btnJoin" class="btn btn-primary">가입</button>	
+					    <button type="button" id="btnJoin" class="btn btn-primary  btn-lg">가입</button>	
 					</div>
 					
 				</form>
