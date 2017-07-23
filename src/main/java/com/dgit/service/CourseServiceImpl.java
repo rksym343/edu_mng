@@ -24,7 +24,7 @@ public class CourseServiceImpl implements CourseService{
 	
 	@Override
 	@Transactional
-	public void insertCourse(Course course, Timetable[] timetables) throws Exception {
+	public void insertCourse(Course course) throws Exception {
 		dao.insertCourse(course);
 		System.out.println("-------------------------insertCourse----------------------");
 		
@@ -43,7 +43,7 @@ public class CourseServiceImpl implements CourseService{
 			courseDetail.setcNo(cNo);
 			dao.insertCourseDetail(courseDetail);
 		}
-		for(Timetable ttt : timetables){
+		for(Timetable ttt : course.getTimetables()){
 			ttt.setCourse(course);
 			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
 			timetableDao.insertTimetable(ttt);
@@ -51,24 +51,43 @@ public class CourseServiceImpl implements CourseService{
 	}
 
 	@Override
-	public void updateCourse(Course course) throws Exception {
+	@Transactional
+	public void updateCourse(Course course, String[] delPics) throws Exception {
 		dao.updateCourse(course);
+
+		timetableDao.deleteTimetableBbyCno(course.getcNo());
+		for(Timetable ttt : course.getTimetables()){
+			ttt.setCourse(course);
+			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
+			timetableDao.insertTimetable(ttt);
+		}	
+		
 		if(course.getContent() != null){
 			dao.updateCourseDetail(course.getContent());
 		}
+		
 		if(course.getPictures().size() != 0){
-			dao.deleteCourseImageByCno(course.getcNo());
 			for(CourseImage img : course.getPictures()){
+				img.setcNo(course.getcNo());
 				dao.insertCourseImage(img);
 			}
 		}
+		
+		if(delPics != null && delPics.length != 0){
+			for(String imgAddr : delPics){
+				dao.deleteCourseImage(imgAddr);
+			}
+		}
+		
 	}
 
 	@Override
+	@Transactional
 	public void deleteCourse(int cNo) throws Exception {
 		dao.deleteCourse(cNo);
-		//dao.deleteCourseDetail(cNo);
-		//dao.deleteCourseImageByCno(cNo);
+		dao.deleteCourseDetail(cNo);
+		dao.deleteCourseImageByCno(cNo);
+		timetableDao.deleteTimetableBbyCno(cNo);
 	}
 
 	@Override

@@ -10,8 +10,11 @@
 		<result property="sId" column="s_id"/>
 		<result property="eResult" column="e_result"/>
 		<result property="eMemo" column="e_memo"/>
+		<result property="eDate" column="e_date"/>
 		<association property="examItem"
 			resultMap="com.dgit.mapper.ExamItemMapper.ExamItemResult" />
+		<association property="subject"
+			resultMap="com.dgit.mapper.SubjectMapper.SubjectResult" />
 		<association property="course"
 			resultMap="com.dgit.mapper.CourseMapper.CourseResult" />	
 	</resultMap>
@@ -19,7 +22,8 @@
 	<sql id="selectSql">
 		SELECT e.*, ei.ei_title, c.c_name FROM examination e
 		inner join exam_item ei on e.ei_no = ei.ei_no
-		inner join course c on c.c_no = e.c_no
+		inner join subject sb on sb.sb_no = e.sb_no
+		left outer join course c on c.c_no = e.c_no
 	</sql>
 	<sql id="whereSql">
 		<where>
@@ -29,8 +33,11 @@
 			<if test="examItem != null">
 				and e.ei_no = #{examItem.eiNo}
 			</if>
+			<if test="subject != null">
+				and e.sb_no = #{subject.sbNo} and e.ei_no &lt; 5
+			</if>
 			<if test="course != null">
-				and e.c_no = #{course.cNo}
+				and e.c_no = #{course.cNo} and e.ei_no &gt; 4
 			</if> 
 			<if test="eNo != 0">
 				and e.e_no =#{eNo}
@@ -39,8 +46,8 @@
 	</sql>
 
 	<insert id="insertExamination">
-		INSERT INTO examination (s_id, c_no, ei_no, e_result, e_memo) VALUES 
-		(#{sId}, #{course.cNo}, #{examItem.eiNo}, #{eResult}, #{eMemo})
+		INSERT INTO examination (s_id, c_no, ei_no, sb_no, e_result, e_memo, e_date) VALUES 
+		(#{sId}, #{course.cNo}, #{examItem.eiNo}, #{subject.sbNo}, #{eResult}, #{eMemo}, now())
 	</insert>
 	
 	
@@ -54,7 +61,10 @@
 					c_no=#{course.cNo},
 				</if>
 				<if test="examItem != null">
-					ei_no= #{eiNo},
+					ei_no= #{examItem.eiNo},
+				</if>
+				<if test="subject != null">
+					sb_no= #{subject.sbNo},
 				</if>
 				<if test="eResult != null">
 					e_result=#{eResult},

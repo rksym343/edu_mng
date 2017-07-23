@@ -3,6 +3,8 @@ package com.dgit.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Course {
 
 	private int cNo;
@@ -12,8 +14,13 @@ public class Course {
 	private StudentGrade studentGrade;
 	private int tuition;
 	private int capacity;
-	private Date cStartdate; //@DateTimeFormat(pattern="yyyy-MM-dd")
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date cStartdate; 
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date cEnddate;
+	
 	private String classroom;
 	private CourseDetail content;
 	private List<CourseImage> pictures;

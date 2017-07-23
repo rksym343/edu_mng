@@ -50,6 +50,10 @@
 	<delete id="deleteTimetable" parameterType="Timetable">
 		DELETE FROM  timetable WHERE c_no=#{course.cNo} AND tt_day=#{ttDay} AND tt_starttime=#{ttStarttime} AND tt_endtime=#{ttEndtime}
 	</delete>
+	
+	<delete id="deleteTimetableBbyCno">
+		DELETE FROM  timetable WHERE c_no=#{cNo}
+	</delete>
 
 	<select id="selectAllTimetable" resultMap="TimetableReslutWithCourse">
 		<include refid="selectSqlOnlyTimeTable" />

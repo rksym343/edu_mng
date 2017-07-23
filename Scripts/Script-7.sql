@@ -22,6 +22,11 @@ INSERT INTO edu_manager.attendance_status (as_no, as_status) values
 INSERT INTO edu_manager.exam_item (ei_no, ei_title) values 
 (1, '1학기 중간'), (2, '1학기 기말'), (3, '2학기 중간'), (4, '2학기 기말'), (5, '단원테스트'), (6, '중간테스트');
 
+
+INSERT INTO edu_manager.examination ( s_id, c_no, ei_no, e_result, e_memo, sb_no, e_date) values
+('sss01', 2, 5, 60, '', 1, '2017-07-10');
+
+
 INSERT INTO edu_manager.student
 (s_id, s_password, s_name, s_phone, tm_no, school, gd_no, join_date) values 
 ('sss01', 'sss01', '나학생', '010-111-1111', 1, '가가중학교', 7, CURRENT_TIMESTAMP),
@@ -81,10 +86,10 @@ INSERT INTO edu_manager.timetable (c_no, tt_day, tt_starttime, tt_endtime, tt_ve
 
 
 
-INSERT INTO edu_manager.examination (s_id, c_no, ei_no, e_result, e_memo) values 
+INSERT INTO edu_manager.examination (s_id, c_no, ei_no, e_result, e_memo, e_date) values 
 ('sss01', 2, 2, 90, ''),
-('sss01', 2, 6, 70, '~~~에 대한 복습이 필요합니다'),
-('sss01', 2, 6, 80, '핵심키워드에 대한 공부가 필요합니다'),
+('sss01', 2, 6, 70, '~~~에 대한 복습이 필요합니다', '2017-06-30'),
+('sss01', 2, 6, 80, '핵심키워드에 대한 공부가 필요합니다',  '2017-07-05'),
 ('sss01', 3, 2, 90, '');
 
 INSERT INTO edu_manager.parents
@@ -156,3 +161,17 @@ Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id WHERE a.s_id = 's
 
 SELECT s.*, tm.*, sg.* FROM student s inner join transfer_method tm on s.tm_no = tm.tm_no inner 
 join student_grade sg on s.gd_no = sg.gd_no WHERE s_id='sss01' ;
+
+
+SELECT e.*, ei.ei_title, c.c_name FROM examination e inner join exam_item ei on e.ei_no = ei.ei_no 
+inner join subject sb on sb.sb_no = e.sb_no left outer join course c on c.c_no = e.c_no WHERE e.s_id 
+= 'sss01' and e.c_no = 2 and e.ei_no > 4;
+
+
+SELECT e.*, ei.ei_title, c.c_name FROM examination e 
+inner join exam_item ei on e.ei_no = ei.ei_no 
+inner join subject sb on sb.sb_no = e.sb_no 
+left outer join course c on c.c_no = e.c_no 
+WHERE e.s_id 
+= 'sss01' and e.sb_no = 1 and e.ei_no < 5 ;
+

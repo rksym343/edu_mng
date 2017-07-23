@@ -18,6 +18,12 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/vendor/metisMenu/metisMenu.min.js"></script>
+    
+     <!-- DataTables JavaScript -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    
 
     <!-- Custom Theme JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/dist/js/sb-admin-2.js"></script>
@@ -30,9 +36,9 @@
     <script src="${pageContext.request.contextPath}/resources/myjs/my_cal.js"></script>
     
     <!-- Morris Charts JS -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/raphael/raphael.min.js"></script>
 	<!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> -->
-	<script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/morrisjs/morris.min.js									"></script>
    
     <!-- my Message -->
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>

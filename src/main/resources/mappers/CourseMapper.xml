@@ -34,7 +34,8 @@
 	</resultMap>
 	
 	<sql id="selectCoursesByCri">
-		SELECT cr.*, c.c_name, ttt.*, t.t_name FROM  course c
+		SELECT cr.*, c.c_name, ttt.*, t.t_name, sb.sb_no, sb.sb_name FROM  course c
+		inner join subject sb on sb.sb_no = c.sb_no
 		inner join course_register cr on cr.reg_c_no = c.c_no
 		inner join teacher t on t.t_id = c.t_id
 		inner join timetable ttt on ttt.c_no = cr.reg_c_no

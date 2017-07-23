@@ -36,5 +36,10 @@ public class TimetableDAOImpl implements TimetableDAO{
 		return session.selectList(namespace+".selectAllTimetable");
 	}
 
+	@Override
+	public void deleteTimetableBbyCno(int cNo) throws Exception {
+		session.delete(namespace+".deleteTimetableBbyCno", cNo);
+	}
+
 	
 }

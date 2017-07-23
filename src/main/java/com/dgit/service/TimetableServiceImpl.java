@@ -45,4 +45,9 @@ public class TimetableServiceImpl implements TimetableService{
 		return dao.selectAllTimetable();
 	}
 
+	@Override
+	public void deleteTimetableBbyCno(int cNo) throws Exception {
+		dao.deleteTimetableBbyCno(cNo);
+	}
+
 }

@@ -8,6 +8,8 @@ public class Timetable {
 	private int ttStarttime;
 	private int ttEndtime;
 	private int ttVersion;
+	
+	
 
 	public int getTtNo() {
 		return ttNo;
@@ -62,5 +64,7 @@ public class Timetable {
 		return String.format("Timetable [ttNo=%s, course=%s, ttDay=%s, ttStarttime=%s, ttEndtime=%s, ttVersion=%s]",
 				ttNo, course, ttDay, ttStarttime, ttEndtime, ttVersion);
 	}
+	
+	
 
 }

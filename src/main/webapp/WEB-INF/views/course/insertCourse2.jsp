@@ -86,7 +86,7 @@
 		    <div class="col-sm-10">
 		    	<table  id="courseTime">
 		    		<tr>
-		    			<td class="col-sm-3">
+		    			<td class="col-sm-2">
 					    	<select id="ttDay" name="ttDay" class="form-control col-sm-2">
 								<option value="1">월</option>
 								<option value="2">화</option>
@@ -97,8 +97,8 @@
 								<option value="0">일</option>
 							</select>
 						</td>
-						<td class="col-sm-4">
-							<select id="ttStarttime" name="ttStarttime" class="form-control col-sm-2">
+						<td class="col-sm-2">
+							<select id="ttStarttime" name="ttStarttime_hh" class="form-control col-sm-2">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">
@@ -123,11 +123,23 @@
 								</c:forEach>
 							</select>
 						</td>
+						<td class="col-sm-2">
+							<select name="ttStarttime_MM" class="form-control col-sm-2">
+								<c:forEach begin="00" end="50" var="MM" step="10">
+									<c:if test="${MM == 0 }">
+										<option value="${MM }">00분</option>
+									</c:if>
+									<c:if test="${MM != 0 }">
+										<option value="${MM }">${MM}분</option>
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
 						<td class="col-sm-1">
 							<label class="control-label" style="text-align : center">~</label>
 						</td>
-						<td class="col-sm-4">
-							<select id="ttEndtime" name="ttEndtime" class="form-control col-sm-2">
+						<td class="col-sm-2">
+							<select id="ttEndtime" name="ttEndtime_hh" class="form-control col-sm-2">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">
@@ -148,6 +160,18 @@
 											<option value="${hh }">오전  ${hh }시</option>
 										</c:if>
 										
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+						<td class="col-sm-2">
+							<select name="ttEndtime_MM" class="form-control col-sm-2">
+								<c:forEach begin="00" end="50" var="MM" step="10">
+									<c:if test="${MM == 0 }">
+										<option value="${MM }">00분</option>
+									</c:if>
+									<c:if test="${MM != 0 }">
+										<option value="${MM }">${MM}분</option>
 									</c:if>
 								</c:forEach>
 							</select>
@@ -197,7 +221,7 @@
 		<div class="form-group">
 		  	<label class="col-sm-1 control-label"  for="pics">수업이미지</label>
 		  	<div class="col-sm-11">
-				<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">
+			<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">
 			</div>
 		</div>
 		</div>
@@ -236,8 +260,8 @@
 			selectDay.append(optionDay0);
 			
 			
-			var selectStartTime = $("<select class='form-control' name='ttStarttime'>");
-			var selectEndTime =$("<select class='form-control' name='ttEndtime'>");			
+			var selectStartTime = $("<select class='form-control' name='ttStarttime_hh'>");
+			var selectEndTime =$("<select class='form-control' name='ttEndtime_hh'>");			
 			
 			
 			for(var i = 09; i < 23; i++){
@@ -261,22 +285,46 @@
 				selectStartTime.append(optionTime);
 			}
 			
+			
+			var selectStartMinute = $("<select class='form-control' name='ttStarttime_MM'>");
+			var selectEndMinute = $("<select class='form-control' name='ttEndtime_MM'>");
+			
+			
+			for(var j =0; j < 6; j++){
+				if(j == 0){
+					var optionMinute = "<option value='" + j+"'>00분</option>";
+				}else{
+					var optionMinute = "<option value='" + j+"'>"+(j*10)+"분</option>";
+				}
+				selectStartMinute.append(optionMinute);
+				selectEndMinute.append(optionMinute);
+			}
+			
 			var labelTag = "<label class='control-label' style='text-align : center'> ~ </label>";
 			
-			var tdSelectDay = $("<td class='col-sm-3'>");
+			var tdSelectDay = $("<td class='col-sm-2'>");
 			tdSelectDay.append(selectDay);
 			trTag.append(tdSelectDay);
 			
-			var tdselectStartTime = $("<td class='col-sm-4'>");
+			var tdselectStartTime = $("<td class='col-sm-2'>");
 			tdselectStartTime.append(selectStartTime);
 			trTag.append(tdselectStartTime);
 			
+			var tdselectStartMinute = $("<td class='col-sm-2'>");
+			tdselectStartMinute.append(selectStartMinute);
+			trTag.append(tdselectStartMinute);
+			
+			
 			trTag.append("<td class='col-sm-1'>" +labelTag + "</td>");
 			
-			var tdselectEndTime = $("<td class='col-sm-4'>");
+			var tdselectEndTime = $("<td class='col-sm-2'>");
 			tdselectEndTime.append(selectEndTime);
 			trTag.append(tdselectEndTime);
 			
+			
+			var tdselectEndMinute = $("<td class='col-sm-2'>");
+			tdselectEndMinute.append(selectEndMinute);
+			trTag.append(tdselectEndMinute);
 			
 			
 			return trTag;

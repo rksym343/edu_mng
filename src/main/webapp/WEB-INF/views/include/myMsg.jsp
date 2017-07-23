@@ -69,9 +69,9 @@
 			reuslt = "어제";
 		}else{
 			// 그 이상
-			var year = dateObj.getFullYear();
-			var month = dateObj.getMonth()+1;
-			var date = dateObj.getDate();
+			var year = curTime.getFullYear();
+			var month = curTime.getMonth()+1;
+			var date = curTime.getDate();
 			result = year +"/"+ month +"/"+ date;
 		}
 		

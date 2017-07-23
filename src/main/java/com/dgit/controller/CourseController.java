@@ -121,8 +121,7 @@ public class CourseController {
 	@RequestMapping(value="/insertCourse", method=RequestMethod.POST)
 	public String postInsertCourse(Course course, Teacher teacher, Subject subject, StudentGrade studentGrade, 
 			CourseDetail courseDetail, List<MultipartFile> pics,
-			Integer[] ttDay, Integer[] ttStarttime_hh, Integer[] ttEndtime_hh, 
-			Integer[] ttStarttime_MM, Integer[] ttEndtime_MM, String cStart, String cEnd) throws Exception{
+			Integer[] ttDay, Integer[] ttStarttime, Integer[] ttEndtime, String cStart, String cEnd) throws Exception{
 		logger.info("=======================insertCourse Post===============");
 	
 		course.setStudentGrade(studentGrade);
@@ -148,6 +147,61 @@ public class CourseController {
 		course.setcEnddate(sdf.parse(cEnd));
 		
 		
+		List<Timetable> timeTables = new ArrayList<>();
+		for(int i = 0; i < ttDay.length; i++){
+			Timetable tt = new Timetable();
+			tt.setCourse(course);
+			tt.setTtDay(ttDay[i]);
+			tt.setTtStarttime(ttStarttime[i]);
+			tt.setTtEndtime(ttEndtime[i]);
+			timeTables.add(tt);
+		}
+		course.setTimetables(timeTables);
+	/*	
+		System.out.println("Controller에서 넘기기 전~~~~");
+		for(Timetable ttt : timeTables){
+			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
+		}
+		System.out.println("Controller에서 넘기기 전~~~~");*/
+		
+		courseService.insertCourse(course);
+		
+		
+		return "redirect:listCourses";
+	}
+	
+	
+	@RequestMapping(value="/insertCourse2", method=RequestMethod.POST)
+	public String postInsertCourse2(Course course, Teacher teacher, Subject subject, StudentGrade studentGrade, 
+			CourseDetail courseDetail, List<MultipartFile> pics,
+			Integer[] ttDay, Integer[] ttStarttime_hh, Integer[] ttEndtime_hh, 
+			Integer[] ttStarttime_MM, Integer[] ttEndtime_MM, String cStart, String cEnd) throws Exception{
+		logger.info("=======================insertCourse Post===============");
+	
+		course.setStudentGrade(studentGrade);
+		course.setSubject(subject);
+		course.setTeacher(teacher);
+		course.setContent(courseDetail);
+		
+		List<CourseImage> list = new ArrayList<>();
+		if (!pics.get(0).getOriginalFilename().equals("")) {
+			// imgFiles.get(0).getSize() == 0 으로 쓰기도 함....
+			for (MultipartFile file : pics) {
+				logger.info("filename : " + file.getOriginalFilename());
+				String thumb = UploadFileUtils.uplaodFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				CourseImage ci = new CourseImage();
+				ci.setcPicture(thumb);
+				list.add(ci);   
+			} 
+			course.setPictures(list);
+		}
+		
+		
+		/*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
+		course.setcStartdate(sdf.parse(cStart));
+		course.setcEnddate(sdf.parse(cEnd));*/
+		
+		
 		Timetable[] timeTables = new Timetable[ttDay.length];
 		for(int i = 0; i < timeTables.length; i++){
 			Timetable tt = new Timetable();
@@ -164,7 +218,7 @@ public class CourseController {
 		}
 		System.out.println("Controller에서 넘기기 전~~~~");
 		
-		courseService.insertCourse(course, timeTables);
+		courseService.insertCourse(course);
 		
 		
 		return "redirect:listCourses";
@@ -200,7 +254,7 @@ public class CourseController {
 	
 	@RequestMapping(value="/updateCourse", method=RequestMethod.GET)
 	public void getUpdateCourse(int cNo, Model model) throws Exception{
-		logger.info("======================== readCourse POST ========================");
+		logger.info("======================== updateCourse GET ========================");
 		Course course = courseService.selectOneCourse(cNo);
 		logger.info(course.toString());
 		// 생성되는데 이미지 null일 경우 어찌할 것인가
@@ -209,6 +263,61 @@ public class CourseController {
 		model.addAttribute("TeacherList", teacherService.selectAllTeacher()); // 선생님이름
 		model.addAttribute("course", course);
 	}
+	
+	@RequestMapping(value="/deleteCourse", method=RequestMethod.DELETE)
+	public String getDeleteCourse(int cNo) throws Exception{
+		logger.info("======================== deleteCourse GET ========================");
+		courseService.deleteCourse(cNo);
+		return "redirect:listCourses";
+	}
+	
+	
+	@RequestMapping(value="/updateCourse", method=RequestMethod.POST)
+	public String postUpdateCourse(Course course, Teacher teacher, Subject subject, StudentGrade studentGrade, 
+			CourseDetail courseDetail, List<MultipartFile> pics, String[] delPics,
+			Integer[] ttDay, Integer[] ttStarttime, Integer[] ttEndtime, String cStart, String cEnd) throws Exception{
+		logger.info("=======================updateCourse Post===============");
+	
+		course.setStudentGrade(studentGrade);
+		course.setSubject(subject);
+		course.setTeacher(teacher);
+		course.setContent(courseDetail);
+		List<CourseImage> list = new ArrayList<>();
+		if (!pics.get(0).getOriginalFilename().equals("")) {
+			// imgFiles.get(0).getSize() == 0 으로 쓰기도 함....
+			for (MultipartFile file : pics) {
+				logger.info("filename : " + file.getOriginalFilename());
+				String thumb = UploadFileUtils.uplaodFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				CourseImage ci = new CourseImage();
+				ci.setcPicture(thumb);
+				list.add(ci);   
+			} 
+			course.setPictures(list);
+		}
+		
+		List<Timetable> timeTables = new ArrayList<>();
+		for(int i = 0; i < ttDay.length; i++){
+			Timetable tt = new Timetable();
+			tt.setCourse(course);
+			tt.setTtDay(ttDay[i]);
+			tt.setTtStarttime(ttStarttime[i]);
+			tt.setTtEndtime(ttEndtime[i]);
+			timeTables.add(tt);
+		}
+		course.setTimetables(timeTables);
+		
+		System.out.println("Controller에서 넘기기 전~~~~");
+		for(Timetable ttt : timeTables){
+			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
+		}
+		System.out.println("Controller에서 넘기기 전~~~~");
+		
+		courseService.updateCourse(course, delPics);
+		
+		
+		return "redirect:listCourses";
+	}
+	
 	
 	@RequestMapping(value="/registerCourses", method=RequestMethod.POST)
 	public String postRegisterCourses(String sId, Integer[] cNos, Model model) throws Exception{
