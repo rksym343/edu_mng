@@ -189,11 +189,11 @@
 		<div class="form-group">
 			<label class="col-sm-1 control-label">수업기간</label>
 			<div class="col-sm-5">
-				<input class="form-control"  type="text" id="cStart" name="cStart">
+				<input class="form-control"  type="date" id="cStart" name="cStart">
 			</div>
 			<label class="col-sm-1 control-label">~</label>
 			<div class="col-sm-5">
-				<input class="form-control"  type="text" id="cEnd" name="cEnd">
+				<input class="form-control"  type="date" id="cEnd" name="cEnd">
 			</div>
 		</div>
 		</div>

@@ -35,7 +35,7 @@ public class ParentsDAOImpl implements ParentsDAO {
 
 	@Override
 	public Parents selectOneParents(String spId) throws Exception {
-		return session.selectOne(namespace + ".selectOneParents", spId);
+		return session.selectOne(namespace + ".selectOneParent", spId);
 	}
 
 	

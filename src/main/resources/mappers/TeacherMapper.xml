@@ -10,7 +10,6 @@
 		<result property="tName" column="t_name"/>
 		<result property="tPhone" column="t_phone"/>
 		<result property="tPicture" column="t_picture"/>
-		<result property="tMemo" column="t_memo"/>
 		<association property="tSubject"
 			resultMap="com.dgit.mapper.SubjectMapper.SubjectResult" />
 	</resultMap>
@@ -21,8 +20,8 @@
 	</sql>
 
 	<insert id="insertTeacher">
-		INSERT INTO teacher (t_id, t_password, t_name, t_phone, t_subject, t_picture, t_memo)
-		VALUES(#{tId}, #{tPassword}, #{tName}, #{tPhone}, #{tSubject.sbNo}, #{tPicture}, #{tMemo})
+		INSERT INTO teacher (t_id, t_password, t_name, t_phone, t_subject, t_picture)
+		VALUES(#{tId}, #{tPassword}, #{tName}, #{tPhone}, #{tSubject.sbNo}, #{tPicture})
 	</insert>
 	
 	<update id="updateTeacher">
@@ -42,9 +41,6 @@
 				</if>
 				<if test="tPicture != null">
 					t_picture=#{tPicture},
-				</if>
-				<if test="tMemo != null">
-					t_memo=#{tMemo}
 				</if>
 			</set>
 		WHERE t_id=#{tId}

@@ -14,7 +14,6 @@ public class Student {
 	private StudentGrade sGrade;
 	private Date joinDate;
 	private String sPicture;
-	private String sMemo;
 	private List<Parents> parents;
 
 	public String getsId() {
@@ -89,13 +88,6 @@ public class Student {
 		this.sPicture = sPicture;
 	}
 
-	public String getsMemo() {
-		return sMemo;
-	}
-
-	public void setsMemo(String sMemo) {
-		this.sMemo = sMemo;
-	}
 
 	public List<Parents> getParents() {
 		return parents;
@@ -108,8 +100,8 @@ public class Student {
 	@Override
 	public String toString() {
 		return String.format(
-				"Student [sId=%s, sPassword=%s, sName=%s, sPhone=%s, transferMethod=%s, school=%s, sGrade=%s, joinDate=%s, sPicture=%s, sMemo=%s, parents=%s]",
-				sId, sPassword, sName, sPhone, transferMethod, school, sGrade, joinDate, sPicture, sMemo, parents);
+				"Student [sId=%s, sPassword=%s, sName=%s, sPhone=%s, transferMethod=%s, school=%s, sGrade=%s, joinDate=%s, sPicture=%s, parents=%s]",
+				sId, sPassword, sName, sPhone, transferMethod, school, sGrade, joinDate, sPicture, parents);
 	}
 
 }

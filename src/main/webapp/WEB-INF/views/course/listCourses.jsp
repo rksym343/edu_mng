@@ -30,7 +30,7 @@
 											<tr onclick="readCourse(${course.cNo })">
 												<td>${course.subject.sbName }</td>
 												<td>${course.studentGrade.gdName }</td>
-												<td>[${course.cNo }] ${course.cName }</td>
+												<td>${course.cName }</td>
 												<td>${course.teacher.tName }</td>
 												<td>${course.capacity }</td>
 												<td>

@@ -8,7 +8,6 @@ public class Teacher {
 	private String tPhone;
 	private Subject tSubject;
 	private String tPicture;
-	private String tMemo;
 
 	public String gettId() {
 		return tId;
@@ -33,11 +32,6 @@ public class Teacher {
 	public String gettPicture() {
 		return tPicture;
 	}
-
-	public String gettMemo() {
-		return tMemo;
-	}
-
 	public void settId(String tId) {
 		this.tId = tId;
 	}
@@ -62,14 +56,10 @@ public class Teacher {
 		this.tPicture = tPicture;
 	}
 
-	public void settMemo(String tMemo) {
-		this.tMemo = tMemo;
-	}
-
 	@Override
 	public String toString() {
-		return String.format("Teacher [tId=%s, tPassword=%s, tName=%s, tPhone=%s, tSubject=%s, tPicture=%s, tMemo=%s]",
-				tId, tPassword, tName, tPhone, tSubject, tPicture, tMemo);
+		return String.format("Teacher [tId=%s, tPassword=%s, tName=%s, tPhone=%s, tSubject=%s, tPicture=%s]",
+				tId, tPassword, tName, tPhone, tSubject, tPicture);
 	}
 	
 	

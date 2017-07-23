@@ -8,7 +8,6 @@ public class Parents {
 	private String spPhone;
 	private TransferMethod transferMethod;
 	private String spRelationship;
-	private String spMemo;
 	private String sId;
 
 	public String getsId() {
@@ -47,9 +46,6 @@ public class Parents {
 		return spRelationship;
 	}
 
-	public String getSpMemo() {
-		return spMemo;
-	}
 
 	public void setSpId(String spId) {
 		this.spId = spId;
@@ -71,8 +67,12 @@ public class Parents {
 		this.spRelationship = spRelationship;
 	}
 
-	public void setSpMemo(String spMemo) {
-		this.spMemo = spMemo;
+	@Override
+	public String toString() {
+		return String.format(
+				"Parents [spId=%s, spPassword=%s, spName=%s, spPhone=%s, transferMethod=%s, spRelationship=%s, sId=%s]",
+				spId, spPassword, spName, spPhone, transferMethod, spRelationship, sId);
 	}
 
+	
 }

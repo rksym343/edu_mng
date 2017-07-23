@@ -10,7 +10,6 @@
 		<result property="spName" column="sp_name"/>
 		<result property="spPhone" column="sp_phone"/>
 		<result property="spRelationship" column="sp_relationship"/>
-		<result property="spMemo" column="sp_memo"/>
 		<result property="sId" column="s_id"/>
 		<association property="transferMethod"
 			resultMap="com.dgit.mapper.TransferMethodMapper.TransferMethodResult" />
@@ -23,8 +22,8 @@
 
 	<insert id="insertParent">
 		INSERT INTO parents
-		(sp_id, sp_password, sp_name, sp_phone, tm_no, sp_relationship, sp_memo, s_id) VALUES 
-		(#{spId}, #{spPassword}, #{spName}, #{spPhone}, #{transferMethod.tmNo}, #{spRelationship}, #{spMemo}, #{sId} )
+		(sp_id, sp_password, sp_name, sp_phone, tm_no, sp_relationship, s_id) VALUES 
+		(#{spId}, #{spPassword}, #{spName}, #{spPhone}, #{transferMethod.tmNo}, #{spRelationship}, #{sId} )
 	</insert>
 	
 	<update id="updateParent">
@@ -45,9 +44,6 @@
 				<if test="spRelationship != null">
 					sp_relationship=#{spRelationship},
 				</if>
-				<if test="spMemo != null">
-					sp_memo=#{spMemo},
-				</if>
 				<if test="sId != null">
 					s_id=#{sId}
 				</if>
@@ -63,12 +59,12 @@
 		<include refid="selectSql"/>
 	</select>
 	
-	<select id="selectOneParent">
+	<select id="selectOneParent" resultMap="ParentsResult">
 		<include refid="selectSql"/>
 		WHERE pp.sp_id=#{spId}
 	</select>
 	
-	<select id="selectParentsBysId">
+	<select id="selectParentsBysId" resultMap="ParentsResult">
 		<include refid="selectSql"/>
 		WHERE pp.s_id=#{sId}
 	</select>

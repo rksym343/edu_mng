@@ -294,6 +294,7 @@ public class CourseController {
 	
 	
 	
+	
 	@RequestMapping(value="/myRegisteredCourses/{sId}/{year}/{month}/{rsNo}", method=RequestMethod.GET)
 	public ResponseEntity<List<Course>> getMyRegisteredCourses(
 			@PathVariable("sId") String sId, @PathVariable("rsNo") int rsNo,

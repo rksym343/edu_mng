@@ -47,9 +47,14 @@
                             ---------------------------------
                         </li>
                         <li>
+                            <a href="${pageContext.request.contextPath}/user/registerMember">회원가입</a>
+                        </li>
+                        <li>
+                            ---------------------------------
+                        </li>
+                        <li>
                             <a href="${pageContext.request.contextPath}/exam/viewChart">차트예제</a>
                         </li>
-                       
                        
                         
                     </ul>

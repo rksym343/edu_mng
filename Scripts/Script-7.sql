@@ -152,3 +152,7 @@ WHERE cr.reg_s_id ='sss01' and cr.reg_month =201707 and cr.rs_no =1;
  select count(a.at_no) from attendance a left outer join attendance a2 on Date(a.the_time) = 
 Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id WHERE a.s_id = 'sss01' and date_format(a.the_time, 
 '%Y-%m') = '2017-06' and a.as_no= 3 and a2.as_no = 5;
+
+
+SELECT s.*, tm.*, sg.* FROM student s inner join transfer_method tm on s.tm_no = tm.tm_no inner 
+join student_grade sg on s.gd_no = sg.gd_no WHERE s_id='sss01' ;

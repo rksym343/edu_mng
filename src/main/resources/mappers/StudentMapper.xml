@@ -52,8 +52,8 @@
 	</sql>
 
 	<insert id="insertStudent">
-		INSERT INTO student (s_id, s_password, s_name, s_phone, tm_no, school, gd_no, join_date, s_picture, s_memo)
-		VALUES(#{sId}, #{sPassword}, #{sName}, #{sPhone}, #{transferMethod.tmNo}, #{school}, #{sGrade.gdNo}, now(), #{sPicture}, #{sMemo})
+		INSERT INTO student (s_id, s_password, s_name, s_phone, tm_no, school, gd_no, join_date, s_picture)
+		VALUES(#{sId}, #{sPassword}, #{sName}, #{sPhone}, #{transferMethod.tmNo}, #{school}, #{sGrade.gdNo}, now(), #{sPicture})
 	</insert>
 	
 	<update id="updateStudent">
@@ -98,12 +98,12 @@
 		<include refid="selectSql"/>
 	</select>
 	
-	<select id="selectOneStudent">
+	<select id="selectOneStudent" resultMap="StudentResult">
 		<include refid="selectSql"/>
 		WHERE s_id=#{sId}
 	</select>
 	
-	<select id="selectStudentsByCri">
+	<select id="selectStudentsByCri" resultMap="StudentResult">
 		<include refid="selectSql"/>
 		<include refid="whereSql"/>
 	</select>
