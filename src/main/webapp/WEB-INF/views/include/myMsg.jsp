@@ -39,8 +39,8 @@
 	<script>
 
 
-	var memberType = "student";
-	var id="sss01";
+	var memberType = ${memberType};
+	var id= ${memberId};
 	var isCheckedCnt = 0;
 	
 	Handlebars.registerHelper("isCh", function(isChecked) {

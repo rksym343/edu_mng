@@ -88,7 +88,7 @@
 	 <script>
 
 		
-	 	var sId = "sss01";
+	 	var sId = ${memberId };
 	 	var today = new Date();
 		var year = today.getFullYear();
 		var month = today.getMonth();
@@ -218,7 +218,7 @@
 	 					console.log("arr["+k+"] : " + arr[k]);
 	 				}
 	 				if(arr.length > 0){
-	 					
+	 					$("#donut-attendance-chart").html("");
 	 					showGraph(arr);
 	 				}else{
 	 					$("#donut-attendance-chart").html("<p>데이터없음</p>");

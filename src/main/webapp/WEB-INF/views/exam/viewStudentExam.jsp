@@ -102,9 +102,8 @@
 <%@ include file="../include/footer.jsp"%>	
 
 <script>
-	var sId = "sss01";
+	var sId = ${memberId};
 	
-	var sId="sss01";
 	var today = new Date();
 	var year = today.getFullYear();
 	var month = today.getMonth();

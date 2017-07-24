@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<script type="text/javascript">
+	
+		location.href="${pageContext.request.contextPath}/attend/myAttendance";
+	</script>
 
 </body>
 </html>

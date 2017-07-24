@@ -67,7 +67,7 @@
                                 			<th class="3 col-sm-1">수</th>
                                 			<th class="4 col-sm-1">목</th>
                                 			<th class="5 col-sm-1">금</th>
-                                			<th class="6  col-sm-1">토</th>
+                                			<th class="6 col-sm-1">토</th>
                                 		</tr>
                                 	</thead>
                                 	<tbody>
@@ -104,18 +104,6 @@
                                 
                             </ul>
                         </div>
-                        <!-- /.panel-body -->
-                        <!-- <div class="panel-footer">
-                            <div class="input-group">
-                                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning btn-sm" id="btn-chat">
-                                        Send
-                                    </button>
-                                </span>
-                            </div>
-                        </div> -->
-                        <!-- /.panel-footer -->
                     </div>
                     <!-- /.panel .chat-panel -->
 			 </div>
@@ -126,7 +114,7 @@
 
 <%@ include file="../include/footer.jsp"%>	
 <script>
-	var sId="sss01";
+	var sId=${memberId};
 	var today = new Date();
 	var year = today.getFullYear();
 	var month = today.getMonth();
@@ -141,12 +129,12 @@
 	   	$("th."+day).css("color","red");
 	});
 		  
-	Handlebars.registerHelper("timeview", function(time) {
+/* 	Handlebars.registerHelper("timeview", function(time) {
 		var timeStr = time.toString();
 		var viewTime = timeStr.substr(0,2)+":"+timeStr.substr(2,2);
 		return viewTime;
 	})
-		 	  
+		  */	  
 
 	     $("#prevMonth").click(function(e) {
 	      	e.preventDefault();

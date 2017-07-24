@@ -136,16 +136,30 @@ public class UserController {
 	
 	@RequestMapping(value="/loginPost", method=RequestMethod.POST)
 	public void postLogin(Model model, String memberType, String id, String password) throws Exception{
-		Object member = null;
-		if(memberType.equalsIgnoreCase("student")){
-			member = studentService.login(id, password);
-		}else if(memberType.equalsIgnoreCase("parents")){
-			member = parentsService.login(id, password);
-		}else if(memberType.equalsIgnoreCase("teacher")){
-			member = teacherService.login(id, password);
+		String member = "";
+		if(memberType.equalsIgnoreCase(LoginInterceptor.STUDENT)){
+			Student studnet =  studentService.login(id, password);
+			if(studnet != null){
+				member = studnet.getsId();
+			}
+		}else if(memberType.equalsIgnoreCase(LoginInterceptor.PARENTS)){
+			Parents parents = parentsService.login(id, password);
+			if(parents != null){
+				member = parents.getSpId();
+			}
+		}else if(memberType.equalsIgnoreCase(LoginInterceptor.TEACHER)){
+			Teacher teacher = teacherService.login(id, password);
+			if(teacher != null){
+				member = teacher.gettId();				
+			}
 		}
-		model.addAttribute("memberType", memberType);
-		model.addAttribute("member", member);		
+		System.out.println("==========member : " +member);
+		if(member.equals("")){
+			System.out.println("==========nonexistent======");
+			model.addAttribute("nonexistent", "nonexistent");
+		}
+		model.addAttribute(LoginInterceptor.MEMBER_TYPE, memberType);
+		model.addAttribute(LoginInterceptor.MEMBER_ID, member);		
 	}
 	
 	@RequestMapping(value="/loginSample", method=RequestMethod.GET)

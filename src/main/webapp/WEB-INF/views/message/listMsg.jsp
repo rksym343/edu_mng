@@ -53,8 +53,8 @@
 <%@ include file="../include/footer.jsp"%>	
 
 <script>
-	var memberType = "student";
-	var id = "sss01";
+	var memberType = ${memberType};
+	var id = ${memberId};
 	
 $(function() {
 	getMyMsg();

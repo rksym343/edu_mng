@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"   %>
 <%@ include file="../include/header.jsp"%>
 <div class="col-lg-12">
       <h1 class="page-header">강의개설</h1>
@@ -98,7 +98,7 @@
 							</select>
 						</td>
 						<td class="col-sm-4">
-							<select id="ttStarttime" name="ttStarttime" class="form-control">
+							<select id="ttStarttime" name="ttStarttime"   class="form-control">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +53,7 @@
                         <form action="loginPost" method="post">
 						  	 <div class="input-group btn-group btn-group-justified">
 						     	 <label class="radio-inline btn btn-primary">
-							      <input type="radio" name="memberType" value="student">학생
+							      <input type="radio" name="memberType" value="student" checked="checked">학생
 							    </label>
 							    <label class="radio-inline btn btn-default">
 							      <input type="radio" name="memberType" value="parents">학부모
@@ -94,7 +95,9 @@
     <script src="${pageContext.request.contextPath}/resources/dist/js/sb-admin-2.js"></script>
 
 <script type="text/javascript">
+	var nonexistent = ${nonexistent };
 	$(function() {
+		alert(nonexistent);
 		$(window).resize();
 		
 		$("input[name='memberType']").change(function() {
@@ -104,7 +107,7 @@
 			$(this).parent("label").addClass("btn-primary");
 		})
 		
-	})
+	});
 	
 	$(window).resize(function(){
 		$(".login-container").css("position","absolute")
