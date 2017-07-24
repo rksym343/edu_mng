@@ -87,7 +87,7 @@
 		    	<table  id="courseTime">
 		    		<tr>
 		    			<td class="col-sm-3">
-					    	<select id="ttDay" name="ttDay" class="form-control col-sm-2">
+					    	<select id="ttDay" name="ttDay" class="form-control">
 								<option value="1">월</option>
 								<option value="2">화</option>
 								<option value="3">수</option>
@@ -98,7 +98,7 @@
 							</select>
 						</td>
 						<td class="col-sm-4">
-							<select id="ttStarttime" name="ttStarttime" class="form-control col-sm-2">
+							<select id="ttStarttime" name="ttStarttime" class="form-control">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">
@@ -127,7 +127,7 @@
 							<label class="control-label" style="text-align : center">~</label>
 						</td>
 						<td class="col-sm-4">
-							<select id="ttEndtime" name="ttEndtime" class="form-control col-sm-2">
+							<select id="ttEndtime" name="ttEndtime" class="form-control">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">

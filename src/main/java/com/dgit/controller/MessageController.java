@@ -34,6 +34,13 @@ public class MessageController {
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 	
 	
+	@RequestMapping(value="/readMsg", method=RequestMethod.GET)
+	public void getReadMsg(int msgNo, Model model) throws Exception{
+		logger.info("==================getReadMsg ================");
+		Message message = messageService.selectOneMessage(msgNo);
+		model.addAttribute("message", message);
+	}
+	
 	@RequestMapping(value="/writeMsg", method=RequestMethod.GET)
 	public void getWriteMsg(Model model) throws Exception{
 		logger.info("==================getWriteMsg ================");
@@ -101,7 +108,24 @@ public class MessageController {
 		logger.info("==================viewStudentExam /{sId}/{cNo}  GET================");
 		logger.info("================== id : " +id);
 		try{
-			List<Message> list = messageService.selectMessageByCri("", 0, memberType, id, true, false, cnt);
+			List<Message> list = messageService.selectMessageByCri("", 0, memberType, id, true, false, false, cnt);
+			entity = new ResponseEntity<List<Message>>(list, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<List<Message>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/listMsg/{memberType}/{id}/{cnt}/{cNo}", method=RequestMethod.GET)
+	public ResponseEntity<List<Message>> getListMsgById(
+			@PathVariable("memberType") String memberType, @PathVariable("id") String id, 
+			@PathVariable("cnt") int cnt,  @PathVariable("cNo") int cNo) throws Exception{
+		ResponseEntity<List<Message>> entity = null;
+		logger.info("==================getListMsgById /{sId}/{cNo}  GET================");
+		logger.info("================== id : " +id);
+		try{
+			List<Message> list = messageService.selectMessageByCri("", cNo, memberType, id, true, false, false, cnt);
 			entity = new ResponseEntity<List<Message>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Message>>(HttpStatus.BAD_REQUEST);
@@ -126,6 +150,42 @@ public class MessageController {
 			entity = new ResponseEntity<List<Message>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Message>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@Transactional
+	@RequestMapping(value="/readMsg/{msgNo}", method=RequestMethod.GET)
+	public ResponseEntity<Message> getMyMsgByNo(@PathVariable("msgNo") int msgNo) throws Exception{
+		ResponseEntity<Message> entity = null;
+		logger.info("==================getListMySendMsgById /{Id}/  GET================");
+		logger.info("================== msgNo : " +msgNo);
+		try{
+			Message message = messageService.selectOneMessage(msgNo);
+			Message newMsg = new Message();
+			newMsg.setMsgNo(msgNo);
+			newMsg.setIsChecked(1);
+			messageService.updateMessage(newMsg);
+			entity = new ResponseEntity<>(message, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	@RequestMapping(value="/deleteMsg/{msgNo}", method=RequestMethod.DELETE)
+	public ResponseEntity<String> deleteMyMsgByNo(@PathVariable("msgNo") int msgNo) throws Exception{
+		ResponseEntity<String> entity = null;
+		logger.info("==================deleteMyMsgByNo /{msgNo}/  GET================");
+		logger.info("================== msgNo : " +msgNo);
+		try{		
+			messageService.deleteMessage(msgNo);
+			entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		return entity;

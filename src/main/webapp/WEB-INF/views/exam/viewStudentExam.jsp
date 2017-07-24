@@ -21,6 +21,16 @@
 		li.course-click-event{
 			/* border : 3px solid gray; */
 		}
+		.chart{
+			width : 100%;
+			height: 200px;
+			/* line-height: 200px; */
+			color : #aaa;
+			text-align: center;
+		}
+		.chart > p {
+			line-height: 200px;
+		}
 	</style>
 
 	<div class="row">
@@ -47,9 +57,10 @@
                     <!-- /.panel -->
 			</div>
 		<div class="col-sm-9">
-			<div id="bar-example" style="height : 200px"></div>
-		<h1>해당과목 학교시험</h1>
-			<table border="1">
+			
+			<h2>학교테스트</h2>
+			<div id="bar-example"  class="chart"></div>
+			<!-- <table border="1">
 				<thead>
 					<tr>
 						<th>평가번호</th>
@@ -62,12 +73,12 @@
 				<tbody id="ttbody2">
 					
 				</tbody>
-			</table>
+			</table> -->
 				
 				<hr>
-		<h1>해당 과목 쪽지시험</h1>
-		<div id="area-example"></div>
-			<table border="1">
+		<h2>학원테스트</h2>
+		<div id="area-example" class="chart"></div>
+			<!-- <table border="1">
 				<thead>
 					<tr>
 						<th>평가번호</th>
@@ -80,7 +91,7 @@
 				<tbody id="ttbody">
 					
 				</tbody>
-			</table>
+			</table> -->
 			
 			<hr>
 			
@@ -150,7 +161,8 @@ function showGraph(schoolGradeData){
 		  data: schoolGradeData,
 		  xkey: 'y',
 		  ykeys: ['a'],
-		  labels: ['점수']
+		  labels: ['점수'],
+		  barColors : ['#EC407A']
 	});
 }
 
@@ -195,16 +207,24 @@ function getMyExamRecord(cNo){
 }
 
 function gradeGraph(gradeData, gradeMemo){
-	Morris.Area({
+	Morris.Line({
 		  element: 'area-example',
 		  data: gradeData,
 		  xkey: 'y',
 		  ykeys: ['a'],
 		  labels: ['점수'],
-		  lineColors: ['#ff0000'],
+		  ymax : 100,
+		  lineColors: ['#2196F3'],
+		  dateFormat: function (d) {
+	            var date = new Date(d);
+	            var year = date.getFullYear();
+	            var month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1): (date.getMonth()+1);
+	            var day = date.getDate() < 10 ?  "0"+date.getDate() : date.getDate();
+	            return year + "-" + month + "-" + day;
+	      },
 		  hoverCallback: function (index, options, content, row) {
 			// return "["+index+"]"+content + "sin(" + row.x + ") = " + row.y;
-			 return gradeMemo[index];
+			 return content+gradeMemo[index];
 			}
 		});
 }

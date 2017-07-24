@@ -1,22 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 	<script id="temp" type="text/x-handlevars-template">
 		{{#each.}}
 			<li>
-         		<a href="#">
+         		<a href="{{msgNo}}" class="readMessage" data-toggle="modal" data-target="#myModal" >
            		<div>
- 	            	<strong> <span class='{{isCh isChecked}}'</span> {{msgTitle msgContent cNo}}</strong>
+ 	            	<strong> <span class='{{isCh isChecked}}'></span> {{msgTitle msgContent cNo}}</strong>
                     <span class="pull-right text-muted">
-                    <em>{{tempdate regDate}}</em>
+                    <i class='fa fa-clock-o fa-fw'></i><em>{{tempdate regDate}}</em>
                     </span>
              	</div>
-                <div>{{msgContent msgContent}}</div>
-          </a>          
-      </li>
+                <div><p class="txt-width txt-line">{{msgContent msgContent cNo}}</p></div>
+          		</a>          
+     		 </li>
       
       <li class="divider"></li>
 		{{/each}}
+		<li>
+         <a class="text-center" href="${pageContext.request.contextPath}/message/listMsg">
+	         <strong>Read All Messages</strong>
+	         <i class="fa fa-angle-right"></i>
+         </a>
+       </li>
+	
 	</script>
+	<style>
+	.txt-width{		
+		width:250px; 
+	}
+	.txt-line { 
+		overflow:hidden; 
+		text-overflow:ellipsis; 
+		white-space: nowrap;
+		word-wrap:normal;
+	}
+</style>
 	<script>
 
 
@@ -26,7 +45,7 @@
 	
 	Handlebars.registerHelper("isCh", function(isChecked) {
 		if (isChecked == 0){
-			return "fa   fa-bell ";
+			return "glyphicon glyphicon-send";
 		}else{
 			//return "fa  fa-check-square-o";
 		}		
@@ -41,13 +60,23 @@
 		}		
 	});
 	
-	Handlebars.registerHelper("msgContent", function(msg) {
-		var index = msg.indexOf("]");
-		return msg.substring(index+1,msg.length-1);
+	Handlebars.registerHelper("msgContent", function(msg, cNo) {
+		var content = "";
+		if (cNo == 0){
+			content = msg;
+		}else{
+			var index = msg.indexOf("]");
+			content = msg.substring(index+1,msg.length-1);
+		return content;
+		}
 	});
 	
 	
 	Handlebars.registerHelper("tempdate", function(time) {
+		return viewTimeStr(time);
+	});	
+	
+	function viewTimeStr(time){
 		var regTime = new Date(time);		
 		var curTime = new Date();
 		var diff = curTime - regTime;
@@ -76,7 +105,7 @@
 		}
 		
 		return result;
-	});	
+	}
 	
 		function myMsg(){
 			$.ajax({
@@ -97,14 +126,7 @@
 					var source = $("#temp").html();
 					var template = Handlebars.compile(source);
 					$("#header-msg").html(template(data));
-					var lastLiTag = 
-						"<li>"
-							+"<a class='text-center' href='#'>"
-							+	"<strong>Read All Messages</strong>"
-							+	"<i class='fa fa-angle-right'></i>"
-		        			+"</a>"
-		       			+"</li>";
-		       		$("#header-msg").append(lastLiTag);	
+					
 		       		$("#uncheckedMsg").html(isCheckedCnt!=0?isCheckedCnt:"");
 		       		$("#uncheckedMsg").addClass("badge");
 		       		 
@@ -124,5 +146,26 @@
 		
 		$(function() {
 			myMsg();
-		})
+		});
+		
+		$(document).on("click", ".readMessage", function(e) {
+			e.preventDefault(); 
+			var msgNo = $(this).attr("href");
+			$.ajax({
+				url: "${pageContext.request.contextPath}/message/readMsg/"+msgNo,
+				type : "get",
+				dataType: "json",
+				success:function(data){
+					console.log(data);
+					// 메시지 제목
+					$(".modal-content .modal-title").html(data.teacher.tName);
+					// 메시지 내용
+					$(".modal-content .modal-body").html(data.msgContent);
+					
+				}
+			});
+			
+			
+			
+		});
 	</script>

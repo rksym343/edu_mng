@@ -264,7 +264,7 @@ public class CourseController {
 		model.addAttribute("course", course);
 	}
 	
-	@RequestMapping(value="/deleteCourse", method=RequestMethod.DELETE)
+	@RequestMapping(value="/deleteCourse", method=RequestMethod.POST)
 	public String getDeleteCourse(int cNo) throws Exception{
 		logger.info("======================== deleteCourse GET ========================");
 		courseService.deleteCourse(cNo);

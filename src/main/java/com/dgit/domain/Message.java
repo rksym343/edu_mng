@@ -12,6 +12,17 @@ public class Message {
 	private String msgContent;
 	private int isChecked;
 	private Date regDate;
+	private Teacher teacher;
+	
+	
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
 
 	public int getMsgNo() {
 		return msgNo;

@@ -81,28 +81,29 @@ INSERT INTO edu_manager.course_register (reg_month, reg_s_id, reg_c_no, rs_no) v
 
 
 INSERT INTO edu_manager.timetable (c_no, tt_day, tt_starttime, tt_endtime, tt_version) values
-(1, 0, 1600, 1730, 1),
-
-(2, 1, 1600, 1730, 1),
-(3, 1, 1800, 2030, 1),
-
-(2, 3, 1600, 1730, 1),
-(2, 5, 1600, 1730, 1),
-
-(1, 4, 1800, 2200, 1),
-(3, 4, 1600, 1730, 1),
-
-(3, 1, 1800, 2030, 1),
-
-(4, 6, 1200, 2000, 1);
+(1, 0, 16, 17, 1),
+(2, 1, 16, 17, 1),
+(3, 1, 18, 20, 1),
+(2, 3, 16, 17, 1),
+(2, 5, 16, 17, 1),
+(1, 4, 18, 22, 1),
+(3, 4, 16, 17, 1),
+(4, 1, 18, 20, 1),
+(4, 6, 12, 20, 1);
 
 
+INSERT INTO edu_manager.examination (sb_no, s_id, ei_no, e_result, e_memo, e_date) values
+(1,'sss01', 1, 90, '', '2017-04-20'),
+(1,'sss01', 2, 90, '', '2017-06-20');
 
-INSERT INTO edu_manager.examination (s_id, c_no, ei_no, e_result, e_memo) values 
-('sss01', 2, 2, 90, ''),
-('sss01', 2, 6, 70, '~~~에 대한 복습이 필요합니다'),
-('sss01', 2, 6, 80, '핵심키워드에 대한 공부가 필요합니다'),
-('sss01', 3, 2, 90, '');
+INSERT INTO edu_manager.examination (sb_no, s_id, c_no, ei_no, e_result, e_memo, e_date) values
+(1,'sss01', 2, 6, 70, '~~~에 대한 복습이 필요합니다', '2017-06-05'),
+(1,'sss01', 2, 6, 80, '핵심키워드에 대한 공부가 필요합니다','2017-06-20'),
+(1,'sss01', 2, 6, 90, '~~~에 대한 복습이 필요합니다', '2017-07-05'),
+(1,'sss01', 2, 6, 60, '~~~에 대한 복습이 필요합니다', '2017-07-15'),
+(1,'sss01', 3, 5, 90, '', '2017-07-08');
+
+
 
 INSERT INTO edu_manager.parents
 (sp_id, sp_password, sp_name, sp_phone, tm_no, sp_relationship, s_id)
@@ -167,3 +168,6 @@ Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id WHERE a.s_id = 's
  SELECT cr.*, c.c_name, ttt.*, t.t_name FROM course c inner join course_register cr on cr.reg_c_no 
 = c.c_no inner join teacher t on t.t_id = c.t_id inner join timetable ttt on ttt.c_no = cr.reg_c_no 
 WHERE cr.reg_s_id ='sss01' and cr.reg_month =201707 and cr.rs_no =1;
+
+SELECT m.*, t.t_name FROM message m inner join teacher t on t.t_id = m.t_id WHERE m.s_id = 
+'sss01' and m.is_del = 0 order by m.is_checked, m.reg_date desc;

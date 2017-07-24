@@ -13,10 +13,12 @@
 		<result property="msgContent" column="msg_content"/>
 		<result property="isChecked" column="is_checked"/>
 		<result property="regDate" column="reg_date"/>
+		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
 	</resultMap>
 
 	<sql id="selectSql">
-		SELECT * FROM message m
+		SELECT m.*, t.t_name FROM message m
+		inner join teacher t on t.t_id = m.t_id
 	</sql>
 	
 	<sql id="whereSql">
@@ -25,7 +27,12 @@
 				m.t_id = #{tId}
 			</if>
 			<if test="cNo != null">
-				and m.c_no = #{cNo}
+				<if test="cNo > 0">
+					and m.c_no = #{cNo}
+				</if>
+				<if test="cNo == -1">
+					and m.c_no is not null 
+				</if>
 			</if>
 			<if test="sId != null">
 				and m.s_id = #{sId}
@@ -38,6 +45,12 @@
 			</if>
 			<if test="unchecked != null">
 				and m.is_checked != 0
+			</if>
+			<if test="isDel != null">
+				and m.is_del = 1
+			</if>
+			<if test="isAlive != null">
+				and m.is_del = 0
 			</if>
 		</where>
 	</sql>
@@ -58,7 +71,7 @@
 				<if test="tId != null">
 					t_id=#{tId},
 				</if>
-				<if test="cNo != null">
+				<if test="cNo != 0">
 					c_no = #{cNo},
 				</if>
 				<if test="sId != null">
@@ -71,11 +84,14 @@
 					msg_content = #{msgContent},
 				</if>
 				<if test="isChecked != null">
-					is_checked = #{isChecked},
-				</if>		
-				reg_date = current_timestamp
+					is_checked = #{isChecked}
+				</if>
 			</set>
 		WHERE msg_no=#{msgNo}
+	</update>
+	
+	<update id="deleteMessage">
+		UPDATE message set is_del = 1 WHERE msg_no=#{msgNo}
 	</update>
 
 
@@ -91,12 +107,13 @@
 	</select>
 	
 	<select id="selectMessageByCri" parameterType="hashmap" resultMap="MessageResult">
-		<include refid="selectSql"/>
+		<include refid="selectSql"/>		
 		<include refid="whereSql"/>
 		order by m.is_checked, m.reg_date desc
 		<if test="cnt != null">
 			limit #{cnt}
 		</if>
 	</select>
+	
 	
 </mapper>

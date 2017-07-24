@@ -58,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<Message> selectMessageByCri(
-			String tId, int cNo, String memberType, String id, boolean isAll, boolean isChecked, int cnt) throws Exception {
+			String tId, int cNo, String memberType, String id, boolean isAll, boolean isChecked, boolean isDel, int cnt) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		if(!tId.equals("")){
 			map.put("tId", tId);	
@@ -80,11 +80,49 @@ public class MessageServiceImpl implements MessageService {
 				map.put("unchecked", "unchecked");
 			}
 		}
+		
+		if(isDel){
+			map.put("isDel","isDel" );
+		}else{
+			map.put("isAlive", "isAlive");
+		}
+		
 		if(cnt != 0){
 			map.put("cnt", cnt);
 		}
 		return dao.selectMessageByCri(map);
 	}
+	
+	@Override
+	public List<Message> selectMessageByCri(String tId, int cNo, String memberType, String id, boolean isAll,
+			boolean isChecked, int cnt) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		if(!tId.equals("")){
+			map.put("tId", tId);	
+		}
+		if(cNo != 0){
+			map.put("cNo", cNo);
+		}
+		
+		if(memberType.equalsIgnoreCase("student")){
+			map.put("sId", id);
+		}else if(memberType.equalsIgnoreCase("parents")){
+			map.put("spId", id);
+		}
+		
+		if(!isAll){
+			if(isChecked){
+				map.put("isChecked", "isChecked");
+			}else{
+				map.put("unchecked", "unchecked");
+			}
+		}
+		
+		if(cnt != 0){
+			map.put("cnt", cnt);
+		}
+		return dao.selectMessageByCri(map);
+	}	
 
 	@Override
 	@Transactional
@@ -112,6 +150,8 @@ public class MessageServiceImpl implements MessageService {
 		insertMessageToAllStudent(message);
 		message.setsId(null);
 		insertMessageToAllParents(message);
-	}	
+	}
+
+	
 
 }

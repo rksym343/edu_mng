@@ -36,7 +36,7 @@ public class MessageDAOImpl implements MessageDAO {
 
 		@Override
 		public void deleteMessage(int msgNo) throws Exception {
-			session.delete(namespace+".deleteMessage", msgNo);
+			session.update(namespace+".deleteMessage", msgNo);
 		}
 
 		@Override

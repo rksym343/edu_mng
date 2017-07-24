@@ -15,5 +15,6 @@ public interface MessageService {
 	public void deleteMessage(int msgNo) throws Exception;
 	public Message selectOneMessage(int msgNo) throws Exception;
 	public List<Message> selectAllMessage() throws Exception;
+	public List<Message> selectMessageByCri(String tId, int cNo, String memberType, String id, boolean isAll, boolean isChecked, boolean isDel, int cnt) throws Exception;
 	public List<Message> selectMessageByCri(String tId, int cNo, String memberType, String id, boolean isAll, boolean isChecked, int cnt) throws Exception;
 }
