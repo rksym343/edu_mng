@@ -34,8 +34,8 @@ public class CartCourseServiceImpl implements CartCourseService {
 	}
 
 	@Override
-	public void deleteOneCartCourse(CartCourse cartCourse) throws Exception {
-		dao.deleteOneCartCourse(cartCourse);
+	public void deleteOneCartCourse(int ccNo) throws Exception {
+		dao.deleteOneCartCourse(ccNo);
 	}
 
 	@Override

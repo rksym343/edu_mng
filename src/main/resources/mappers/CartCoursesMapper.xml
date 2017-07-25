@@ -7,17 +7,22 @@
 	<resultMap type="CartCourse" id="CartCoursesResult">
 		<id property="ccNo" column="cc_no"/>
 		<result property="sId" column="s_id"/>
+		<result property="cNo" column="c_no"/>
 		<result property="cartDate" column="cart_date"/>
 		<collection property="courses" resultMap="com.dgit.mapper.CourseMapper.CourseResult"/>
 	</resultMap>
 
 	<insert id="insertCartCourse" parameterType="CartCourse">
-		INSERT INTO cart_courses (s_id, c_no, cart_date) VALUES(#{sId}, #{courses.cNo}, CURRENT_TIMESTAMP)
+		INSERT INTO cart_courses (s_id, c_no, cart_date) VALUES(#{sId}, #{cNo}, CURRENT_TIMESTAMP)
 
 	</insert>
 
-	<delete id="deleteOneCartCourse" parameterType="CartCourse">
-		DELETE FROM  cart_courses WHERE s_id=#{sId} AND c_no=#{courses.cNo} 
+	<delete id="deleteOneCartCourse">
+		DELETE FROM cart_courses WHERE cc_no=#{ccNo}
+	</delete>
+	
+	<delete id="deleteOneCartCourseByCno">
+		DELETE FROM cart_courses WHERE c_no=#{cNo}
 	</delete>
 	
 	<delete id="deleteCartCoursesByDate">
@@ -25,10 +30,11 @@
 	</delete>
 	
 	<select id="selectAllCoursesBySId" resultMap="CartCoursesResult">
-		SELECT ccc.s_id, ccc.cart_date, c.* FROM cart_courses ccc
+		SELECT ccc.cc_no, ccc.s_id, ccc.cart_date, c.* FROM cart_courses ccc
 		inner join course c on ccc.c_no = c.c_no
+		left outer join timetable tt on tt.c_no = c.c_no
 		WHERE ccc.s_id=#{sId}
-		order by ccc.s_id, ccc.cart_date
+		order by ccc.cart_date
 		
 		<!-- SELECT ccc.s_id, ccc.cart_date FROM cart_courses ccc
 		WHERE ccc.s_id=#{sId} -->

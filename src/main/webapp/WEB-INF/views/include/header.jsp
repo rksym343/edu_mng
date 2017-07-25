@@ -75,12 +75,24 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li>
+                        <c:if test="${memberType == 'student' }">
+							<a href="${pageContext.request.contextPath}/user/readStudentInfo?sId=${memberId }">
+						</c:if>
+						<c:if test="${memberType == 'parents' }">
+							<a href="${pageContext.request.contextPath}/user/readParentsInfo?spId=${memberId }">
+						</c:if>
+						<c:if test="${memberType == 'teacher' }">
+							<a href="${pageContext.request.contextPath}/user/readTeacherInfo?tId=${memberId }">
+						</c:if>
+							<i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Cart</a>
-                        </li>
+                        <c:if test="${memberType == 'student' }">
+                        	<li><a href="${pageContext.request.contextPath}/cart/cartCourses?memberType=${memberType }&id=${memberId }"><i class="fa fa-shopping-cart fa-fw"></i> Cart</a>
+                        	</li>
+                        </c:if>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="${pageContext.request.contextPath}/user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -90,8 +102,7 @@
             <!-- /.navbar-top-links -->
 
 <c:if test="${empty memberType }">
-	<%-- <%@ include file="../include/sidebar.jsp"%> --%>
-	<%@ include file="studentSidebar.jsp"%>
+	<%@ include file="sidebar.jsp"%>
 </c:if>
 <c:if test="${memberType == 'student' }">
 	<%@ include file="studentSidebar.jsp"%>
@@ -106,6 +117,8 @@
 <script>
 
 	var arrDay = ["일", "월", "화", "수", "목", "금", "토"];
+	var memberType = "${memberType}";
+	var memberId = "${memberId}";
 </script>
 
 

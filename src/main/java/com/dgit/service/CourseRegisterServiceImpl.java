@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dgit.domain.CourseRegister;
 import com.dgit.domain.RegistrationStatus;
+import com.dgit.persistence.CartCourseDAO;
 import com.dgit.persistence.CourseRegisterDAO;
 
 @Service
@@ -14,10 +16,15 @@ public class CourseRegisterServiceImpl implements CourseRegisterService {
 
 	@Autowired
 	private CourseRegisterDAO dao;
-
+	
+	@Autowired
+	private CartCourseDAO cartCourseDAO;
+	
+	@Transactional
 	@Override
 	public void insertCourseRegister(CourseRegister courseRegister) throws Exception {
 		dao.insertCourseRegister(courseRegister);
+		cartCourseDAO.deleteOneCartCourseByCno(courseRegister.getcNo());
 	}
 
 	@Override

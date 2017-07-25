@@ -114,7 +114,7 @@
 
 <%@ include file="../include/footer.jsp"%>	
 <script>
-	var sId=${memberId};
+	var sId= memberId;
 	var today = new Date();
 	var year = today.getFullYear();
 	var month = today.getMonth();
@@ -128,13 +128,6 @@
 		getMsgByCourse(-1);
 	   	$("th."+day).css("color","red");
 	});
-		  
-/* 	Handlebars.registerHelper("timeview", function(time) {
-		var timeStr = time.toString();
-		var viewTime = timeStr.substr(0,2)+":"+timeStr.substr(2,2);
-		return viewTime;
-	})
-		  */	  
 
 	     $("#prevMonth").click(function(e) {
 	      	e.preventDefault();
@@ -211,15 +204,15 @@
 	  		}
 	      
 	      function viewTimes(startTime, endTime){
-	    	  return viewTime(startTime)+"~"+ viewTime(endTime);
-	      }
+	    	  return startTime+"시 ~"+ endTime+"시";
+	      }/* 
 	      
 	      function viewTime(time){
 	    	var timeStr = time.toString();
 	  		var viewTime = timeStr.substr(0,2)+":"+timeStr.substr(2,2);
 	  		return viewTime;
 	      }
-	      
+	       */
 	      function getMsgByCourse(cNo){
 	    	  $.ajax({
 	    		 	// /listMsg/{memberType}/{id}/{cnt}/{cNo}

@@ -63,7 +63,7 @@ public class AttendanceController {
 		Calendar cal = Calendar.getInstance();
 		String month = String.format("%d-%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
 		/*String sId = (String) session.getAttribute(LoginInterceptor.MEMBER_ID);*/
-		String sId = "sss01";
+		/*String sId = "sss01";
 		List<Attendance> list = attendanceService.selectAttendanceBySIdAndMonth(month, sId);
 		
 		System.out.println("==========LIST  ====  ["+list.size()+"]");
@@ -72,7 +72,7 @@ public class AttendanceController {
 		}
 		System.out.println("==========LIST  ====  ["+list.size()+"]");
 		
-		model.addAttribute("list", list);
+		model.addAttribute("list", list);*/
 		model.addAttribute("statusList", attendanceStatusService.selectAllAttendanceStatus());
 		model.addAttribute("curYear", cal.get(Calendar.YEAR));
 		model.addAttribute("curMonth", cal.get(Calendar.MONTH)+1);

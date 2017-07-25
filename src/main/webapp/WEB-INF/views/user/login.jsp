@@ -73,6 +73,10 @@
 						    <div class="input-group">
 						   		<input type="submit" value="로그인" class=" btn btn-primary" >
 						    </div>
+						   
+						    	<p style="text-align: right;">
+						   			<a href="${pageContext.request.contextPath}/user/registerMember">회원가입</a>
+						   		</p>
 						 </form>
                     </div>
                 </div>
@@ -95,9 +99,7 @@
     <script src="${pageContext.request.contextPath}/resources/dist/js/sb-admin-2.js"></script>
 
 <script type="text/javascript">
-	var nonexistent = ${nonexistent };
 	$(function() {
-		alert(nonexistent);
 		$(window).resize();
 		
 		$("input[name='memberType']").change(function() {

@@ -8,7 +8,7 @@ public interface CartCourseService {
 	
 	public int insertCartCourse(CartCourse cartCourse) throws Exception;
 	public boolean insertCartCourse(CartCourse[] cartCourses) throws Exception;
-	public void deleteOneCartCourse(CartCourse cartCourse) throws Exception;
+	public void deleteOneCartCourse(int ccNo) throws Exception;
 	public void deleteCartCoursesByDate() throws Exception;
 	public List<CartCourse> selectAllCoursesBySId(String sId) throws Exception;
 }

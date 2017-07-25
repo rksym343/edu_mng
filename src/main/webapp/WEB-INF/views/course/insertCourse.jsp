@@ -66,7 +66,7 @@
 		<div class="form-group">
 		    <label class="col-sm-1 control-label" for="tuition">수업료</label>
 		    <div class="col-sm-11">
-		    	<input class="form-control" type="text" id="tuition" name="tuition" placeholder="수업료">
+		    	<input class="form-control" type="number" id="tuition" name="tuition" placeholder="수업료">
 		    </div>
 		</div>
 		</div>
@@ -219,6 +219,9 @@
 <%@ include file="../include/footer.jsp"%>	
 
 <script>
+$(function() {
+	//$("#tuition").number(true);
+})
 		 function addCourseTime() {
 			var trTag = $("<tr>");
 			

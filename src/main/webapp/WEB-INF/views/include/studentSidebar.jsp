@@ -22,45 +22,19 @@
                             <a href="${pageContext.request.contextPath}/message/listMsg">내가 받은 메세지</a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/course/registerCourses">수강신청하기</a>
-                        </li>
-                        
-                        <li>
-                            ---------------선생님--------------
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/course/insertCourse">강의 개설하기</a>
-                        </li>
-                        <li>
                             <a href="${pageContext.request.contextPath}/course/listCourses">개설된 강좌</a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/message/listMySendMsg">내가 보낸 메세지</a>
+                            <a href="${pageContext.request.contextPath}/course/registerCourses">수강신청하기</a>
                         </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/message/writeAllMsg">단체 메세지 작성하기</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/message/writeMsg">메세지 작성하기</a>
-                        </li>
-                         <li>
-                            ---------------------------------
-                        </li>
+                       
                         <li>
                             <a href="${pageContext.request.contextPath}/user/registerMember">회원가입</a>
                         </li>
                         <li>
                             ---------------------------------
                         </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/user/readStudentInfo">학생 회원정보</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/user/readParentsInfo">학부모 회원정보</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/user/readTeacherInfo">선생님 회원정보</a>
-                        </li>
+                       
                         <li>
                             <a href="${pageContext.request.contextPath}/exam/viewChart">차트예제</a>
                         </li>

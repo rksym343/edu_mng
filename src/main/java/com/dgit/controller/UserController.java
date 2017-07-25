@@ -49,22 +49,19 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@RequestMapping(value="/readTeacherInfo", method=RequestMethod.GET)
-	public void readTeacherInfo(Model model) throws Exception{
-		String tId = "ttt01";
+	public void readTeacherInfo(String tId, Model model) throws Exception{
 		model.addAttribute("teacher",teacherService.selectOneTeacher(tId));
 	}
 	
 	@RequestMapping(value="/readParentsInfo", method=RequestMethod.GET)
-	public void readParentsInfo(Model model) throws Exception{
-		String spId = "mmm01";
+	public void readParentsInfo(String spId, Model model) throws Exception{
 		Parents parents = parentsService.selectOneParents(spId);
 		model.addAttribute("parents", parents);
 		model.addAttribute("student",studentService.selectOneStudent(parents.getsId()));
 	}
 	
 	@RequestMapping(value="/readStudentInfo", method=RequestMethod.GET)
-	public void readStudentInfo(Model model) throws Exception{
-		String sId = "sss01";
+	public void readStudentInfo(String sId, Model model) throws Exception{
 		model.addAttribute("student",studentService.selectOneStudent(sId));
 	}
 	
@@ -168,10 +165,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public void getLogout(HttpSession session) throws Exception{
+	public String getLogout(HttpSession session) throws Exception{
 		session.removeAttribute(LoginInterceptor.MEMBER_ID);
 		session.removeAttribute(LoginInterceptor.MEMBER_TYPE);
 		session.invalidate();
+		return "redirect:/";
 	}
 	
 }

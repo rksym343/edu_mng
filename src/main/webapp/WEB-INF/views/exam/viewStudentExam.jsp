@@ -102,7 +102,7 @@
 <%@ include file="../include/footer.jsp"%>	
 
 <script>
-	var sId = ${memberId};
+	var sId = memberId;
 	
 	var today = new Date();
 	var year = today.getFullYear();

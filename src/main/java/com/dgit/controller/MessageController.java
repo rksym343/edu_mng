@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dgit.domain.Course;
 import com.dgit.domain.Message;
-import com.dgit.service.CourseRegisterService;
 import com.dgit.service.CourseService;
 import com.dgit.service.MessageService;
 

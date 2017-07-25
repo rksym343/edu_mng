@@ -59,7 +59,7 @@
 	<insert id="insertCourseRegister" parameterType="CourseRegister">
 		INSERT INTO course_register
 		(reg_month, reg_s_id, reg_c_no, rs_no)
-		VALUES(#{regMonth}, #{student.sNo}, #{course.cNo}, #{registrationStatus.rsNo})
+		VALUES(#{regMonth}, #{student.sId}, #{cNo}, #{registrationStatus.rsNo})
 	</insert>
 	
 	<update id="updateCourseRegister" parameterType="CourseRegister">

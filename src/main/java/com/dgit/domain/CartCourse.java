@@ -7,8 +7,19 @@ public class CartCourse {
 
 	private int ccNo;
 	private String sId;
+	private int cNo;
 	private List<Course> courses;
 	private Date cartDate;
+	
+	
+
+	public int getcNo() {
+		return cNo;
+	}
+
+	public void setcNo(int cNo) {
+		this.cNo = cNo;
+	}
 
 	public int getCcNo() {
 		return ccNo;
@@ -44,7 +55,8 @@ public class CartCourse {
 
 	@Override
 	public String toString() {
-		return String.format("CartCourse [ccNo=%s, sId=%s, courses=%s, cartDate=%s]", ccNo, sId, courses, cartDate);
+		return String.format("CartCourse [ccNo=%s, sId=%s, cNo=%s, courses=%s, cartDate=%s]", ccNo, sId, cNo, courses,
+				cartDate);
 	}
 
 }

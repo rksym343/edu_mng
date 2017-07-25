@@ -15,8 +15,13 @@
                          <h4>${course.cName } 
                          	<form id="f1" style="text-align:right" method="get">
                          		<input type="hidden" value="${course.cNo }" name="cNo">
-                         		<button type="button" class="btn btn-default" id="modifyCourse">수정</button>
-                         		<button type="button" class="btn btn-default" id="deleteCourse">삭제</button>
+                         		<c:if test="${memberType=='teacher' }">
+                         			<button type="button" class="btn btn-default" id="modifyCourse">수정</button>
+                         			<button type="button" class="btn btn-default" id="deleteCourse">삭제</button>
+                         		</c:if>
+                         		<c:if test="${memberType=='student'||memberType=='parents' }">
+                         			<button type="button" class="btn btn-default" id="registerCourse">수강신청</button>
+                         		</c:if>
                          	</form>
                          	</h4>
                         </div>
@@ -78,7 +83,7 @@
 	                                            <ul>
 				                                    <c:forEach items="${course.pictures}" var="pic">
 				                                    	<c:if test="${!empty pic.cPicture }">
-				                                         	<li><img src="displayFile?filename=${pic.cPicture }"></li>
+				                                         	<li><img src="${pageContext.request.contextPath}/file/displayFile?filename=${pic.cPicture }"></li>
 				                                         </c:if>
 				                                    </c:forEach>
 	                                            	
@@ -116,4 +121,25 @@
 			$("#f1").submit();
 		}
 	});
+	
+	$("#registerCourse").click(function() {
+
+		var cNo = $("input[name='cNo']").val();
+		if(confirm("수강신청 하시겠습니까?")){
+			$.ajax({
+				url: "${pageContext.request.contextPath}/cart/insertCart/"+memberType+"/"+memberId+"/"+cNo,
+				type : "PUT",
+				dataType : "text",
+				success: function(data) {
+					console.log(data);
+					if(data=="SUCCESS"){
+						if(confirm("해당 강좌가 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?")){
+							location.href="${pageContext.request.contextPath}/cart/cartCourses?memberType=${memberType }&id=${memberId }";
+						}
+					}
+				}
+			})
+		}
+	});
+	
 </script>

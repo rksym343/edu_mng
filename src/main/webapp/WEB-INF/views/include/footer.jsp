@@ -60,7 +60,7 @@
     <!-- Morris Charts JS -->
     <script src="${pageContext.request.contextPath}/resources/vendor/raphael/raphael.min.js"></script>
 	<!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> -->
-	<script src="${pageContext.request.contextPath}/resources/vendor/morrisjs/morris.min.js									"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/morrisjs/morris.min.js"></script>
    
     <!-- my Message -->
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>

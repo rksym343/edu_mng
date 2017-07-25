@@ -37,10 +37,8 @@
 	}
 </style>
 	<script>
-
-
-	var memberType = ${memberType};
-	var id= ${memberId};
+	
+	var id= memberId;
 	var isCheckedCnt = 0;
 	
 	Handlebars.registerHelper("isCh", function(isChecked) {
@@ -67,8 +65,8 @@
 		}else{
 			var index = msg.indexOf("]");
 			content = msg.substring(index+1,msg.length-1);
-		return content;
 		}
+		return content;
 	});
 	
 	

@@ -22,8 +22,8 @@ public class CartCourseDAOImpl implements CartCourseDAO {
 	}
 
 	@Override
-	public void deleteOneCartCourse(CartCourse cartCourse) throws Exception {
-		session.delete(namespace + ".deleteOneCartCourse", cartCourse);
+	public void deleteOneCartCourse(int ccNo) throws Exception {
+		session.delete(namespace + ".deleteOneCartCourse", ccNo);
 	}
 
 	@Override
@@ -38,6 +38,12 @@ public class CartCourseDAOImpl implements CartCourseDAO {
 			System.out.println(item.toString());
 		}
 		return list;
+	}
+
+	@Override
+	public void deleteOneCartCourseByCno(int cNo) throws Exception {
+		session.delete(namespace + ".deleteOneCartCourseByCno", cNo);
+		
 	}
 
 }

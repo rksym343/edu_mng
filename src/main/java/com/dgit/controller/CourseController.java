@@ -35,9 +35,11 @@ import com.dgit.domain.StudentGrade;
 import com.dgit.domain.Subject;
 import com.dgit.domain.Teacher;
 import com.dgit.domain.Timetable;
+import com.dgit.interceptor.LoginInterceptor;
 import com.dgit.service.CartCourseService;
 import com.dgit.service.CourseRegisterService;
 import com.dgit.service.CourseService;
+import com.dgit.service.ParentsService;
 import com.dgit.service.StudentGradeService;
 import com.dgit.service.SubjectService;
 import com.dgit.service.TeacherService;
@@ -54,6 +56,9 @@ public class CourseController {
 	
 	@Autowired
 	private StudentGradeService studentGradeService;
+	
+	@Autowired
+	private ParentsService parentsService;
 	
 	@Autowired
 	private TimetableService timetableService;
@@ -318,58 +323,9 @@ public class CourseController {
 		return "redirect:listCourses";
 	}
 	
+
 	
-	@RequestMapping(value="/registerCourses", method=RequestMethod.POST)
-	public String postRegisterCourses(String sId, Integer[] cNos, Model model) throws Exception{
-		logger.info("======================== registerCourses POST  ========================");
-		logger.info("===============  sId : " + sId);
-		// 장바구니에 담고
-		logger.info("======================== 카트상품 ========================");
-		/*CartCourse[] cartCourses = new CartCourse[cNos.length];
-		for(int i = 0; i < cNos.length; i++){
-			CartCourse cc = new CartCourse();
-			Course course = new Course();
-			course.setcNo(cNos[i]);
-			cc.setsId(sId);			
-			cc.setCourse(course);
-			cartCourses[i] = cc;
-			logger.info(cc.toString());
-		}*/
-		
-		CartCourse[] cartCourses = new CartCourse[cNos.length];
-		for(int i = 0; i < cNos.length; i++){
-			CartCourse cc = new CartCourse();
-			List<Course> courses = new ArrayList<>();
-			Course course = new Course();
-			course.setcNo(cNos[i]);
-			courses.add(course);			
-			cc.setsId(sId);			
-			cc.setCourses(courses);
-			cartCourses[i] = cc;
-			logger.info(cc.toString());
-		}
-		boolean res = cartCourseService.insertCartCourse(cartCourses);
-		if(res){
-			
-		}else{
-			
-		}
-		// 장바구니 페이지로... 
-		
-		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
-		
-		return "course/cartCourses";
-	}
-	
-	@RequestMapping(value="/cartCourses", method=RequestMethod.GET)
-	public void getCartCourses(String sId, Model model) throws Exception{
-		System.out.println("======================== cartCourses GET ========================");
-		sId = "sss01";
-		System.out.println("=============== cart size   : " + cartCourseService.selectAllCoursesBySId(sId).size());
-		model.addAttribute("list", cartCourseService.selectAllCoursesBySId(sId));
-		
-	}
-	
+
 	
 	@RequestMapping(value="/myRegisteredCourses", method=RequestMethod.GET)
 	public void getMyRegisteredCourses(String sId, Model model) throws Exception{
@@ -433,6 +389,34 @@ public class CourseController {
 		}
 		return entity;
 	}
+	
+	
+	@RequestMapping(value="/registerCourses/{memberType}/{memberId}/{cNo}", method=RequestMethod.PUT)
+	public ResponseEntity<String> postRegisterCourses(
+			@PathVariable("memberType") String memberType, @PathVariable("memberId") String memberId, @PathVariable("cNo") int cNo) throws Exception{
+		 ResponseEntity<String> entity = null;
+		logger.info("======================== /registerCourses/{memberType}/{memberId}/{cNo} ========================");
+		// 장바구니에 담고
+		logger.info("======================== 카트상품 ========================");
+		try{
+			CartCourse cart = new CartCourse();
+			cart.setcNo(cNo);
+			if(memberType.equals(LoginInterceptor.STUDENT)){
+				cart.setsId(memberId);
+			}else if(memberType.equals(LoginInterceptor.PARENTS)){
+				String sId = parentsService.selectOneParents(memberId).getsId();
+				cart.setsId(sId);
+			}
+			cartCourseService.insertCartCourse(cart);
+			entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+		
+	}
+	
+	
 	
 	
 }
