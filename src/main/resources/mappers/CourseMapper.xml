@@ -33,16 +33,24 @@
 		<result property="cContent" column="c_content"/>
 	</resultMap>
 	
-	<sql id="selectCoursesByCri">
-		SELECT cr.*, c.c_name, ttt.*, t.t_name, sb.sb_no, sb.sb_name FROM  course c
+	<sql id="selectRegisteredCoursesByCri">
+		SELECT cr.*, c.c_name, ttt.*, t.t_name, sb.sb_no, sb.sb_name FROM course c
 		inner join subject sb on sb.sb_no = c.sb_no
-		inner join course_register cr on cr.reg_c_no = c.c_no
 		inner join teacher t on t.t_id = c.t_id
+		inner join course_register cr on cr.reg_c_no = c.c_no
 		inner join timetable ttt on ttt.c_no = cr.reg_c_no
 	</sql>
 	
 	<sql id="selectCourse">
 		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		left outer join timetable ttt on ttt.c_no = c.c_no
+	</sql>
+	
+	<sql id="countCourse">
+		SELECT count(distinct(c.c_no)) FROM course c 
 		inner join subject s on c.sb_no = s.sb_no
 		inner join teacher t on c.t_id = t.t_id
 		inner join student_grade sg on c.gd_no = sg.gd_no
@@ -60,12 +68,30 @@
 	</sql>
 	
 	<sql id="whereCoursesByCri">
-		<where>
-			<if test="course != null">
-				cr.reg_c_no = #{course}
+		<if test="searchType != null">
+			<if test="searchType == 'cName'.toString()">
+				where c.c_name like CONCAT('%',#{keyword},'%')
 			</if>
+			<if test="searchType == 'subject'.toString()">
+				where c.sb_no = #{keyword}
+			</if>
+			<if test="searchType == 'grade'.toString()">
+				where c.gd_no = #{keyword}
+			</if>
+			<if test="searchType == 'ttDay'.toString()">
+				where ttt.tt_day = #{keyword}
+			</if>
+			<if test="searchType == 'teacher'.toString()">
+				where t.t_name like CONCAT('%',#{keyword},'%')
+			</if>
+			and c.is_canceled=0
+		</if>
+	</sql>
+	
+	<sql id="whereRegisteredCoursesByCri">
+		<where>
 			<if test="sId != null">
-				and cr.reg_s_id =#{sId}
+				cr.reg_s_id =#{sId}
 			</if>
 			<if test="tId != null">
 				and t.t_id =#{tId}
@@ -157,14 +183,14 @@
 		UPDATE course SET is_canceled=1 WHERE  c_no=#{cNo}
 	</delete>
 	
-	<select id="selectOneCourse"  resultMap="CourseResult">
+	<select id="selectOneCourse" resultMap="CourseResult">
 		<include refid="selectCourseDetail"/>
 		WHERE c.c_no=#{cNo}
 	</select>
 	
-	<select id="selectAllCourse" resultMap="CourseResult">
+	<select id="selectAllCourse" parameterType="SearchCriteria" resultMap="CourseResult">
 		<include refid="selectCourse"/>
-		WHERE is_canceled=0
+		<include refid="whereCoursesByCri"/>
 	</select>
 	
 	<select id="lastCourseId" resultType="int">
@@ -172,9 +198,17 @@
 		<!-- select last_insert_id() from course -->
 	</select>
 	
-	<select id ="selectCoursesByCri" parameterType="Hashmap"  resultMap="CourseResult">
-		<include refid="selectCoursesByCri"/>
+	<select id="countCourses" parameterType="SearchCriteria" resultType="int">		
+		<include refid="countCourse"/>
 		<include refid="whereCoursesByCri"/>
+	</select>
+	
+	<select id ="selectCoursesByCri" parameterType="Hashmap"  resultMap="CourseResult">
+		<include refid="selectRegisteredCoursesByCri"/>
+		<include refid="whereRegisteredCoursesByCri"/>
+		<if test="tId != null">
+			group by cr.reg_c_no, ttt.tt_day
+		</if>
 	</select>
  
 </mapper>

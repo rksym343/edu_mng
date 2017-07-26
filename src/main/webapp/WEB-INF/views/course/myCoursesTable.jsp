@@ -114,7 +114,7 @@
 
 <%@ include file="../include/footer.jsp"%>	
 <script>
-	var sId= memberId;
+	var tId= memberId;
 	var today = new Date();
 	var year = today.getFullYear();
 	var month = today.getMonth();
@@ -125,7 +125,7 @@
 	
 	$(function() {	   
 		getMyCourses();
-		getMsgByCourse(-1);
+		//getMsgByCourse(-1);
 	   	$("th."+day).css("color","red");
 	});
 
@@ -172,8 +172,8 @@
 	      function getMyCourses(){
 	    	  changeCalTitle();
 	  		$.ajax({
-	  			// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
-	  			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
+	  			//myCoursesTable/{tId}/{year}/{month}
+	  			url: "${pageContext.request.contextPath}/course/myCoursesTable/"+tId+"/"+year+"/"+(month+1),
 	  			type : "get",
 	  			dataType: "json",
 	  			success:function(data){

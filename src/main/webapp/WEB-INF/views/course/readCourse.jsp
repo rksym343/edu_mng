@@ -11,8 +11,8 @@
 			<div class="row">
 			
                   <div class="panel panel-default">
-                 	<div class="panel-heading">
-                         <h4>${course.cName } 
+                 	<div class="panel-heading">                 			
+                       		<span>${course.cName }</span>
                          	<form id="f1" style="text-align:right" method="get">
                          		<input type="hidden" value="${course.cNo }" name="cNo">
                          		<c:if test="${memberType=='teacher' }">
@@ -23,7 +23,6 @@
                          			<button type="button" class="btn btn-default" id="registerCourse">수강신청</button>
                          		</c:if>
                          	</form>
-                         	</h4>
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -104,8 +103,35 @@
 <%@ include file="../include/footer.jsp"%>	
 <script>
 	$(function() {
-		
+		getMyCourses();
 	});
+	
+	function getMyCourses(){
+		var sId = memberId;
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = today.getMonth();
+		var cNo = $("input[name='cNo']").val();
+		$.ajax({
+			// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
+			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
+			type : "get",
+			dataType: "json",
+			success:function(data){
+				console.log(data);
+				$.each(data, function(i, v) {
+					if(v.cNo == cNo){
+						$("#registerCourse").html("수강중");
+						$("#registerCourse").addClass("disabled");						
+					}
+				});
+				var source = $("#courseList").html();
+				var template = Handlebars.compile(source);
+				$("tbody.myCourses").html(template(data));
+			}
+				
+		});
+	}
 	
 	$("#modifyCourse").click(function() {
 		// 수정하기
@@ -123,22 +149,23 @@
 	});
 	
 	$("#registerCourse").click(function() {
-
-		var cNo = $("input[name='cNo']").val();
-		if(confirm("수강신청 하시겠습니까?")){
-			$.ajax({
-				url: "${pageContext.request.contextPath}/cart/insertCart/"+memberType+"/"+memberId+"/"+cNo,
-				type : "PUT",
-				dataType : "text",
-				success: function(data) {
-					console.log(data);
-					if(data=="SUCCESS"){
-						if(confirm("해당 강좌가 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?")){
-							location.href="${pageContext.request.contextPath}/cart/cartCourses?memberType=${memberType }&id=${memberId }";
+		if($("#registerCourse").html()!="수강중"){
+			var cNo = $("input[name='cNo']").val();
+			if(confirm("수강신청 하시겠습니까?")){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/cart/insertCart/"+memberType+"/"+memberId+"/"+cNo,
+					type : "PUT",
+					dataType : "text",
+					success: function(data) {
+						console.log(data);
+						if(data=="SUCCESS"){
+							if(confirm("해당 강좌가 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?")){
+								location.href="${pageContext.request.contextPath}/cart/cartCourses?memberType=${memberType }&id=${memberId }";
+							}
 						}
 					}
-				}
-			})
+				})
+			}
 		}
 	});
 	

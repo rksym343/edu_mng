@@ -6,7 +6,7 @@
 			<li>
          		<a href="{{msgNo}}" class="readMessage" data-toggle="modal" data-target="#myModal" >
            		<div>
- 	            	<strong> <span class='{{isCh isChecked}}'></span> {{msgTitle msgContent cNo}}</strong>
+ 	            	<span> <span class='{{isCh isChecked}}'></span> 보낸사람 - <strong>{{teacher.tName}}</strong></span>
                     <span class="pull-right text-muted">
                     <i class='fa fa-clock-o fa-fw'></i><em>{{tempdate regDate}}</em>
                     </span>

@@ -171,3 +171,31 @@ WHERE cr.reg_s_id ='sss01' and cr.reg_month =201707 and cr.rs_no =1;
 
 SELECT m.*, t.t_name FROM message m inner join teacher t on t.t_id = m.t_id WHERE m.s_id = 
 'sss01' and m.is_del = 0 order by m.is_checked, m.reg_date desc;
+
+
+select count(c_no) from course  c              WHERE c.is_canceled=0;
+
+ select count(c_no)  from course c    where t.t_name like CONCAT('%','김','%')         and c.is_canceled=0
+ 
+ SELECT count(distinct(c.c_no)) FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		left outer join timetable ttt on ttt.c_no = c.c_no;
+		
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
+		inner join subject s on c.sb_no = s.sb_no
+		inner join teacher t on c.t_id = t.t_id
+		inner join student_grade sg on c.gd_no = sg.gd_no
+		left outer join timetable ttt on ttt.c_no = c.c_no;
+		
+		SELECT m.*, t.t_name, p.sp_name, s.s_name FROM message m
+		inner join teacher t on t.t_id = m.t_id
+		left outer join student s on s.s_id = m.s_id
+		left outer join parents p on p.sp_id = m.sp_id;
+		
+		SELECT cr.*, c.c_name, ttt.*, t.t_name, sb.sb_no, sb.sb_name FROM course c inner join subject 
+sb on sb.sb_no = c.sb_no inner join teacher t on t.t_id = c.t_id inner join course_register 
+cr on cr.reg_c_no = c.c_no inner join timetable ttt on ttt.c_no = cr.reg_c_no WHERE t.t_id 
+='aaa01' and cr.reg_month =201706 and cr.rs_no =1 
+group by cr.reg_c_no, ttt.tt_day;

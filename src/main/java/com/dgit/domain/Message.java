@@ -13,8 +13,24 @@ public class Message {
 	private int isChecked;
 	private Date regDate;
 	private Teacher teacher;
-	
-	
+	private Student student;
+	private Parents parents;
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public Parents getParents() {
+		return parents;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public void setParents(Parents parents) {
+		this.parents = parents;
+	}
 
 	public Teacher getTeacher() {
 		return teacher;

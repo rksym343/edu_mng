@@ -60,9 +60,6 @@ public class MessageServiceImpl implements MessageService {
 	public List<Message> selectMessageByCri(
 			String tId, int cNo, String memberType, String id, boolean isAll, boolean isChecked, boolean isDel, int cnt) throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		if(!tId.equals("")){
-			map.put("tId", tId);	
-		}
 		if(cNo != 0){
 			map.put("cNo", cNo);
 		}
@@ -90,6 +87,10 @@ public class MessageServiceImpl implements MessageService {
 		if(cnt != 0){
 			map.put("cnt", cnt);
 		}
+		if(!tId.equals("")){
+			map.put("tId", tId);	
+			return dao.selectMessageByCriForSender(map);
+		}
 		return dao.selectMessageByCri(map);
 	}
 	
@@ -97,9 +98,7 @@ public class MessageServiceImpl implements MessageService {
 	public List<Message> selectMessageByCri(String tId, int cNo, String memberType, String id, boolean isAll,
 			boolean isChecked, int cnt) throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		if(!tId.equals("")){
-			map.put("tId", tId);	
-		}
+		
 		if(cNo != 0){
 			map.put("cNo", cNo);
 		}
@@ -120,6 +119,10 @@ public class MessageServiceImpl implements MessageService {
 		
 		if(cnt != 0){
 			map.put("cnt", cnt);
+		}
+		if(!tId.equals("")){
+			map.put("tId", tId);	
+			return dao.selectMessageByCriForSender(map);
 		}
 		return dao.selectMessageByCri(map);
 	}	

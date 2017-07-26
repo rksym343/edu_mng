@@ -1,6 +1,8 @@
 package com.dgit.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dgit.domain.Course;
 import com.dgit.domain.CourseDetail;
 import com.dgit.domain.CourseImage;
+import com.dgit.domain.SearchCriteria;
 import com.dgit.domain.Timetable;
 import com.dgit.persistence.CourseDAO;
 import com.dgit.persistence.TimetableDAO;
@@ -98,8 +101,8 @@ public class CourseServiceImpl implements CourseService{
 	}
 
 	@Override
-	public List<Course> selectAllCourse() throws Exception {
-		return dao.selectAllCourse();
+	public List<Course> selectAllCourse(SearchCriteria searchCriteria) throws Exception {
+		return dao.selectAllCourse(searchCriteria);
 	}
 
 	@Override
@@ -107,6 +110,11 @@ public class CourseServiceImpl implements CourseService{
 			throws Exception {
 		List<Course> list = dao.selectCoursesByCri(sId, tId, registrationStatus, regMonth);
 		return list;
+	}
+
+	@Override
+	public int countCourses(SearchCriteria searchCriteria) throws Exception {
+		return dao.countCourses(searchCriteria);
 	}
 
 }

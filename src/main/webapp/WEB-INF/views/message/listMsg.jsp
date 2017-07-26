@@ -88,6 +88,7 @@ function getMyMsg(){
 					var content = v.msgContent;
 					var miniContent = content.length > 50 ? content.substr(0,50)+"..." : content; 
 					var title = "<strong>보낸이: "+v.teacher.tName +"</strong> |     "+miniContent; 
+					
 					var isChecked = v.isChecked == 0? "panel-info":"";
 					var collapseTag = 
 					"<div class='panel my-msg-panel "+isChecked+"'>"
@@ -97,7 +98,9 @@ function getMyMsg(){
                     +    "</h4>"
                     + "</div>"
                     + "<div id='"+msgNo+"' class='panel-collapse collapse'>"
-                    +    "<div class='panel-body'>" + content 
+                    +    "<div class='panel-body'>"
+                    + "<p class='text-warning' style='text-size:12px'>보낸시간 : "+viewTime(v.regDate)+"</p>"
+                    + content 
                     + 		"<p style='text-align:right'><a href='"+msgNo+"' class='deleteMsg'><i class='fa fa-trash-o  '></i></p>" 
                     + "</div></div></div>";
                     $("#accordion").append(collapseTag);
@@ -106,6 +109,21 @@ function getMyMsg(){
 		});
 	
 }
+
+
+function viewTime(time){
+
+	var date = new Date(time);
+	var viewDate = ""+ date.getFullYear()
+				+ "-"+((date.getMonth()+1) <10? "0"+(date.getMonth()+1):(date.getMonth()+1))  
+		 	 	+ "-"+(date.getDate()<10?"0"+date.getDate():date.getDate())
+				+ " "+(date.getHours()<10?"0"+date.getHours():date.getHours())
+				+ ":"+(date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes())
+				+ ":"+(date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds());  
+	
+	return viewDate;
+}
+
 
 $(document).on("click", ".panel-info", function() {
 	$(this).removeClass("panel-info");

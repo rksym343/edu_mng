@@ -27,7 +27,9 @@
 
  	<div class="row">
  		<form action="writeMsg" method="post" id="f1">
-         	<input type="hidden" name="tId" value="aaa01">
+ 			<c:if test="${memberType=='teacher' }">
+         		<input type="hidden" name="tId" value="${memberId }">
+         	</c:if>
  		<!--  <div class="input-group btn-group btn-group-justified">
 	         <label class="radio-inline btn btn-primary">
 	         	<input type="radio" name="memberType" value="all" checked="checked">단체공지

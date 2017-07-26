@@ -14,11 +14,15 @@
 		<result property="isChecked" column="is_checked"/>
 		<result property="regDate" column="reg_date"/>
 		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
+		<association property="student" resultMap="com.dgit.mapper.StudentMapper.StudentResult"/>
+		<association property="parents" resultMap="com.dgit.mapper.ParentsMapper.ParentsResult"/>
 	</resultMap>
 
 	<sql id="selectSql">
-		SELECT m.*, t.t_name FROM message m
+		SELECT m.*, t.t_name, p.sp_name, s.s_name FROM message m
 		inner join teacher t on t.t_id = m.t_id
+		left outer join student s on s.s_id = m.s_id
+		left outer join parents p on p.sp_id = m.sp_id
 	</sql>
 	
 	<sql id="whereSql">
@@ -110,6 +114,15 @@
 		<include refid="selectSql"/>		
 		<include refid="whereSql"/>
 		order by m.is_checked, m.reg_date desc
+		<if test="cnt != null">
+			limit #{cnt}
+		</if>
+	</select>
+	
+	<select id="selectMessageByCriForSender" parameterType="hashmap" resultMap="MessageResult">
+		<include refid="selectSql"/>		
+		<include refid="whereSql"/>
+		order by m.reg_date desc
 		<if test="cnt != null">
 			limit #{cnt}
 		</if>

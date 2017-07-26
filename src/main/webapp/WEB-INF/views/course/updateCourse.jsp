@@ -104,7 +104,79 @@
 		<div class="form-group">
 		    <label class="col-sm-1 control-label" for="ttDay">수업시간</label>
 		    <div class="col-sm-10">
-		    	<table  id="courseTime">
+		    	<table id="courseTime">
+		    	<c:if test="${empty course.timetables}">
+		    		<tr>
+		    			<td class="col-sm-3">
+					    	<select id="ttDay" name="ttDay" class="form-control  col-sm-2">
+								<option value="1">월</option>
+								<option value="2">화</option>
+								<option value="3">수</option>
+								<option value="4">목</option>
+								<option value="5">금</option>
+								<option value="6">토</option>
+								<option value="0">일</option>
+							</select>
+						</td>
+						<td class="col-sm-4">
+							<select id="ttStarttime" name="ttStarttime"   class="form-control">
+								<c:forEach begin="09" end="22" var="hh">
+									<c:if test="${hh > 12 }">
+										<c:if test="${(hh-12) < 10 }">
+											<option value="${hh }">오후 0${hh-12 }시</option>
+										</c:if>	
+										<c:if test="${(hh-12) >= 10 }">
+											<option value="${hh }">오후  ${hh-12 }시</option>
+										</c:if>
+									</c:if>
+									<c:if test="${hh == 12 }">
+										<option value="${hh }">오후  ${hh }시</option>
+									</c:if>
+									<c:if test="${hh < 12 }">
+										<c:if test="${hh < 10 }">
+											<option value="${hh }">오전  0${hh }시</option>
+										</c:if>	
+										<c:if test="${hh >= 10 }">
+											<option value="${hh }">오전  ${hh }시</option>
+										</c:if>
+										
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+						<td class="col-sm-1">
+							<label class="control-label" style="text-align : center">~</label>
+						</td>
+						<td class="col-sm-4">
+							<select id="ttEndtime" name="ttEndtime" class="form-control">
+								<c:forEach begin="09" end="22" var="hh">
+									<c:if test="${hh > 12 }">
+										<c:if test="${(hh-12) < 10 }">
+											<option value="${hh }">오후 0${hh-12 }시</option>
+										</c:if>	
+										<c:if test="${(hh-12) >= 10 }">
+											<option value="${hh }">오후  ${hh-12 }시</option>
+										</c:if>
+									</c:if>
+									<c:if test="${hh == 12 }">
+										<option value="${hh }">오후  ${hh }시</option>
+									</c:if>
+									<c:if test="${hh < 12 }">
+										<c:if test="${hh < 10 }">
+											<option value="${hh }">오전  0${hh }시</option>
+										</c:if>	
+										<c:if test="${hh >= 10 }">
+											<option value="${hh }">오전  ${hh }시</option>
+										</c:if>
+										
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+						<td class=""></td>
+		    		</tr>
+		    	</c:if>
+		    	<c:if test="${!empty course.timetables}">
 		    	<c:forEach items="${course.timetables}" var="timetable">
 		            <%-- <li>[<span class="ttDay">${timetable.ttDay }</span>] : ${timetable.ttStarttime }~${timetable.ttEndtime }</li> --%>
 		       		<tr>
@@ -184,7 +256,7 @@
 						</td>
 		    		</tr>
 		        </c:forEach>
-		    		
+		    	</c:if>	
 		    	</table>
 		    </div>
 		     <div class="col-sm-1">

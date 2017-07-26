@@ -72,7 +72,7 @@ ul.timeview {
 	var year = today.getFullYear();
 	var month = today.getMonth();
 
-	var sId="sss01";
+	var sId=memberId;
 	var sWeek = ["일","월","화","수","목","금","토"];
 	
 	Handlebars.registerHelper("dayToHangle", function(day) {

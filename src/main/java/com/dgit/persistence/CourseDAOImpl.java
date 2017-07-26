@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.dgit.domain.Course;
 import com.dgit.domain.CourseDetail;
 import com.dgit.domain.CourseImage;
+import com.dgit.domain.SearchCriteria;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO {
@@ -41,8 +42,8 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public List<Course> selectAllCourse() throws Exception {
-		return session.selectList(namespace + ".selectAllCourse");
+	public List<Course> selectAllCourse(SearchCriteria searchCriteria) throws Exception {
+		return session.selectList(namespace + ".selectAllCourse", searchCriteria);
 	}
 
 	@Override
@@ -51,14 +52,13 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth)
-			throws Exception {
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		if (!sId.trim().equals("")) {
-			map.put("sId", sId);
+			map.put("sId", sId.trim());
 		}
 		if (!tId.trim().equals("")) {
-			map.put("tId", tId);
+			map.put("tId", tId.trim());
 		}
 		if (registrationStatus != 0) {
 			map.put("registrationStatus", registrationStatus);
@@ -66,7 +66,6 @@ public class CourseDAOImpl implements CourseDAO {
 		if (regMonth != 0) {
 			map.put("regMonth", regMonth);
 		}
-
 		return session.selectList(namespace + ".selectCoursesByCri", map);
 	}
 
@@ -114,6 +113,11 @@ public class CourseDAOImpl implements CourseDAO {
 	@Override
 	public List<CourseImage> selectListCourseImage(int cNo) throws Exception {
 		return session.selectList(namespace + ".selectListCourseImage", cNo);
+	}
+
+	@Override
+	public int countCourses(SearchCriteria searchCriteria) throws Exception {
+		return session.selectOne(namespace + ".countCourses", searchCriteria);
 	}
 
 	

@@ -37,7 +37,7 @@ public class CourseRegisterDAOImpl implements CourseRegisterDAO {
 	}
 
 	@Override
-	public List<CourseRegister> selectCourseRegisterByCri(CourseRegister courseRegister) throws Exception {
+	public List<CourseRegister> selectCourseRegisterByCri(CourseRegister courseRegister) throws Exception {  
 		return session.selectList(namespace+".selectCourseRegisterByCri", courseRegister);
 	}
 

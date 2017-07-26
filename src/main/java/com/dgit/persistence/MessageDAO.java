@@ -15,4 +15,7 @@ public interface MessageDAO {
 	public Message selectOneMessage(int msgNo) throws Exception;
 	public List<Message> selectAllMessage() throws Exception;
 	public List<Message> selectMessageByCri(Map<String, Object> map) throws Exception;
+	public List<Message> selectMessageByCriForSender(Map<String, Object> map) throws Exception;
+	
+	
 }

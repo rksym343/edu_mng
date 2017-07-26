@@ -55,6 +55,12 @@ public class MessageDAOImpl implements MessageDAO {
 		}
 
 
+		@Override
+		public List<Message> selectMessageByCriForSender(Map<String, Object> map) throws Exception {
+			return session.selectList(namespace+".selectMessageByCriForSender", map);
+		}
+
+
 
 	
 }
