@@ -142,7 +142,7 @@ where t.tt_day = 1 and cr.reg_s_id='sss01';
 
 select 0
 where not exists (select 1 from course_register cr where cr.reg_s_id='sss03' and cr.reg_month='201707');
-select cr.reg_no from course_register cr where cr.reg_s_id='sss03' and cr.reg_month='201707';
+select cr.reg_no from course_register cr where cr.reg_s_id='sss0' and cr.reg_month='201707';
 
 -- 등원 일반 /지각 판별후 입력
 INSERT INTO attendance (s_id, the_time, as_no)
