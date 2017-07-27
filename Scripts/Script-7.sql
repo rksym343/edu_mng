@@ -129,3 +129,108 @@ SELECT cr.*, c.c_name, ttt.*, t.t_name, sb.sb_no, sb.sb_name FROM course c inner
 sb on sb.sb_no = c.sb_no inner join course_register cr on cr.reg_c_no = c.c_no inner join teacher 
 t on t.t_id = c.t_id inner join timetable ttt on ttt.c_no = cr.reg_c_no WHERE cr.reg_s_id ='sss01' 
 and cr.reg_month =201707 and cr.rs_no =1 ;
+
+-- 오늘 등원해야 할 학생들 시작시간, 끝시간
+select cr.reg_s_id, min(t.tt_starttime), max(t.tt_endtime) from course_register cr 
+inner join timetable t on cr.reg_c_no = t.c_no
+where t.tt_day = 1 and cr.reg_month = '201707'
+group by cr.reg_s_id;
+
+select max(t.tt_endtime) from course_register cr 
+inner join timetable t on cr.reg_c_no = t.c_no
+where t.tt_day = 1 and cr.reg_s_id='sss01';
+
+select 0
+where not exists (select 1 from course_register cr where cr.reg_s_id='sss03' and cr.reg_month='201707');
+select cr.reg_no from course_register cr where cr.reg_s_id='sss03' and cr.reg_month='201707';
+
+-- 등원 일반 /지각 판별후 입력
+INSERT INTO attendance (s_id, the_time, as_no)
+select 'sss01', current_timestamp, if( 
+	(select min(t.tt_starttime) from course_register cr 
+	inner join timetable t on cr.reg_c_no = t.c_no
+	where t.tt_day = 1 and cr.reg_s_id='sss01'
+	) > hour(current_time)
+,2,3) from dual
+where not exists (select 1 from attendance a2 
+					where a2.s_id='sss01' and date(a2.the_time)=current_date and a2.as_no between 2 and 4);
+
+-- 하원 일반/ 조퇴 판별후 입력하기
+INSERT INTO attendance (s_id, the_time, as_no)
+values ('sss02', current_timestamp, if( 
+	(select max(t.tt_endtime) from course_register cr 
+	inner join timetable t on cr.reg_c_no = t.c_no
+	where t.tt_day = 1 and cr.reg_s_id='sss01'
+	) > hour(current_time)
+,4,5));
+from dual
+where exists (select 1 from 
+					attendance a2 
+					where a2.s_id='sss01' and date(a2.the_time)=current_date and a2.as_no between 2 and 3)
+		and not exists (select 1 from 
+					attendance a3 
+					where a3.s_id='sss01' and date(a3.the_time)=current_date and a3.as_no between 4 and 5);
+					
+					
+		select * from attendance order by at_no desc;
+		
+		select date('2017-07-01 16:55:50');
+		select now();
+		select current_date;
+		select concat(hour(current_time), minute(current_time));
+		
+select if((select 1 from attendance a2 
+					where a2.s_id='sss02' 
+					and date(a2.the_time)=current_date 
+					and a2.as_no between 2 and 3) is null, 'not exists', 'exists');
+					
+					
+				select ifnull((select 1 from attendance a2 
+					where a2.s_id='sss03' 
+					and date(a2.the_time)=current_date
+					and a2.as_no between 4 and 5),0);
+					
+					-- 등원 일반 /지각 판별후 입력
+if(
+	select ifnull((select 1 from attendance a2 
+					where a2.s_id='sss02' 
+					and date(a2.the_time)=current_date
+					and a2.as_no between 2 and 3),0)==1
+,
+INSERT INTO attendance (s_id, the_time, as_no)
+select 'sss02', current_timestamp, if( 
+	(select max(t.tt_endtime) from course_register cr 
+	inner join timetable t on cr.reg_c_no = t.c_no
+	where t.tt_day = 1 and cr.reg_s_id='sss01'
+	) > hour(current_time)
+,4,5) from dual
+where exists (select 1 from 
+					attendance a2 
+					where a2.s_id='sss01' and date(a2.the_time)=current_date and a2.as_no between 2 and 3)
+		and not exists (select 1 from 
+					attendance a3 
+					where a3.s_id='sss01' and date(a3.the_time)=current_date and a3.as_no between 4 and 5)
+,
+INSERT INTO attendance (s_id, the_time, as_no)
+select 'sss01', current_timestamp, if(
+	(select min(t.tt_starttime) from course_register cr 
+	inner join timetable t on cr.reg_c_no = t.c_no
+	where t.tt_day = 1 and cr.reg_s_id='sss01' and cr.reg_month = '201707'
+	) > hour(current_time)
+,2,3) from dual
+where not exists (select 1 from attendance a2 
+					where a2.s_id='sss01' and date(a2.the_time)=current_date and a2.as_no between 2 and 4));
+					
+INSERT INTO attendance (s_id, the_time, as_no)
+select 'sss01', current_timestamp, if(
+	(select min(t.tt_starttime) from course_register cr 
+	inner join timetable t on cr.reg_c_no = t.c_no
+	where t.tt_day = 1 and cr.reg_s_id='sss01' and cr.reg_month = '201707'
+	) > hour(current_time)
+,2,3) from dual
+where not exists (select 1 from attendance a2 
+					where a2.s_id='sss01' and date(a2.the_time)=current_date and a2.as_no between 2 and 4);
+					
+select 1 from attendance a2 
+		where a2.s_id='sss02' and date(a2.the_time)=current_date and a2.as_no between 2 and 3;
+		

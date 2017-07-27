@@ -38,12 +38,12 @@ public class AttendanceController {
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
 	
-	@RequestMapping(value="/insertAttendanceIn/{sId}", method=RequestMethod.POST)
+	@RequestMapping(value="/insertAttendanceInAndOut/{sId}", method=RequestMethod.POST)
 	public ResponseEntity<String> getMyAttendanceIn(
 			@PathVariable("sId") String sId) throws Exception{
 		ResponseEntity<String> entity = null;
 		try{
-			attendanceService.insertAttendanceStudentIn(sId);
+			attendanceService.insertAttendanceStudentInAndOut(sId);
 			entity = new ResponseEntity<>(sId+" 등원",  HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -52,11 +52,11 @@ public class AttendanceController {
 	}
 	
 
-	@RequestMapping(value="/insertAttendanceIn", method=RequestMethod.GET)
+	@RequestMapping(value="/insertAttendanceInAndOut", method=RequestMethod.GET)
 	public @ResponseBody String getMyAttendanceInString(String sId) throws Exception{
 		String entity = "";
 		try{
-			attendanceService.insertAttendanceStudentIn(sId);
+			attendanceService.insertAttendanceStudentInAndOut(sId);
 			entity = sId+" in";
 		}catch(Exception e){
 		}		

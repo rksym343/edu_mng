@@ -65,4 +65,20 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		return session.selectOne(namespace+".selectCntByAttendanceType", map);
 	}
 
+	@Override
+	public int selectAttendanceBySIdAndToday(String sId, String searchType) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sId", sId);
+		map.put("searchType", searchType);
+		return session.selectOne(namespace+".selectCntByAttendanceType", map);
+	}
+
+	@Override
+	public void insertAttendanceInAndOut(String sId, String searchType) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sId", sId);
+		map.put("searchType", searchType);
+		session.insert(namespace+".insertAttendanceInAndOut", map);
+	}
+
 }

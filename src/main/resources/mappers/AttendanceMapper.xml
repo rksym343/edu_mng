@@ -108,6 +108,29 @@
 		VALUES(#{sId}, current_date, 1)
 	</insert>
 	
+	<insert id="insertAttendanceInAndOut" parameterType="hashmap">
+		INSERT INTO attendance (s_id, the_time, as_no)
+		<if test="searchType != null">
+			<if test="searchType == 'in'.toString()">
+				values(#{sId}, current_timestamp, if( 
+					(select min(t.tt_starttime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id=#{sId}
+					) > hour(current_time)
+				,2,3))	
+			</if>
+			<if test="searchType == 'out'.toString()">
+				values (#{sId}, current_timestamp, if( 
+					(select max(t.tt_endtime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id=#{sId}
+					) > hour(current_time)
+				,4,5))
+			</if>
+		</if>
+	</insert>
+	
+	
 	<update id="updateAttendanceToday" parameterType="Attendance">
 		UPDATE course_register
 		<set>
@@ -155,6 +178,21 @@
 		<include refid="selectSql"/>
 		where att.s_id = #{sId} and date_format(att.the_time, '%Y-%m') = #{month}
 		order by att.the_time desc
+	</select>
+	
+	<select id="selectAttendanceBySIdAndToday" parameterType="hashmap" resultType="int">
+		select ifnull((select 1 from attendance a2 
+		where a2.s_id=#{sId} and date(a2.the_time)=current_date 
+		
+		<if test="searchType != null">
+			<if test="searchType == 'in'.toString()">
+				and a2.as_no between 2 and 3
+			</if>
+			<if test="searchType == 'out'.toString()">
+				and a2.as_no between 4 and 5
+			</if>
+		</if>
+		,0)
 	</select>
 	
 	<select id="selectAllAttendance" resultMap="AttendanceResult">

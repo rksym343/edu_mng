@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dgit.domain.Attendance;
 import com.dgit.domain.AttendanceSearchCriteria;
@@ -81,8 +82,17 @@ public class AttendanceServiceImpl implements AttendanceService {
 	}
 
 	@Override
-	public void insertAttendanceStudentIn(String sId) throws Exception {
-		Attendance attendance = new Attendance();
+	@Transactional
+	public void insertAttendanceStudentInAndOut(String sId) throws Exception {
+		int inRes = dao.selectAttendanceBySIdAndToday(sId, "in");
+		if(inRes == 0){
+			// 등원기록이 없음
+			dao.insertAttendanceInAndOut(sId, "in");
+		}else{
+			// 등원기록이 있다 ==> 하원
+			dao.insertAttendanceInAndOut(sId, "out");
+		}
+		/*Attendance attendance = new Attendance();
 		Student student =new Student();
 		student.setsId(sId);
 		
@@ -91,21 +101,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 		
 		attendance.setStudent(student);
 		attendance.setAttendanceStatus(attendanceStatus);
-		dao.insertAttendance(attendance);
+		dao.insertAttendance(attendance);*/
 	}
 
-	@Override
-	public void insertAttendanceStudentOut(String sId) throws Exception {
-		Attendance attendance = new Attendance();
-		Student student =new Student();
-		student.setsId(sId);
-		
-		AttendanceStatus attendanceStatus = new AttendanceStatus();
-		attendanceStatus.setAsNo(5);
-		
-		attendance.setStudent(student);
-		attendance.setAttendanceStatus(attendanceStatus);
-		dao.insertAttendance(attendance);
-	}
+	
 
 }
