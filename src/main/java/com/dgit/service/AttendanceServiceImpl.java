@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.dgit.domain.Attendance;
 import com.dgit.domain.AttendanceSearchCriteria;
+import com.dgit.domain.AttendanceStatus;
+import com.dgit.domain.Student;
 import com.dgit.persistence.AttendanceDAO;
 
 @Service
@@ -76,6 +78,34 @@ public class AttendanceServiceImpl implements AttendanceService {
 			map.put("month", month);
 		}
 		return dao.selectCntByAttendanceType(map);
+	}
+
+	@Override
+	public void insertAttendanceStudentIn(String sId) throws Exception {
+		Attendance attendance = new Attendance();
+		Student student =new Student();
+		student.setsId(sId);
+		
+		AttendanceStatus attendanceStatus = new AttendanceStatus();
+		attendanceStatus.setAsNo(2);
+		
+		attendance.setStudent(student);
+		attendance.setAttendanceStatus(attendanceStatus);
+		dao.insertAttendance(attendance);
+	}
+
+	@Override
+	public void insertAttendanceStudentOut(String sId) throws Exception {
+		Attendance attendance = new Attendance();
+		Student student =new Student();
+		student.setsId(sId);
+		
+		AttendanceStatus attendanceStatus = new AttendanceStatus();
+		attendanceStatus.setAsNo(5);
+		
+		attendance.setStudent(student);
+		attendance.setAttendanceStatus(attendanceStatus);
+		dao.insertAttendance(attendance);
 	}
 
 }

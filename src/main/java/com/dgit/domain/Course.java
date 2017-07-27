@@ -121,8 +121,8 @@ public class Course {
 	@Override
 	public String toString() {
 		return String.format(
-				"Course [cNo=%s, teacher=%s, cName=%s, subject=%s, studentGrade=%s, tuition=%s, capacity=%s, cStartdate=%s, cEnddate=%s, classroom=%s, content=%s, pictures=%s, isCanceled=%s, timetables=%s, courseRegisters=%s]",
-				cNo, teacher, cName, subject, studentGrade, tuition, capacity, cStartdate, cEnddate, classroom, content,
+				"Course [cNo=%s,cName=%s, tuition=%s, capacity=%s, cStartdate=%s, cEnddate=%s, classroom=%s, content=%s, pictures=%s, isCanceled=%s, timetables=%s, courseRegisters=%s]",
+				cNo, cName,  tuition, capacity, cStartdate, cEnddate, classroom, content,
 				pictures, isCanceled, timetables, courseRegisters);
 	}
 

@@ -270,16 +270,15 @@
 			<label class="col-sm-1 control-label">수업기간</label>
 			<div class="col-sm-5">
 				<fmt:formatDate value="${course.cStartdate}" pattern="yyyy-MM-dd" var="startdate"/>
-				<input class="form-control"  type="date" id="cStart" name="cStart" value="${startdate}">
+				<input class="form-control"  type="date" id="cStart" name="cStartdate" value="${startdate}">
 			</div>
 			<label class="col-sm-1 control-label">~</label>
 			<div class="col-sm-5">
-				<fmt:formatDate value="${course.cEnddate}" pattern="yyyy-MM-dd" var="enddate"/>
-				<input class="form-control"  type="date" id="cEnd" name="cEnd" value="${enddate}">
+						<fmt:formatDate value="${course.cEnddate}" pattern="yyyy-MM-dd" var="enddate"/>
+				<input class="form-control"  type="date" id="cEnd" name="cEnddate" value="${enddate}">
 			</div>
 		</div>
 		</div>
-		
 		
 		<div class="row">
 		<div class="form-group">
@@ -311,7 +310,7 @@
 				     <c:forEach items="${course.pictures}" var="pic">
 				         <c:if test="${!empty pic.cPicture }">
 				             <li class="coursePic">
-				             	<img src="displayFile?filename=${pic.cPicture }">
+				             	<img src="${pageContext.request.contextPath}/file/displayFile?filename=${pic.cPicture }">
 				             	<a href="${pic.cPicture }" class="btn btn-default"> x </a>
 				             </li>
 				         </c:if>
@@ -320,6 +319,7 @@
                </c:if>
 				<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">
 			</div>
+			
 			
 		</div>
 		</div>
@@ -332,7 +332,7 @@
 		</div>
 	
 
-		
+		<input type='hidden' name='delPics' value="">
 	</form>
 	</div>
 	</div>

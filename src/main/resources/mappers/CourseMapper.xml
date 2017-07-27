@@ -191,6 +191,8 @@
 	<select id="selectAllCourse" parameterType="SearchCriteria" resultMap="CourseResult">
 		<include refid="selectCourse"/>
 		<include refid="whereCoursesByCri"/>
+		order by c.c_no desc
+		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<select id="lastCourseId" resultType="int">

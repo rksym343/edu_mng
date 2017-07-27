@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dgit.domain.Attendance;
 import com.dgit.domain.AttendanceSearchCriteria;
@@ -37,6 +38,30 @@ public class AttendanceController {
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 
 	
+	@RequestMapping(value="/insertAttendanceIn/{sId}", method=RequestMethod.POST)
+	public ResponseEntity<String> getMyAttendanceIn(
+			@PathVariable("sId") String sId) throws Exception{
+		ResponseEntity<String> entity = null;
+		try{
+			attendanceService.insertAttendanceStudentIn(sId);
+			entity = new ResponseEntity<>(sId+" 등원",  HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}		
+		return entity;
+	}
+	
+
+	@RequestMapping(value="/insertAttendanceIn", method=RequestMethod.GET)
+	public @ResponseBody String getMyAttendanceInString(String sId) throws Exception{
+		String entity = "";
+		try{
+			attendanceService.insertAttendanceStudentIn(sId);
+			entity = sId+" in";
+		}catch(Exception e){
+		}		
+		return entity;
+	}
 	
 	@RequestMapping(value="/listAttendance", method=RequestMethod.GET)
 	public void getListAttendance(Model model, AttendanceSearchCriteria cri) throws Exception{

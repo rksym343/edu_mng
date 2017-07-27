@@ -78,8 +78,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    	
+                                    
                                         <c:forEach items="${listCourses }" var="course">
-											<tr onclick="readCourse(${course.cNo })">
+											<tr onclick="readCourse(${course.cNo })" class="c-${course.cNo }" data-cri="${pageMaker.makeSearch(cri.page) }">
 												<td>${course.subject.sbName }</td>
 												<td>${course.studentGrade.gdName }</td>
 												<td>${course.cName }</td>
@@ -112,18 +114,18 @@
 
 							<c:if test="${pageMaker.prev}">
 								<!-- 이전 페이지 있을때만 표시 -->
-								<li><a href="listPage${pageMaker.makeSearch(pageMaker.startPage-1) }">&laquo;</a></li>
+								<li><a href="listCourses${pageMaker.makeSearch(pageMaker.startPage-1) }">&laquo;</a></li>
 							</c:if>
 							
 							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
 								<li ${pageMaker.cri.page == idx? 'class=active' : '' } >
-									<a href="listPage${pageMaker.makeSearch(idx) }">${idx }</a>
+									<a href="listCourses${pageMaker.makeSearch(idx) }">${idx }</a>
 								</li>
 							</c:forEach>
 							
 							<c:if test="${pageMaker.next}">
 								<!-- 이후 페이지 있을때만 표시 -->
-								<li><a href="listPage${pageMaker.makeSearch(pageMaker.endPage+1) }">&raquo;</a></li>
+								<li><a href="listCourses${pageMaker.makeSearch(pageMaker.endPage+1) }">&raquo;</a></li>
 							</c:if>
 
 						</ul>
@@ -170,7 +172,8 @@
 	
 	
 	function readCourse(cNo){
-		location.href="${pageContext.request.contextPath}/course/readCourse?cNo="+cNo;
+		var cri = $(".c-"+cNo).attr("data-cri");
+		location.href="${pageContext.request.contextPath}/course/readCourse"+cri+"&cNo="+cNo;
 	}
 	
   	

@@ -86,7 +86,7 @@ public class CourseController {
 	@RequestMapping(value="/insertCourse", method=RequestMethod.POST)
 	public String postInsertCourse(Course course, Teacher teacher, Subject subject, StudentGrade studentGrade, 
 			CourseDetail courseDetail, List<MultipartFile> pics,
-			Integer[] ttDay, Integer[] ttStarttime, Integer[] ttEndtime, String cStart, String cEnd) throws Exception{
+			Integer[] ttDay, Integer[] ttStarttime, Integer[] ttEndtime) throws Exception{
 		logger.info("=======================insertCourse Post===============");
 	
 		course.setStudentGrade(studentGrade);
@@ -136,6 +136,9 @@ public class CourseController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(courseService.countCourses(cri));
+		System.out.println("============pageMaker==============");
+		System.out.println(pageMaker);
+		System.out.println("============pageMaker==============");
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("studentGradeList", studentGradeService.selectAllStudentGrade()); // 전체학년
 		model.addAttribute("subjectList", subjectService.selectAllSubject()); // 전체교과
@@ -150,7 +153,7 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/readCourse", method=RequestMethod.GET)
-	public void getReadCourse(int cNo, Model model) throws Exception{
+	public void getReadCourse(int cNo, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception{
 		logger.info("======================== readCourse GET ========================");
 		Course course = courseService.selectOneCourse(cNo);
 		logger.info(course.toString());
@@ -182,16 +185,20 @@ public class CourseController {
 	@RequestMapping(value="/updateCourse", method=RequestMethod.POST)
 	public String postUpdateCourse(Course course, Teacher teacher, Subject subject, StudentGrade studentGrade, 
 			CourseDetail courseDetail, List<MultipartFile> pics, String[] delPics,
-			Integer[] ttDay, Integer[] ttStarttime, Integer[] ttEndtime, String cStart, String cEnd) throws Exception{
+			Integer[] ttDay, Integer[] ttStarttime, Integer[] ttEndtime) throws Exception{
 		logger.info("=======================updateCourse Post===============");
-	
+		for(MultipartFile file : pics){
+			logger.info("=======================updateCourse Post===============pics name"+ file.getOriginalFilename());
+			logger.info("=======================updateCourse Post===============pics size"+ file.getSize());
+		}
+		
 		course.setStudentGrade(studentGrade);
 		course.setSubject(subject);
 		course.setTeacher(teacher);
 		course.setContent(courseDetail);
+		
 		List<CourseImage> list = new ArrayList<>();
-		if (!pics.get(0).getOriginalFilename().equals("")) {
-			// imgFiles.get(0).getSize() == 0 으로 쓰기도 함....
+		if (pics.get(0).getSize() != 0 ) {
 			for (MultipartFile file : pics) {
 				logger.info("filename : " + file.getOriginalFilename());
 				String thumb = UploadFileUtils.uplaodFile(uploadPath, file.getOriginalFilename(), file.getBytes());
@@ -211,16 +218,14 @@ public class CourseController {
 			tt.setTtEndtime(ttEndtime[i]);
 			timeTables.add(tt);
 		}
+		logger.info("=======================updateCourse Post 3===============cNo "+ course.getcNo());
 		course.setTimetables(timeTables);
 		
-		System.out.println("Controller에서 넘기기 전~~~~");
 		for(Timetable ttt : timeTables){
 			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
 		}
-		System.out.println("Controller에서 넘기기 전~~~~");
 		
 		courseService.updateCourse(course, delPics);
-		
 		
 		return "redirect:listCourses";
 	}
@@ -321,6 +326,27 @@ public class CourseController {
 	@RequestMapping(value="/myCoursesTable", method=RequestMethod.GET)
 	public void getMyCoursesTable() throws Exception{
 		System.out.println("======================== myCoursesTable GET ========================");
+	}
+	
+	@RequestMapping(value="/myCoursesWithStudent", method=RequestMethod.GET)
+	public void getMyCoursesWithStudent() throws Exception{
+		System.out.println("======================== myCoursesWithStudent GET ========================");
+	}
+	
+	@RequestMapping(value="/myCoursesWithStudent/{cNo}/{year}/{month}", method=RequestMethod.GET)
+	public ResponseEntity<List<CourseRegister>> getMyStudent(
+			@PathVariable("cNo") int cNo,
+			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		ResponseEntity<List<CourseRegister>> entity = null;
+		System.out.println("======================== myCoursesWithStudent GET ========================");
+		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
+		try{
+			List<CourseRegister> list = courseRegisterService.selectRegisteredStudent(cNo, regMonth, 1);
+			entity = new ResponseEntity<>(list, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 	
 	@RequestMapping(value="/myCoursesTable/{tId}/{year}/{month}", method=RequestMethod.GET)

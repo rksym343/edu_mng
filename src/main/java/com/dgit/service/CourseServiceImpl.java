@@ -1,8 +1,6 @@
 package com.dgit.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,32 +54,36 @@ public class CourseServiceImpl implements CourseService{
 	@Override
 	@Transactional
 	public void updateCourse(Course course, String[] delPics) throws Exception {
+		int cNo = course.getcNo();
 		dao.updateCourse(course);
+		
 
 		timetableDao.deleteTimetableBbyCno(course.getcNo());
 		for(Timetable ttt : course.getTimetables()){
 			ttt.setCourse(course);
 			System.out.println(ttt.getTtDay() +" : " + ttt.getTtStarttime() +" : "+ttt.getTtEndtime());
 			timetableDao.insertTimetable(ttt);
-		}	
+		}
 		
 		if(course.getContent() != null){
 			dao.updateCourseDetail(course.getContent());
 		}
-		
-		if(course.getPictures().size() != 0){
+		System.out.println("==========Course pictuers====="+ course.getPictures());
+		if(course.getPictures() != null && course.getPictures().size() != 0){
 			for(CourseImage img : course.getPictures()){
-				img.setcNo(course.getcNo());
+				img.setcNo(cNo);
 				dao.insertCourseImage(img);
 			}
 		}
 		
-		if(delPics != null && delPics.length != 0){
+		System.out.println("==========delPics====="+ course.getPictures());
+		if(delPics != null && delPics.length > 0){
 			for(String imgAddr : delPics){
-				dao.deleteCourseImage(imgAddr);
+				if(!imgAddr.equals("")){
+					dao.deleteCourseImage(imgAddr);
+				}
 			}
 		}
-		
 	}
 
 	@Override

@@ -165,11 +165,11 @@
 		<div class="form-group">
 			<label class="col-sm-1 control-label">수업기간</label>
 			<div class="col-sm-5">
-				<input class="form-control"  type="date" id="cStart" name="cStart">
+				<input class="form-control"  type="date" id="cStart" name="cStartdate">
 			</div>
 			<label class="col-sm-1 control-label">~</label>
 			<div class="col-sm-5">
-				<input class="form-control"  type="date" id="cEnd" name="cEnd">
+				<input class="form-control"  type="date" id="cEnd" name="cEnddate">
 			</div>
 		</div>
 		</div>
@@ -223,6 +223,7 @@ $(function() {
 	//$("#tuition").number(true);
 })
 		 function addCourseTime() {
+	alert($("#cStart").val());
 			var trTag = $("<tr>");
 			
 			var selectDay= $("<select class='form-control' name='ttDay'>");

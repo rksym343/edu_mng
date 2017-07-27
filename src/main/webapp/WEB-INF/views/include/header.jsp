@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- // jQuery UI CSS파일 
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" /> 
@@ -45,6 +45,14 @@
 			list-style: none;
 		}
 	</style>
+	
+	
+<script>
+
+	var arrDay = ["일", "월", "화", "수", "목", "금", "토"];
+	var memberType = "${memberType}";
+	var memberId = "${memberId}";
+</script>
 
 <title>학습 관리 프로그램</title>
 </head>
@@ -77,15 +85,15 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                         <c:if test="${memberType == 'student' }">
-							<a href="${pageContext.request.contextPath}/user/readStudentInfo?sId=${memberId }">
+							<a href="${pageContext.request.contextPath}/user/readStudentInfo?sId=${memberId }"><i class="fa fa-user fa-fw"></i> User Profile</a>
 						</c:if>
 						<c:if test="${memberType == 'parents' }">
-							<a href="${pageContext.request.contextPath}/user/readParentsInfo?spId=${memberId }">
+							<a href="${pageContext.request.contextPath}/user/readParentsInfo?spId=${memberId }"><i class="fa fa-user fa-fw"></i> User Profile</a>
 						</c:if>
 						<c:if test="${memberType == 'teacher' }">
-							<a href="${pageContext.request.contextPath}/user/readTeacherInfo?tId=${memberId }">
+							<a href="${pageContext.request.contextPath}/user/readTeacherInfo?tId=${memberId }"><i class="fa fa-user fa-fw"></i> User Profile</a>
 						</c:if>
-							<i class="fa fa-user fa-fw"></i> User Profile</a>
+							
                         </li>
                         <c:if test="${memberType == 'student' }">
                         	<li><a href="${pageContext.request.contextPath}/cart/cartCourses?memberType=${memberType }&id=${memberId }"><i class="fa fa-shopping-cart fa-fw"></i> Cart</a>
@@ -114,13 +122,7 @@
 	<%@ include file="teacherSidebar.jsp"%>
 </c:if>
 
-<script>
 
-	var arrDay = ["일", "월", "화", "수", "목", "금", "토"];
-	var memberType = "${memberType}";
-	var memberId = "${memberId}";
-</script>
-
-
+  </nav>
 <%@ include file="contentDiv.jsp"%>
            

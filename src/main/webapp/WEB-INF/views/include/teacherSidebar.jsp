@@ -17,7 +17,7 @@
                             <a href="${pageContext.request.contextPath}/course/myCoursesTable">이번달 시간표 : 시간표랑 알림사항들</a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/course/myCoursesTable">내 수업과 학생들</a>
+                            <a href="${pageContext.request.contextPath}/course/myCoursesWithStudent">내 수업과 학생들</a>
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/message/listMySendMsg">내가 보낸 메세지</a>

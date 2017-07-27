@@ -10,11 +10,39 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
-		<div class="form-group row">
+		<div class="form-group row" style="text-align : center">
 			<div class="col-sm-4">
-            	<img src="${pageContext.request.contextPath}/file/displayFile?filename=${student.sPicture }">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						짠짠
+					</div>
+					<div class="panel-body">
+	            		<img src="${pageContext.request.contextPath}/file/displayFile?filename=${student.sPicture }"  class="img-thumbnail">
+	            	</div>
+	            	<div class="panel-footer">
+						짠짠
+					</div>
+            	</div>
             </div>
          </div>
+         
+         
+          <div class="media">
+    <div class="media-left media-top">
+      <img src="${pageContext.request.contextPath}/file/displayFile?filename=${student.sPicture }" class="media-object">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">Media Top</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      
+    </div>
+  </div>
 	
 	
 		 <div class="form-group row">		 
