@@ -9,7 +9,7 @@ import com.dgit.domain.AttendanceSearchCriteria;
 public interface AttendanceService {
 
 	public void insertAttendance(Attendance attendance) throws Exception;
-	public void insertAttendanceStudentInAndOut(String sId) throws Exception;
+	public String insertAttendanceStudentInAndOut(String sId) throws Exception;
 	public void insertAttendanceToday(String sId) throws Exception;
 	public void updateAttendance(Attendance attendance) throws Exception; 
 	public void updateAttendanceToday(Attendance attendance) throws Exception; 

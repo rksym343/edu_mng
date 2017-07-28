@@ -130,6 +130,25 @@
 		</if>
 	</insert>
 	
+	<select id="selectAttendType"  parameterType="hashmap" resultType="int">
+		<if test="searchType != null">
+			<if test="searchType == 'in'.toString()">
+				select if( 
+					(select min(t.tt_starttime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id=#{sId}
+					) > hour(current_time),2,3)
+			</if>
+			<if test="searchType == 'out'.toString()">
+				select if( 
+					(select max(t.tt_endtime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id=#{sId}
+					) > hour(current_time),4,5)
+			</if>
+		</if>
+	</select>
+	
 	
 	<update id="updateAttendanceToday" parameterType="Attendance">
 		UPDATE course_register
@@ -192,7 +211,13 @@
 				and a2.as_no between 4 and 5
 			</if>
 		</if>
-		,0)
+		),0)
+	</select>
+	
+	<select id="selectStudentRegisteredCourse"  parameterType="hashmap" resultType="int">
+		select ifnull((select min(t.tt_starttime) from course_register cr 
+		inner join timetable t on cr.reg_c_no = t.c_no
+		where t.tt_day = 1 and cr.reg_s_id=#{sId} and cr.reg_month = #{month}), 0)
 	</select>
 	
 	<select id="selectAllAttendance" resultMap="AttendanceResult">

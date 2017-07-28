@@ -83,25 +83,56 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	@Transactional
-	public void insertAttendanceStudentInAndOut(String sId) throws Exception {
-		int inRes = dao.selectAttendanceBySIdAndToday(sId, "in");
-		if(inRes == 0){
-			// 등원기록이 없음
-			dao.insertAttendanceInAndOut(sId, "in");
-		}else{
-			// 등원기록이 있다 ==> 하원
-			dao.insertAttendanceInAndOut(sId, "out");
-		}
-		/*Attendance attendance = new Attendance();
-		Student student =new Student();
-		student.setsId(sId);
+	public String insertAttendanceStudentInAndOut(String sId) throws Exception {
+		/*Calendar cal = Calendar.getInstance();
+		String month = String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
+		int regRes = dao.selectStudentRegisteredCourse(sId, month);
+		if(regRes == 0){
+			// 이번달 등록되지 않은 학생
+			dao.in
+		}else{}*/
+			// 이번달 등록학생
+			int inRes = dao.selectAttendanceBySIdAndToday(sId, "in");
+			int outRes = dao.selectAttendanceBySIdAndToday(sId, "out");
+			System.out.println("=======inRes===== : " + inRes);
+			if(inRes == 0){
+				// 등원기록이 없음
+				int asNoByIN = dao.selectAttendType(sId, "in");
+				Attendance attendance = new Attendance();
+				Student student = new Student();
+				student.setsId(sId);
+				attendance.setStudent(student);
+				AttendanceStatus attendanceStatus = new AttendanceStatus();
+				attendanceStatus.setAsNo(asNoByIN);
+				attendance.setAttendanceStatus(attendanceStatus);
+				dao.insertAttendance(attendance);
+				if(asNoByIN == 2){
+					return sId + ": IN";
+				}else{
+					return sId + ": IN / late";
+				}
+				
+			}else if(inRes == 1 && outRes ==0) {
+			
+				// 등원기록이 있다 ==> 하원
+				int asNoByOut = dao.selectAttendType(sId, "out");
+				Attendance attendance = new Attendance();
+				Student student = new Student();
+				student.setsId(sId);
+				attendance.setStudent(student);
+				AttendanceStatus attendanceStatus = new AttendanceStatus();
+				attendanceStatus.setAsNo(asNoByOut);
+				attendance.setAttendanceStatus(attendanceStatus);
+				dao.insertAttendance(attendance);
+				if(asNoByOut == 5){
+					return sId + ": OUT";
+				}else{
+					return sId + ": OUT / early";
+				}
+			}else{
+				return sId + ": Duplicate records not allowed"; 
+			}
 		
-		AttendanceStatus attendanceStatus = new AttendanceStatus();
-		attendanceStatus.setAsNo(2);
-		
-		attendance.setStudent(student);
-		attendance.setAttendanceStatus(attendanceStatus);
-		dao.insertAttendance(attendance);*/
 	}
 
 	

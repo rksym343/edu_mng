@@ -70,7 +70,7 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		Map<String, Object> map = new HashMap<>();
 		map.put("sId", sId);
 		map.put("searchType", searchType);
-		return session.selectOne(namespace+".selectCntByAttendanceType", map);
+		return session.selectOne(namespace+".selectAttendanceBySIdAndToday", map);
 	}
 
 	@Override
@@ -79,6 +79,23 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		map.put("sId", sId);
 		map.put("searchType", searchType);
 		session.insert(namespace+".insertAttendanceInAndOut", map);
+	}
+
+	@Override
+	public int selectStudentRegisteredCourse(String sId, String month) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sId", sId);
+		map.put("month", month);
+		return session.selectOne(namespace+".selectStudentRegisteredCourse", map);
+	}
+
+	@Override
+	public int selectAttendType(String sId, String searchType) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sId", sId);
+		map.put("searchType", searchType);
+		return session.selectOne(namespace+".selectAttendType", map);
+	
 	}
 
 }

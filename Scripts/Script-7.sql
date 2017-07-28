@@ -190,6 +190,7 @@ select if((select 1 from attendance a2
 					and date(a2.the_time)=current_date
 					and a2.as_no between 4 and 5),0);
 					
+					
 					-- 등원 일반 /지각 판별후 입력
 if(
 	select ifnull((select 1 from attendance a2 

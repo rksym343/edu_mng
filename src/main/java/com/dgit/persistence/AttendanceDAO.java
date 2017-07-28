@@ -15,7 +15,10 @@ public interface AttendanceDAO {
 	public void updateAttendanceToday(Attendance attendance) throws Exception; 
 	public void deleteAttendance(Attendance attendance) throws Exception;
 	public int selectCntByAttendanceType(Map<String, Object> map) throws Exception;
-	public int selectAttendanceBySIdAndToday(String sId, String searchType) throws Exception;	
+	public int selectAttendanceBySIdAndToday(String sId, String searchType) throws Exception;
+	public int selectStudentRegisteredCourse(String sId, String month) throws Exception;
+	public int selectAttendType(String sId, String searchType) throws Exception;
+	
 	public List<Attendance> selectAttendanceByCri(AttendanceSearchCriteria cri) throws Exception;
 	public List<Attendance> selectAttendanceBySIdAndMonth(Map<String, Object> map) throws Exception;
 	public List<Attendance> selectAllAttendance() throws Exception;

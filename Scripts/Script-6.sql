@@ -199,3 +199,60 @@ sb on sb.sb_no = c.sb_no inner join teacher t on t.t_id = c.t_id inner join cour
 cr on cr.reg_c_no = c.c_no inner join timetable ttt on ttt.c_no = cr.reg_c_no WHERE t.t_id 
 ='aaa01' and cr.reg_month =201706 and cr.rs_no =1 
 group by cr.reg_c_no, ttt.tt_day;
+
+select ifnull((select 1 from attendance a2 
+					where a2.s_id='sss03' 
+					and date(a2.the_time)=current_date
+					and a2.as_no between 4 and 5),0);
+					
+		select ifnull((select min(t.tt_starttime) from course_register cr 
+	inner join timetable t on cr.reg_c_no = t.c_no
+	where t.tt_day = 1 and cr.reg_s_id='sss01' and cr.reg_month = '201707'), 0);
+	
+	INSERT INTO attendance (s_id, the_time, as_no)
+				values('sss03', current_timestamp, if( 
+					(select min(t.tt_starttime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id='sss03'
+					) > hour(current_time)
+				,2,3));
+				
+				select * from attendance order by at_no desc;
+				
+				select ifnull((select 1 from attendance a2 
+		where a2.s_id='sss03' and date(a2.the_time)=current_date 
+				and a2.as_no between 2 and 3),0);
+
+					
+				
+				INSERT INTO edu_manager.student
+(s_id, s_password, s_name, s_phone, tm_no, school, gd_no, join_date, s_picture)
+VALUES('sss03', 'sss03', '삼학생', '01077777777', 3, '삼학고등학교', 10, now(), '');
+
+select ifnull((select 1 from attendance a2 
+		where a2.s_id='sss02' and date(a2.the_time)=current_date and a2.as_no between 2 and 3),0); 
+		
+		select ifnull((select 1 from attendance a2 where a2.s_id='sss02' and date(a2.the_time)=current_date 
+and a2.as_no between 2 and 3 ,0) ;
+
+INSERT INTO attendance (s_id, the_time, as_no)
+				values ('sss03', current_timestamp, if( 
+					(select max(t.tt_endtime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id='sss03'
+					) > hour(current_time)
+				,4,5))	;
+				select if( 
+					(select min(t.tt_starttime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id='sss02'
+					) > hour(current_time),2,3);
+				select if( 
+					(select max(t.tt_endtime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id='sss04'
+					) > hour(current_time),4,5);
+
+select max(t.tt_endtime) from course_register cr 
+					inner join timetable t on cr.reg_c_no = t.c_no
+					where t.tt_day = 1 and cr.reg_s_id='sss04';

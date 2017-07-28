@@ -56,8 +56,7 @@ public class AttendanceController {
 	public @ResponseBody String getMyAttendanceInString(String sId) throws Exception{
 		String entity = "";
 		try{
-			attendanceService.insertAttendanceStudentInAndOut(sId);
-			entity = sId+" in";
+			entity = attendanceService.insertAttendanceStudentInAndOut(sId);
 		}catch(Exception e){
 		}		
 		return entity;
@@ -87,20 +86,42 @@ public class AttendanceController {
 		logger.info("==================listAttendance GET================");
 		Calendar cal = Calendar.getInstance();
 		String month = String.format("%d-%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
-		/*String sId = (String) session.getAttribute(LoginInterceptor.MEMBER_ID);*/
-		/*String sId = "sss01";
-		List<Attendance> list = attendanceService.selectAttendanceBySIdAndMonth(month, sId);
-		
-		System.out.println("==========LIST  ====  ["+list.size()+"]");
-		for(Attendance at : list){
-			System.out.println(at);
-		}
-		System.out.println("==========LIST  ====  ["+list.size()+"]");
-		
-		model.addAttribute("list", list);*/
 		model.addAttribute("statusList", attendanceStatusService.selectAllAttendanceStatus());
 		model.addAttribute("curYear", cal.get(Calendar.YEAR));
 		model.addAttribute("curMonth", cal.get(Calendar.MONTH)+1);
+	}
+	
+	@RequestMapping(value="/myAttendanceRecord/json/{sId}/{year}/{month}", method=RequestMethod.GET)
+	public @ResponseBody List<Attendance> getMyAttendanceRecordForJson(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		List<Attendance> list = null;
+		String yearMonth = String.format("%04d-%02d", year, month);
+		try{
+			list = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
+		}catch(Exception e){
+		}
+		
+		return list;
+	}
+	
+	@RequestMapping(value="/myAttendanceRecordChart/json/{sId}/{year}/{month}", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getMyAttendanceRecordCartForJson(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		List<Attendance> list = null;
+		String yearMonth = String.format("%04d-%02d", year, month);
+		try{
+			list = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
+				map.put("ab", attendanceService.selectCntByAttendanceType(sId, "a", yearMonth));
+				map.put("nm_in", attendanceService.selectCntByAttendanceType(sId, "n", yearMonth));
+				map.put("ea", attendanceService.selectCntByAttendanceType(sId, "e", yearMonth));
+				map.put("la", attendanceService.selectCntByAttendanceType(sId, "l", yearMonth));
+				map.put("ea_la", attendanceService.selectCntByAttendanceType(sId, "el", yearMonth));
+				map.put("list", list);
+		}catch(Exception e){
+		}
+		
+		return map;
 	}
 	
 	@RequestMapping(value="/myAttendanceRecord/{sId}/{year}/{month}", method=RequestMethod.GET)
