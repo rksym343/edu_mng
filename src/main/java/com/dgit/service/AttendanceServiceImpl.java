@@ -46,9 +46,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return dao.selectAllAttendance();
 	}
 
+	@Transactional
 	@Override
-	public void insertAttendance(Attendance attendance) throws Exception {
+	public int insertAttendance(Attendance attendance) throws Exception {
 		dao.insertAttendance(attendance);
+		return dao.selectLastNoAttendance();
 	}
 
 	@Override
@@ -133,6 +135,16 @@ public class AttendanceServiceImpl implements AttendanceService {
 				return sId + ": Duplicate records not allowed"; 
 			}
 		
+	}
+
+	@Override
+	public List<Attendance> selectStudentByCnoWithAttendance(int ttDay, int cNo, int regMonth) throws Exception {
+		return dao.selectStudentByCnoWithAttendance(ttDay, cNo, regMonth); 
+	}
+
+	@Override
+	public Attendance selectOneAttendance(int atNo) throws Exception {
+		return dao.selectOneAttendance(atNo);
 	}
 
 	

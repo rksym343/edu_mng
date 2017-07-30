@@ -69,15 +69,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">학습관리 프로그램   [${memberType} : ${memberId }] </a>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}">스터디헬퍼 </a>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
+            
+			<c:if test="${memberType == 'student' }">
                 <li class="dropdown">
                     <%@ include file="header_message.jsp"%>	
                 </li>
+             </c:if>
             
+			<c:if test="${!empty memberType }">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -98,14 +102,16 @@
                         <c:if test="${memberType == 'student' }">
                         	<li><a href="${pageContext.request.contextPath}/cart/cartCourses?memberType=${memberType }&id=${memberId }"><i class="fa fa-shopping-cart fa-fw"></i> Cart</a>
                         	</li>
+                        	<li class="divider"></li>
                         </c:if>
-                        <li class="divider"></li>
-                        <li><a href="${pageContext.request.contextPath}/user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
+                        
+	                        <li><a href="${pageContext.request.contextPath}/user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+	                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
                 <!-- /.dropdown -->
+                </c:if>
             </ul>
             <!-- /.navbar-top-links -->
 

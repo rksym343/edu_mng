@@ -19,6 +19,10 @@ public interface AttendanceDAO {
 	public int selectStudentRegisteredCourse(String sId, String month) throws Exception;
 	public int selectAttendType(String sId, String searchType) throws Exception;
 	
+	public int selectLastNoAttendance() throws Exception;
+	public Attendance selectOneAttendance(int atNo) throws Exception;
+	
+	public List<Attendance> selectStudentByCnoWithAttendance(int ttDay, int cNo, int regMonth) throws Exception;
 	public List<Attendance> selectAttendanceByCri(AttendanceSearchCriteria cri) throws Exception;
 	public List<Attendance> selectAttendanceBySIdAndMonth(Map<String, Object> map) throws Exception;
 	public List<Attendance> selectAllAttendance() throws Exception;

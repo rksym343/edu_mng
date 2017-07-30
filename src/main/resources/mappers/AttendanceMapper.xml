@@ -151,9 +151,9 @@
 	
 	
 	<update id="updateAttendanceToday" parameterType="Attendance">
-		UPDATE course_register
+		UPDATE attendance
 		<set>
-			<if test="sId != null">
+			<if test="student != null">
 				s_id=#{student.sId},
 			</if>
 			<if test="theTime != null">
@@ -167,9 +167,9 @@
 	</update>
 	
 	<update id="updateAttendance" parameterType="Attendance">
-		UPDATE course_register
+		UPDATE attendance
 		<set>
-			<if test="sId != null">
+			<if test="student != null">
 				s_id=#{student.sId},
 			</if>
 			<if test="theTime != null">
@@ -225,11 +225,41 @@
 		order by att.the_time desc
 	</select>
 	
+	<select id="selectLastNoAttendance" resultType="int">
+		select max(at_no) from attendance
+	</select>
+	
 	<select id="selectCntByAttendanceType" parameterType="hashmap" resultType="int">
 		select count(a.at_no) from attendance a 
 		left outer join attendance a2 
 		on Date(a.the_time) = Date(a2.the_time) and a.at_no != a2.at_no and a.s_id = a2.s_id
 		<include refid="whereByAttendanceType"/>
+	</select>
+	
+	<select id="selectStudentByCnoWithAttendance" parameterType="hashmap" resultMap="AttendanceResult">
+		select s.s_id, s.s_name, s.s_phone, s.school, att.the_time, att.at_no, ass.as_no, ass.as_status from course_register cr
+		inner join timetable tt on tt.c_no = cr.reg_c_no
+		inner join student s on s.s_id = cr.reg_s_id
+		left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) = current_date
+		left outer join attendance_status ass on att.as_no = ass.as_no
+		<where>
+			<if test="ttDay != null">
+				tt.tt_day = #{ttDay} 
+			</if>
+			<if test="cNo != 0">
+				and cr.reg_c_no = #{cNo} 
+			</if>
+			<if test="regMonth != 0">
+				and cr.reg_month=#{regMonth} 
+			</if>
+		</where>
+		group by s.s_id, att.the_time
+	</select>
+	
+	<select id ="selectOneAttendance" resultMap="AttendanceResult">
+		select att.*, ass.as_status from attendance att
+		inner join attendance_status ass on att.as_no = ass.as_no
+		 WHERE att.at_no = #{atNo}
 	</select>
 	
 </mapper>

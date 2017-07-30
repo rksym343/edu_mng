@@ -65,6 +65,17 @@ public class UserController {
 		model.addAttribute("student",studentService.selectOneStudent(sId));
 	}
 	
+	@RequestMapping(value="/readStudentInfo/{sId}", method=RequestMethod.GET)
+	public ResponseEntity<Student> readStudentInfo(@PathVariable("sId") String sId) throws Exception{
+		ResponseEntity<Student> entity = null;	
+		try{
+			entity = new ResponseEntity<>(studentService.selectOneStudent(sId),  HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}		
+		return entity;
+	}
+	
 	@RequestMapping(value="/registerMember", method=RequestMethod.GET)
 	public void getRegisterMember(Model model) throws Exception{
 		

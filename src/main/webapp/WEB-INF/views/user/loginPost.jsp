@@ -9,7 +9,7 @@
 <body>
 	<script type="text/javascript">
 	
-		location.href="${pageContext.request.contextPath}/attend/myAttendance";
+		location.href="${pageContext.request.contextPath}";
 	</script>
 
 </body>

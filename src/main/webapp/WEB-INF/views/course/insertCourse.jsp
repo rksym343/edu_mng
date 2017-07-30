@@ -223,7 +223,6 @@ $(function() {
 	//$("#tuition").number(true);
 })
 		 function addCourseTime() {
-	alert($("#cStart").val());
 			var trTag = $("<tr>");
 			
 			var selectDay= $("<select class='form-control' name='ttDay'>");

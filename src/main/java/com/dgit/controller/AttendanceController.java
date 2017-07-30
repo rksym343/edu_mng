@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dgit.domain.Attendance;
 import com.dgit.domain.AttendanceSearchCriteria;
+import com.dgit.domain.AttendanceStatus;
+import com.dgit.domain.Student;
 import com.dgit.service.AttendanceService;
 import com.dgit.service.AttendanceStatusService;
 
@@ -36,19 +38,13 @@ public class AttendanceController {
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
-
 	
-	@RequestMapping(value="/insertAttendanceInAndOut/{sId}", method=RequestMethod.POST)
-	public ResponseEntity<String> getMyAttendanceIn(
-			@PathVariable("sId") String sId) throws Exception{
-		ResponseEntity<String> entity = null;
-		try{
-			attendanceService.insertAttendanceStudentInAndOut(sId);
-			entity = new ResponseEntity<>(sId+" 등원",  HttpStatus.OK);
-		}catch(Exception e){
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}		
-		return entity;
+	
+	
+	
+	@RequestMapping(value="/myCoursesWithStudentForAttendance", method=RequestMethod.GET)
+	public String getMyAttendanceIn(Model model) throws Exception{
+		return "/course/myCoursesWithStudentForAttendance";
 	}
 	
 
@@ -134,6 +130,64 @@ public class AttendanceController {
 			entity = new ResponseEntity<List<Attendance>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Attendance>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/studentAttendanceInfo/{cNo}/{ttDay}/{year}/{month}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getStudentAttendanceInfo(
+			@PathVariable("cNo") int cNo, @PathVariable("ttDay") int ttDay, 
+			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		ResponseEntity<Map<String, Object>> entity = null;
+		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
+		Map<String, Object> map = new HashMap<>();
+		try{
+			List<Attendance> list = attendanceService.selectStudentByCnoWithAttendance(ttDay, cNo, regMonth);
+			map.put("list", list);
+			map.put("statusList", attendanceStatusService.selectAllAttendanceStatus());
+			entity = new ResponseEntity<>(map, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/updateAttendance/{sId}/{originAtNo}/{asNo}", method=RequestMethod.GET)
+	public ResponseEntity<Attendance> updateAttendance(
+			@PathVariable("sId") String sId, 
+			@PathVariable("originAtNo") int originAtNo, @PathVariable("asNo") int asNo) throws Exception{
+		logger.info("==========================updateAttendance=====================");
+		ResponseEntity<Attendance> entity = null;
+		int newAtNo = 0;
+		try{
+			Attendance attendance = new Attendance();
+			Student student = new Student();
+			student.setsId(sId);
+			
+			AttendanceStatus attendanceStatus = new AttendanceStatus();
+			attendanceStatus.setAsNo(asNo);
+			
+			attendance.setStudent(student);
+			attendance.setAttendanceStatus(attendanceStatus);
+			logger.info("==========================updateAttendance========originAtNo: " + originAtNo);
+			if(originAtNo == 0 ){
+				newAtNo = attendanceService.insertAttendance(attendance);
+			}else{
+				
+				attendance.setAtNo(originAtNo);
+				newAtNo = originAtNo;
+
+				logger.info("==========================updateAttendance========newAtNo: " + newAtNo);
+				logger.info("==========================updateAttendance========attendance: " + attendance);
+				attendanceService.updateAttendance(attendance);
+			}
+			Attendance att = attendanceService.selectOneAttendance(newAtNo);
+			logger.info("==========================updateAttendance========after: " + att);
+			entity = new ResponseEntity<>(att, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		return entity;

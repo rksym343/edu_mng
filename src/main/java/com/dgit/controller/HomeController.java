@@ -1,7 +1,5 @@
 package com.dgit.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +20,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest request) {
-		return "redirect:/user/login";
+		return "redirect:/course/listCourses";
 	}
 	
 }

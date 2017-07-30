@@ -98,4 +98,23 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 	
 	}
 
+	@Override
+	public List<Attendance> selectStudentByCnoWithAttendance(int ttDay, int cNo, int regMonth) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ttDay", ttDay);
+		map.put("cNo", cNo);
+		map.put("regMonth", regMonth);
+		return session.selectList(namespace+".selectStudentByCnoWithAttendance", map);
+	}
+
+	@Override
+	public int selectLastNoAttendance() throws Exception {
+		return session.selectOne(namespace+".selectLastNoAttendance");
+	}
+
+	@Override
+	public Attendance selectOneAttendance(int atNo) throws Exception {
+		return session.selectOne(namespace+".selectOneAttendance", atNo);
+	}
+
 }

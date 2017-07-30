@@ -235,3 +235,54 @@ where not exists (select 1 from attendance a2
 select 1 from attendance a2 
 		where a2.s_id='sss02' and date(a2.the_time)=current_date and a2.as_no between 2 and 3;
 		
+		
+		SELECT e.*, ei.ei_title, c.c_name FROM examination e inner join exam_item ei on e.ei_no = ei.ei_no 
+inner join subject sb on sb.sb_no = e.sb_no left outer join course c on c.c_no = e.c_no WHERE 
+e.s_id = 'sss01' and e.ei_no > 4;
+		
+
+select s.s_id, s.s_name, s.s_phone, s.school, att.the_time, ass.as_status from course_register cr
+inner join timetable tt on tt.c_no = cr.reg_c_no
+inner join student s on s.s_id = cr.reg_s_id
+left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) = '2017-07-15'
+left outer join attendance_status ass on att.as_no = ass.as_no
+where tt.tt_day = 1 and cr.reg_c_no = 4 and cr.reg_month='201707'
+group by cr.reg_s_id; 
+
+select current_date;
+
+
+
+select s.s_id, s.s_name, s.s_phone, s.school, att.the_time, ass.as_no, ass.as_status from course_register cr 
+inner join timetable tt on tt.c_no = cr.reg_c_no inner join student s on s.s_id = cr.reg_s_id 
+left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) = '2017-07-28'
+left outer join attendance_status ass on att.as_no = ass.as_no
+WHERE  cr.reg_c_no = 4 and cr.reg_month=201707
+group by  s.s_id, att.the_time;
+
+select s.s_id, s.s_name, s.s_phone, s.school, att.the_time, ass.as_no, ass.as_status from course_register 
+cr inner join timetable tt on tt.c_no = cr.reg_c_no inner join student s on s.s_id = cr.reg_s_id 
+left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) = current_date 
+left outer join attendance_status ass on att.as_no = ass.as_no 
+WHERE cr.reg_c_no = 4 and cr.reg_month=201707
+group by s.s_id, att.the_time;
+
+
+select s.s_id, s.s_name, s.s_phone, s.school, att.the_time, att.at_no, ass.as_no, ass.as_status 
+from course_register cr inner join timetable tt on tt.c_no = cr.reg_c_no inner join student 
+s on s.s_id = cr.reg_s_id left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) 
+= current_date left outer join attendance_status ass on att.as_no = ass.as_no WHERE tt.tt_day 
+= 4 and cr.reg_c_no = 4 and cr.reg_month=201707 group by s.s_id, att.the_time ;
+
+
+select * from course_register cr
+inner join student s on s.s_id = cr.reg_s_id 
+WHERE cr.reg_c_no = 4 and cr.reg_month=201707;
+
+select s.s_id, s.s_name, s.s_phone, s.school, att.the_time, ass.as_no, ass.as_status from course_register cr 
+inner join timetable tt on tt.c_no = cr.reg_c_no 
+inner join student s on s.s_id = cr.reg_s_id 
+left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) = current_date 
+left outer join attendance_status ass on att.as_no = ass.as_no 
+WHERE tt.tt_day =1 and cr.reg_c_no = 4 and cr.reg_month=201707;
+group by att.the_time;
