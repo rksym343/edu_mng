@@ -237,8 +237,6 @@ public class CourseController {
 	@RequestMapping(value="/myRegisteredCourses", method=RequestMethod.GET)
 	public void getMyRegisteredCourses(String sId, Model model) throws Exception{
 		System.out.println("======================== myRegisteredCourses GET ========================");
-		sId = "sss01";
-		
 		int registrationStatus = 1; // 결제됨
 		Calendar cal = Calendar.getInstance();
 		int regMonth = Integer.parseInt(String.format("%04d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1));
@@ -252,7 +250,6 @@ public class CourseController {
 	@RequestMapping(value="/myRegisteredCoursesTable", method=RequestMethod.GET)
 	public void getMyRegisteredCoursesTable(String sId, Model model) throws Exception{
 		System.out.println("======================== myRegisteredCourses GET ========================");
-		sId = "sss01";
 		
 		int registrationStatus = 1; // 결제됨
 		Calendar cal = Calendar.getInstance();
@@ -363,6 +360,28 @@ public class CourseController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping(value="/timetable/{cNo1}/{cNo2}", method=RequestMethod.GET)
+	public ResponseEntity<String> getMyCourses(@PathVariable("cNo1") int cNo1, @PathVariable("cNo2") int cNo2) throws Exception{
+		System.out.println("======================== /timetable/{cNo1}/{cNo2} GET ========================");
+		ResponseEntity<String> entity = null;
+		try{
+			
+			int res = timetableService.checkEq(cNo1, cNo2);
+			System.out.println("======================== /timetable/{cNo1}/{cNo2} ttDay : " + res);
+			if(res != 99){
+				entity = new ResponseEntity<>("OK", HttpStatus.OK);
+			}else{
+				entity = new ResponseEntity<>("NO", HttpStatus.OK);
+			}
+			
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	
 	
 	
 	

@@ -31,21 +31,22 @@ VALUES('sss02', 'sss02', '너학생', '010-111-1111', 1, '가가중학교', 7, C
 
 
 INSERT INTO edu_manager.course (c_no, t_id, gd_no, sb_no, c_name, is_canceled)
-values (1, 'aaa01', 7, 1, '강의명', 0);
+values (1, 'aaa01', 7, 1, '중1 국어', 0);
 INSERT INTO edu_manager.course (c_no, t_id, gd_no, sb_no, c_name, is_canceled)
 values 
-(2, 'aaa01', 7, 1, '강의명2', 0),(3, 'aaa01', 7, 1, '강의명3', 0),(4, 'aaa01', 7, 1, '강의명4', 0),
-(5, 'aaa01', 7, 1, '강의명5', 0),(6, 'aaa01', 7, 1, '강의명6', 0),(7, 'aaa01', 7, 1, '강의명7', 0);
+(2, 'aaa01', 7, 1, '중1 국어 비문학독해', 0),(3, 'aaa01', 7, 1, '중1 국어 시 특강', 0),(4, 'aaa01', 7, 1, '중1 국어 논술', 0),
+(5, 'aaa01', 7, 1, '중1 국어 문학', 0),(6, 'aaa01', 7, 1, '중1 국어 작문', 0),(7, 'aaa01', 7, 1, '중1 국어 특강', 0);
 
 
 INSERT INTO edu_manager.attendance (s_id, the_time, as_no) values 
-('sss01', '2017-05-31 17:55:50', 5);
+('sss01', '2017-05-31 17:55:50', 2),
+('sss01', '2017-05-31 19:55:50', 5);
 INSERT INTO edu_manager.attendance (s_id, the_time, as_no) 
 values  ('sss01', current_date, 1);
 INSERT INTO edu_manager.attendance (s_id, the_time, as_no) values
 ('sss01', '2017-06-05 20:55:50', 3),
-('sss01', '2017-07-20 17:55:50', 2),
-('sss01', '2017-08-31 17:55:50', 4);
+('sss01', '2017-06-05 22:55:50', 5),
+('sss01', '2017-07-20 17:55:50', 1);
 
 
 -- (1, '결석'),(2, '등원'),(3, '지각'),(4, '조퇴'),(5, '하원')
@@ -97,10 +98,10 @@ INSERT INTO edu_manager.examination (sb_no, s_id, ei_no, e_result, e_memo, e_dat
 (1,'sss01', 2, 90, '', '2017-06-20');
 
 INSERT INTO edu_manager.examination (sb_no, s_id, c_no, ei_no, e_result, e_memo, e_date) values
-(1,'sss01', 2, 6, 70, '~~~에 대한 복습이 필요합니다', '2017-06-05'),
+(1,'sss01', 2, 6, 70, '지문을 빨리 읽는 연습이 필요합니다', '2017-06-05'),
 (1,'sss01', 2, 6, 80, '핵심키워드에 대한 공부가 필요합니다','2017-06-20'),
-(1,'sss01', 2, 6, 90, '~~~에 대한 복습이 필요합니다', '2017-07-05'),
-(1,'sss01', 2, 6, 60, '~~~에 대한 복습이 필요합니다', '2017-07-15'),
+(1,'sss01', 2, 6, 90, '1단원에 대한 복습이 필요합니다', '2017-07-05'),
+(1,'sss01', 2, 6, 60, '정확한 독해 연습이 필요합니다', '2017-07-15'),
 (1,'sss01', 3, 5, 90, '', '2017-07-08');
 
 
@@ -118,8 +119,8 @@ VALUES('ppp01', 'ppp01', '나아빠', '010-1234-1234', 2, '아빠', 'sss01');
 
 
 INSERT INTO edu_manager.message (t_id, c_no, s_id, sp_id, msg_content, is_checked, reg_date) values
-('aaa01', null, 'sss01', null, '가입을 축하합니다', 1, current_timestamp),
-('aaa01', 1, 'sss01', null, '국어과제 마감기한 2017-07-28까지 입니다', 1, current_timestamp),
+('aaa01', null, 'sss01', null, '가입을 축하합니다', 1, '2017-05-01 17:00:00'),
+('aaa01', 1, 'sss01', null, '국어과제 마감기한 2017-07-31까지 입니다', 1, current_timestamp),
 ('aaa01', 1, 'sss01', null, '내일은 휴강입니다', 0, current_timestamp),
 ('aaa01', null, 'sss02', null, '가입을 축하합니다', 0, current_timestamp),
 ('aaa01', null, null, 'sp01', '가입을 축하합니다', 1, current_timestamp);
@@ -256,3 +257,47 @@ INSERT INTO attendance (s_id, the_time, as_no)
 select max(t.tt_endtime) from course_register cr 
 					inner join timetable t on cr.reg_c_no = t.c_no
 					where t.tt_day = 1 and cr.reg_s_id='sss04';
+					
+					
+select 1 exists (
+	if())
+);
+
+-- 일치하는 요일 있으면 숫자 아니면 -1
+select ifnull((select tt1.tt_day from timetable tt1 where c_no = 10 and tt1.tt_day in (select tt2.tt_day from timetable tt2 where c_no = 4)), -1); -- 일치하는 요일
+select ifnull((select tt1.tt_day from timetable tt1 where c_no = #{firstCNo} and tt1.tt_day in (select tt2.tt_day from timetable tt2 where c_no = #{lastCNo})), -1)
+
+-- 1. 시작시간 겹치는지
+select ifnull(
+(select tt1.tt_starttime from timetable tt1 
+where c_no = 10 and tt1.tt_day = 6 and tt1.tt_starttime = (select tt2.tt_day from timetable tt2 where c_no = 4 and tt2.tt_day= 6)),-1);
+
+select ifnull(
+(select tt1.tt_starttime from timetable tt1 
+where c_no = #{firstCNo} and tt1.tt_day = #{ttDay} and tt1.tt_starttime = (select tt2.tt_day from timetable tt2 where c_no = #{lastCNo} and tt2.tt_day= #{ttDay})),-1);
+
+-- 2. 시작시간이 사이// 겹치면 시간 아니면 -1
+select ifnull(
+(select tt1.tt_starttime from timetable tt1 
+where c_no = 10 and tt1.tt_day = 6 and tt1.tt_starttime 
+		between (select tt2.tt_starttime from timetable tt2 where c_no = 4 and tt2.tt_day= 6)
+		and (select tt2.tt_endtime from timetable tt2 where c_no = 4 and tt2.tt_day= 6)
+		), -1);
+		
+		select tt2.tt_starttime from timetable tt2 where c_no = 4 and tt2.tt_day= 6;
+select ifnull(
+(select tt1.tt_starttime from timetable tt1 
+where c_no = #{firstCNo} and tt1.tt_day = #{ttDay} and tt1.tt_starttime 
+		between (select tt2.tt_starttime from timetable tt2 where c_no = #{lastCNo} and tt2.tt_day= #{ttDay})
+		and (select tt2.tt_endtime from timetable tt2 where c_no = #{lastCNo} and tt2.tt_day= #{ttDay})
+		), -1)
+
+-- 3. 끝 시간이 사이// 겹치면 시간 아니면 -1
+select ifnull(
+(select tt1.tt_endtime from timetable tt1 where c_no = 10 and tt1.tt_day = 6 and tt1.tt_endtime between (select tt2.tt_starttime from timetable tt2 where c_no = 4 and tt2.tt_day= 6)
+and (select tt2.tt_endtime from timetable tt2 where c_no = 4 and tt2.tt_day= 6)), -1);
+
+select ifnull(
+(select tt1.tt_endtime from timetable tt1 where c_no = #{firstCNo} and tt1.tt_day = #{ttDay} and tt1.tt_endtime 
+between (select tt2.tt_starttime from timetable tt2 where c_no = #{lastCNo} and tt2.tt_day= #{ttDay})
+and (select tt2.tt_endtime from timetable tt2 where c_no = #{lastCNo} and tt2.tt_day= #{ttDay})), -1)

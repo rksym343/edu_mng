@@ -8,8 +8,15 @@ public class Timetable {
 	private int ttStarttime;
 	private int ttEndtime;
 	private int ttVersion;
-	
-	
+	private int cNo;
+
+	public int getcNo() {
+		return cNo;
+	}
+
+	public void setcNo(int cNo) {
+		this.cNo = cNo;
+	}
 
 	public int getTtNo() {
 		return ttNo;
@@ -61,10 +68,9 @@ public class Timetable {
 
 	@Override
 	public String toString() {
-		return String.format("Timetable [ttNo=%s, course=%s, ttDay=%s, ttStarttime=%s, ttEndtime=%s, ttVersion=%s]",
-				ttNo, course, ttDay, ttStarttime, ttEndtime, ttVersion);
+		return String.format(
+				"Timetable [ttNo=%s, course=%s, ttDay=%s, ttStarttime=%s, ttEndtime=%s, ttVersion=%s, cNo=%s]", ttNo,
+				course, ttDay, ttStarttime, ttEndtime, ttVersion, cNo);
 	}
-	
-	
 
 }

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dgit.domain.Course;
 import com.dgit.domain.Message;
@@ -133,6 +134,19 @@ public class MessageController {
 		return entity;
 	}
 	
+	
+	@RequestMapping(value="/newMsgs/{memberType}/{id}", method=RequestMethod.GET)
+	public @ResponseBody List<Message> getListMsgByIdForAndroid(
+			@PathVariable("memberType") String memberType, @PathVariable("id") String id) throws Exception{
+		List<Message> list = null;
+		logger.info("==================newMsgs/{memberType}/{id}/  GET================");
+		logger.info("================== id : " +id);
+		try{
+			list = messageService.selectMessageByCri("", 0, memberType, id, false, false, 0);
+		}catch(Exception e){
+		}		
+		return list;
+	}
 	
 	@RequestMapping(value="/listMySendMsg", method=RequestMethod.GET)
 	public void getListMySendMsg(Model model) throws Exception{

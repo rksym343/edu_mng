@@ -6,10 +6,10 @@
                     	<a href="#">내 강의실<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-		                            <a href="${pageContext.request.contextPath}/course/myRegisteredCourses">신청수업</a>
+		                            <a href="${pageContext.request.contextPath}/course/myRegisteredCourses?sId=${memberId}">신청수업</a>
 		                        </li>
 		                        <li>
-		                            <a href="${pageContext.request.contextPath}/course/myRegisteredCoursesTable">시간표</a>
+		                            <a href="${pageContext.request.contextPath}/course/myRegisteredCoursesTable?sId=${memberId}">시간표</a>
 		                        </li>
 		                        <li>
 		                            <a href="${pageContext.request.contextPath}/exam/viewStudentExam">수업별 성적표</a>

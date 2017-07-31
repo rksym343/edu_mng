@@ -20,22 +20,27 @@
 	.center-btns{
 		text-align: center;
 		padding : 30px;
-	}
+	}	
 	.table th, td{
 		text-align: center;
-	}
-	
+	}	
 	.money{
 		text-align: right;
 		padding: 10px;
 	}
-	
+	.alert-danger{
+		display: none;
+	}
 </style>
+<div class="alert alert-danger">
+  <strong>알림</strong><span class="content"></span>
+</div>
 
 <div class="row right-btns">	
 	<button id="checkAll" class="btn btn-default">전체선택</button>
 	<button id="deleteCart" class="btn btn-default">선택삭제</button>
 </div>
+
 <div class="row">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -93,9 +98,17 @@
 
 <%@ include file="../include/footer.jsp"%>
 <script>
+
+var cnt = 0;
+var cNo1s = [];
+var cNo2s = [];
+
 $(function() {
+	
 	prnSum();
 	prnMoney();
+	
+	checkTimetable();
 	
 	$("#checkAll").click(function() {
 		if($(this).html()=="전체선택"){
@@ -163,5 +176,78 @@ function prnMoney(){
 	});
 }
 
+
+function getTimetable2(cNo){
+
+	var timetable = [];
+	$.ajax({
+		url: "${pageContext.request.contextPath}/course/timetable/"+cNo,
+		type : "GET",
+		dataType : "json",
+		success: function(data) {
+			//console.log(data.timetables);
+			$.each(data.timetables, function(i, v) {
+				var inTimetable = [];
+				
+				inTimetable[0] = v.ttDay;
+				inTimetable[1] = v.ttStarttime;
+				inTimetable[2] = v.ttEndtime;
+				
+				timetable[i] = inTimetable;
+				console.log("====timetable : " + timetable.length);
+				console.log(timetable);
+			});
+		}
+	});
+
+	return timetable;
+} 
+
+function getTimetable(cNo1, cNo2){
+	$.ajax({
+		url: "${pageContext.request.contextPath}/course/timetable/"+cNo1+"/"+cNo2,
+		type : "GET",
+		dataType : "text",
+		success: function(data) {
+			return data;
+		}		
+	});
+	
+}
+
+
+function checkTimetable(){		
+		$("input[name='ccNo']").each(function(i, obj) {
+			var cNo1 = $(obj).attr("data-cNo"); // 비교기준
+			var cnt = $("input[name='ccNo']").length;			
+			for ( var j = (i+1); j <  cnt; j++){
+				var cNo2 = $("input[name='ccNo']").eq(j).attr("data-cNo"); 
+				if(getTimetable(cNo1, cNo2)=="NO"){
+					cNo1s[cnt] = Number(cNo1);
+					cNo2s[cnt] = Number(cNo2);
+				}
+				cnt++;
+			}		
+	});
+}
+
+function showTimetableError(){
+	$(".alert-danger").hide();
+	$(".alert-danger").find(".content").html();
+	$("input[name='ccNo']").parent().parent().removeClass("text-danger");
+	for(var i = 0; i < cNo2s.length; i++ ){
+		$("input[name='ccNo']").each(function(idx, obj) {
+			if($(obj).attr("data-cNo") == cNo1s[i]){
+				$(obj).parent().parent().addClass("text-danger");
+				$(".alert-danger").find(".content").append("<p>"+cNo1s[i]+" - "+cNo2s[i]+"시간 중복</p>");
+			}else if($(obj).attr("data-cNo") == cNo2s[i]){
+				$(obj).parent().parent().addClass("text-danger");
+				$(".alert-danger").find(".content").append("<p>"+cNo1s[i]+" - "+cNo2s[i]+"시간 중복</p>");
+			}						
+		});
+	}
+		
+		
+}
 	
 </script>

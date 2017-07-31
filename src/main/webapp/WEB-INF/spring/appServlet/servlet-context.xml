@@ -39,11 +39,41 @@
 				<mapping path="/user/loginPost"/>
 				<beans:ref bean="loginInterceptor"/>
 			</interceptor>
-		<!-- <interceptor>
+		<interceptor>
 				<mapping path="/course/insertCourse"/>
-				<mapping path="/course/registerCourses"/>
+				<mapping path="/course/registerCourses"/>				
+				<mapping path="/course/deleteCourse"/>								
+				<mapping path="/course/updateCourse"/>												
+				<mapping path="/course/myRegisteredCourses"/>										
+				<mapping path="/course/myRegisteredCoursesTable"/>
+				<mapping path="/course/myCoursesTable"/>
+				<mapping path="/course/myCoursesWithStudent"/>
+				
+				<mapping path="/message/readMsg"/>
+				<mapping path="/message/writeMsg"/>
+				<mapping path="/message/writeAllMsg"/>
+				<mapping path="/message/listMsg"/>
+				<mapping path="/message/newMsgs"/>
+				<mapping path="/message/listMySendMsg"/>
+				<mapping path="/message/deleteMsg"/>
+				
+				
+				<mapping path="/attend/myCoursesWithStudentForAttendance"/>
+				<mapping path="/attend/listAttendance"/>				
+				<mapping path="/attend/myAttendance"/>
+				<mapping path="/attend/myAttendanceRecord"/>
+				<mapping path="/attend/studentAttendanceInfo"/>
+				<mapping path="/attend/updateAttendance"/>
+				<mapping path="/attend/myAttendanceRecord"/>
+				
+				
+				
+				<mapping path="/exam/viewStudentExam"/>
+				<mapping path="/exam/viewChart"/>
+				
+				
 				<beans:ref bean="authInterceptor"/>
-			</interceptor> -->
+		</interceptor>
 		</interceptors>
 	 
 	

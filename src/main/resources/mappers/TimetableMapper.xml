@@ -10,6 +10,7 @@
 		<result property="ttStarttime" column="tt_starttime"/>
 		<result property="ttEndtime" column="tt_endtime"/>
 		<result property="ttVersion" column="tt_version"/>
+		<result property="cNo" column="c_no"/>
 	</resultMap>
 	
 	<sql id="whereSql">
@@ -18,7 +19,7 @@
 				tt.c_no= #{course.cNo}
 			</if>
 			<if test="ttDay != null">
-				and tt.tt_day =#{ttDay}
+				and tt.tt_day = #{ttDay}
 			</if>
 			<if test="ttStarttime != null">
 				and tt.tt_starttime =#{ttStarttime}
@@ -59,11 +60,48 @@
 		<include refid="selectSqlOnlyTimeTable" />
 		order by tt.c_no, tt.tt_day, tt.tt_starttime
 	</select>
+	
+	<select id="selectTimetableByCno" resultType="Timetable">
+		<include refid="selectSqlOnlyTimeTable" />
+		where tt.c_no = #{cNo}
+	</select>
 
 	<select id="selectTimetableByCri"  parameterType="Timetable" resultMap="TimetableReslutWithCourse">
 		<include refid="selectSql" />
 		<include refid="whereSql" />
 		order by tt.tt_day, tt.tt_starttime, tt.c_no
+	</select>
+	
+	
+	
+	
+	<select id="checkttDay" parameterType="hashmap" resultType="int">
+		select ifnull((select tt1.tt_day from timetable tt1 
+			where tt1.c_no = #{firstCNo} and tt1.tt_day in (select tt2.tt_day from timetable tt2 where tt2.c_no = #{lastCNo})), 99)
+	</select>
+	
+	<select id="checkttStartTimeEq" parameterType="hashmap" resultType="int">
+		select ifnull(
+			(select tt1.tt_starttime from timetable tt1 
+			where tt1.c_no = #{firstCNo} and tt1.tt_day = #{ttDay} and tt1.tt_starttime = 
+				(select tt2.tt_day from timetable tt2 where tt2.c_no = #{lastCNo} and tt2.tt_day= #{ttDay})),99)
+	</select>
+	
+	
+	<select id="checkttStartTime" parameterType="hashmap" resultType="int">
+		select ifnull(
+			(select tt1.tt_starttime from timetable tt1 
+			where tt1.c_no = #{firstCNo} and tt1.tt_day = #{ttDay} and tt1.tt_starttime 
+					between (select tt2.tt_starttime from timetable tt2 where tt2.c_no = #{lastCNo} and tt2.tt_day= #{ttDay})
+					and (select tt2.tt_endtime from timetable tt2 where tt2.c_no = #{lastCNo} and tt2.tt_day= #{ttDay})
+					), 99)
+	</select>
+	
+	<select id="checkttEndTime" parameterType="hashmap" resultType="int">
+		select ifnull(
+			(select tt1.tt_endtime from timetable tt1 where tt1.c_no = #{firstCNo} and tt1.tt_day = #{ttDay} and tt1.tt_endtime 
+			between (select tt2.tt_starttime from timetable tt2 where tt2.c_no = #{lastCNo} and tt2.tt_day= #{ttDay})
+			and (select tt2.tt_endtime from timetable tt2 where tt2.c_no = #{lastCNo} and tt2.tt_day= #{ttDay})), 99)
 	</select>
 	
 </mapper>
