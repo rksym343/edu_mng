@@ -1,10 +1,7 @@
 package com.dgit.persistence;
 
 import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import java.util.Map;
 
 import com.dgit.domain.Examination;
 
@@ -17,7 +14,7 @@ public interface ExaminationDAO {
 	public Examination selectOneExamination(int eNo) throws Exception;
 	public List<Examination> selectAllExamination() throws Exception;
 	public List<Examination> selectExaminationByCri(Examination examination) throws Exception;
-	
+	public List<Examination> selectExaminationByCriForTeacher(String sId, String regMonth, String eDate, int eiNo, int eNo, int cNo, int sbNo) throws Exception;
 	
 
 }

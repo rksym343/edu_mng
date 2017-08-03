@@ -203,7 +203,7 @@
 						$.each(data.list, function(i, v) {
 							// s.s_id, s.s_name, s.s_phone, s.school, att.the_time, ass.as_status
 							
-							var selectTag = $("<select class='asNo'>");
+							var selectTag = $("<select class='asNo form-control'>");
 							selectTag.append("<option value='0'>----</option>");
 							var trTag = $("<tr>");
 							trTag.append("<td>"+v.student.school+"</td>");
@@ -224,7 +224,9 @@
 									span1.html( "<span class='s-status' data-toggle='tooltip' data-placement='bottom' title='"+viewTime(v.theTime)+"'>"+v.attendanceStatus.asStatus+"</span><button class='btn btn-default btn-edit-at'><i class='fa fa-edit'></i></button>");
 									tdTag.append(span1);
 									var span2 = $("<span class='at-records-edit display-none'>");
-									span2.append(selectTag);
+									var selectWidthTag = $("<div class='col-md-8'>");
+									selectWidthTag.append(selectTag);
+									span2.append(selectWidthTag);
 									span2.append(" <button class='btn btn-default btn-edit-ok' data-sId='"+v.student.sId+"' data-atNo='"+v.atNo+"'><i class='fa fa-check-circle'></i></button>");
 									tdTag.append(span2);
 									trTag.append(tdTag);
@@ -237,7 +239,9 @@
 									span1.html( "<span class='s-status' data-toggle='tooltip' data-placement='bottom' title='미출석'>미출석</span> <button class='btn btn-default btn-edit-at'><i class='fa fa-edit'></i></button>");
 									tdTag.append(span1);
 									var span2 = $("<span class='at-records-edit display-none'>");
-									span2.append(selectTag);
+									var selectWidthTag = $("<div class='col-md-8'>");
+									selectWidthTag.append(selectTag);
+									span2.append(selectWidthTag);
 									span2.append(" <button class='btn btn-default btn-edit-ok' data-sId='"+v.student.sId+"' data-atNo='0'><i class='fa fa-check-circle'></i></button>");
 									tdTag.append(span2);
 									trTag.append(tdTag);

@@ -64,4 +64,17 @@ public class ExaminationServiceImpl implements ExaminationService {
 		return examItemDAO.selectOneExamItem(eiNo);
 	}
 
+	@Transactional
+	@Override
+	public void insertExaminations(List<Examination> examinations) throws Exception {
+		for(Examination exam : examinations){
+			dao.insertExamination(exam);
+		}
+	}
+
+	@Override
+	public List<Examination> selectExaminationByCriForTeacher(String sId, String regMonth, String eDate, int eiNo, int eNo, int cNo, int sbNo) throws Exception {
+		return dao.selectExaminationByCriForTeacher(sId, regMonth, eDate, eiNo, eNo, cNo, sbNo);
+	}
+
 }

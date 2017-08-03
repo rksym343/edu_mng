@@ -346,7 +346,6 @@ public class CourseController {
 	@RequestMapping(value="/myCoursesWithStudent", method=RequestMethod.GET)
 	public void getMyCoursesWithStudent(Model model) throws Exception{
 		System.out.println("======================== myCoursesWithStudent GET ========================");
-		model.addAttribute("examList", examinationService.selectAllExamItem());
 	}
 	
 	@RequestMapping(value="/myCoursesWithStudent/{cNo}/{year}/{month}", method=RequestMethod.GET)
@@ -383,15 +382,19 @@ public class CourseController {
 	@RequestMapping(value="/timetable/{cNo1}/{cNo2}", method=RequestMethod.GET)
 	public ResponseEntity<String> getMyCourses(@PathVariable("cNo1") int cNo1, @PathVariable("cNo2") int cNo2) throws Exception{
 		System.out.println("======================== /timetable/{cNo1}/{cNo2} GET ========================");
+		System.out.println("======================== /timetable/{cNo1}/{cNo2} GET ========================cNo1: "+ cNo1);
+		System.out.println("======================== /timetable/{cNo1}/{cNo2} GET ========================cNo2: "+ cNo2);
 		ResponseEntity<String> entity = null;
 		try{
 			
 			int res = timetableService.checkEq(cNo1, cNo2);
 			System.out.println("======================== /timetable/{cNo1}/{cNo2} ttDay : " + res);
-			if(res != 99){
-				entity = new ResponseEntity<>("OK", HttpStatus.OK);
-			}else{
+			if(res == 99){
+				// 수업이 안 겹친다
 				entity = new ResponseEntity<>("NO", HttpStatus.OK);
+			}else{
+				// 수업이 겹친다
+				entity = new ResponseEntity<>("OK", HttpStatus.OK);
 			}
 			
 		}catch(Exception e){

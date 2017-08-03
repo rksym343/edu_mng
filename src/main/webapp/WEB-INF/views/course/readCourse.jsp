@@ -58,7 +58,20 @@
                                             <td>
                                             	<ul>
 		                                            <c:forEach items="${course.timetables}" var="timetable">
-		                                            	<li>[<span class="ttDay">${timetable.ttDay }</span>] : ${timetable.ttStarttime }~${timetable.ttEndtime }</li>
+		                                            	<li>
+		                                            		<c:choose>
+															       <c:when test="${timetable.ttDay == 0}">
+															           <span class="ttDay label label-danger">${timetable.ttDay }</span> 
+															       </c:when>
+															       <c:when test="${timetable.ttDay == 6}">
+															           <span class="ttDay label label-primary">${timetable.ttDay }</span> 
+															       </c:when>
+															       <c:otherwise>
+															           <span class="ttDay label label-default">${timetable.ttDay }</span> 
+															       </c:otherwise>
+															   </c:choose>
+		                                            		${timetable.ttStarttime }시 ~${timetable.ttEndtime }시
+		                                            	</li>
 		                                       		</c:forEach>
                                        			</ul>
                                        		</td>
@@ -149,8 +162,10 @@
 	});
 	
 	$("#registerCourse").click(function() {
+		// 수강신청하기
 		if($("#registerCourse").html()!="수강중"){
 			var cNo = $("input[name='cNo']").val();
+			
 			if(confirm("수강신청 하시겠습니까?")){
 				$.ajax({
 					url: "${pageContext.request.contextPath}/cart/insertCart/"+memberType+"/"+memberId+"/"+cNo,

@@ -58,7 +58,7 @@ ul.timeview {
 				<td>					
 					<ul class="timeview">
 					{{#timetables}}
-						<li>[{{dayToHangle ttDay}}] {{ ttStarttime}}시 ~ {{ ttEndtime}}시</li>
+						<li><span class="{{viewDayColor ttDay}}">{{dayToHangle ttDay}}</span> {{ ttStarttime}}시 ~ {{ ttEndtime}}시</li>
 					{{/timetables}}
 
 					</ul>
@@ -77,6 +77,18 @@ ul.timeview {
 	
 	Handlebars.registerHelper("dayToHangle", function(day) {
 		return sWeek[day];
+	});
+	
+	Handlebars.registerHelper("viewDayColor", function(day) {
+		var spanTagClass = "";
+		if(day == 0){
+			spanTagClass = "ttDay label label-danger";
+		}else if( day == 6){
+			spanTagClass = "ttDay label label-primary"
+		}else{
+			spanTagClass = "ttDay label label-default"
+		}
+		return spanTagClass;
 	});
  
 

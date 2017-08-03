@@ -226,8 +226,8 @@
 						$.each(data, function(i, v) {
 							var tName = v.teacher.tName;
 							var msg = v.msgContent;
-							var date = new Date(v.regDate);
-							var viewDate = viewTimeStr(date);
+							//var date = new Date(v.regDate);
+							var viewDate = viewTimeStr(v.regDate);
 							if(cNo == -1 && v.cNo%2 != 0 || cNo > 0 && i%2 != 0){
 								liTag = 
 								"<li class='left clearfix'>"
@@ -268,4 +268,5 @@
 					}
 				});
 	      }
+	       
 </script>

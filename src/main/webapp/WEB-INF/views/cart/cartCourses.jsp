@@ -31,9 +31,17 @@
 	.alert-danger{
 		display: none;
 	}
+	.content{
+		font-size: 16px;
+	}
+	.text-danger{
+		font-weight: bold;
+		text-decoration: line-through;
+	}
 </style>
 <div class="alert alert-danger">
-  <strong>알림</strong><span class="content"></span>
+  <strong>결제불가!</strong>
+  <span class="content"></span>
 </div>
 
 <div class="row right-btns">	
@@ -59,7 +67,7 @@
 						<c:forEach items="${list }" var="cart">
 							<c:forEach items="${cart.courses }" var="course">
 								<tr class="cart-item">
-									<td class="col-md-1"><input type="checkbox" name="ccNo" value="${cart.ccNo }" data-cNo="${course.cNo }"></td>
+									<td class="col-md-1"><input type="checkbox" name="ccNo" value="${cart.ccNo }" data-cNo="${course.cNo }" data-cName="${course.cName }"></td>
 									<td class="col-md-1">${course.cNo }</td>
 									<td class="col-md-5">${course.cName }</td>
 									<td class="col-md-3 tuition money" data-tuition="${course.tuition }">${course.tuition }</td>
@@ -96,18 +104,14 @@
 	</form>
 </div>
 
+
 <%@ include file="../include/footer.jsp"%>
 <script>
-
-var cnt = 0;
-var cNo1s = [];
-var cNo2s = [];
 
 $(function() {
 	
 	prnSum();
 	prnMoney();
-	
 	checkTimetable();
 	
 	$("#checkAll").click(function() {
@@ -203,51 +207,42 @@ function getTimetable2(cNo){
 	return timetable;
 } 
 
-function getTimetable(cNo1, cNo2){
-	$.ajax({
-		url: "${pageContext.request.contextPath}/course/timetable/"+cNo1+"/"+cNo2,
-		type : "GET",
-		dataType : "text",
-		success: function(data) {
-			return data;
-		}		
-	});
+
+
+function checkTimetable(){
+		$(".alert-danger").hide();
+		$(".alert-danger").find(".content").html();
+		$("input[name='ccNo']").parent().parent().removeClass("text-danger");
+		$("#payCourses").attr("disabled",false);
 	
-}
-
-
-function checkTimetable(){		
+		var len = $("input[name='ccNo']").length;			
 		$("input[name='ccNo']").each(function(i, obj) {
 			var cNo1 = $(obj).attr("data-cNo"); // 비교기준
-			var cnt = $("input[name='ccNo']").length;			
-			for ( var j = (i+1); j <  cnt; j++){
-				var cNo2 = $("input[name='ccNo']").eq(j).attr("data-cNo"); 
-				if(getTimetable(cNo1, cNo2)=="NO"){
-					cNo1s[cnt] = Number(cNo1);
-					cNo2s[cnt] = Number(cNo2);
-				}
-				cnt++;
+			var cName1 = $(obj).attr("data-cName");
+			for ( var j = (i+1); j < len; j++){
+				var obj2 = $("input[name='ccNo']").eq(j);
+				var cNo2 = obj2.attr("data-cNo");
+				var cName2 = obj2.attr("data-cName");
+				$.ajax({
+					url: "${pageContext.request.contextPath}/course/timetable/"+cNo1+"/"+cNo2,
+					type : "GET",
+					dataType : "text",
+					success: function(data) {
+						console.log("=====check " +cNo1 +" : " +cNo2+ "//" );
+						console.log("return : "+ data);
+						$("#payCourses").attr("disabled",true);
+						if(data=="OK"){
+							$(obj).parent().parent().addClass("text-danger");
+							$(obj2).parent().parent().addClass("text-danger");
+							$(".alert-danger").find(".content").append("<p>["+cName1+"] - ["+cName2+"] 수업 시간이 중복됩니다</p>");
+						}
+					}		
+				});
 			}		
-	});
+		});
+		$(".alert-danger").show();
 }
 
-function showTimetableError(){
-	$(".alert-danger").hide();
-	$(".alert-danger").find(".content").html();
-	$("input[name='ccNo']").parent().parent().removeClass("text-danger");
-	for(var i = 0; i < cNo2s.length; i++ ){
-		$("input[name='ccNo']").each(function(idx, obj) {
-			if($(obj).attr("data-cNo") == cNo1s[i]){
-				$(obj).parent().parent().addClass("text-danger");
-				$(".alert-danger").find(".content").append("<p>"+cNo1s[i]+" - "+cNo2s[i]+"시간 중복</p>");
-			}else if($(obj).attr("data-cNo") == cNo2s[i]){
-				$(obj).parent().parent().addClass("text-danger");
-				$(".alert-danger").find(".content").append("<p>"+cNo1s[i]+" - "+cNo2s[i]+"시간 중복</p>");
-			}						
-		});
-	}
-		
-		
-}
+
 	
 </script>

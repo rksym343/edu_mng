@@ -11,6 +11,8 @@
 		<result property="eResult" column="e_result"/>
 		<result property="eMemo" column="e_memo"/>
 		<result property="eDate" column="e_date"/>
+		<association property="student"
+			resultMap="com.dgit.mapper.StudentMapper.StudentResult" />
 		<association property="examItem"
 			resultMap="com.dgit.mapper.ExamItemMapper.ExamItemResult" />
 		<association property="subject"
@@ -20,10 +22,20 @@
 	</resultMap>
 	
 	<sql id="selectSql">
-		SELECT e.*, ei.ei_title, c.c_name FROM examination e
-		inner join exam_item ei on e.ei_no = ei.ei_no
+		SELECT e.*, ei.ei_title, c.c_name, s.s_name FROM examination e
+		left outer join exam_item ei on e.ei_no = ei.ei_no
 		inner join subject sb on sb.sb_no = e.sb_no
 		left outer join course c on c.c_no = e.c_no
+		left outer join student s on s.s_id = e.s_id
+	</sql>
+	
+	<sql id="selectSqlForTeacher">
+		SELECT e.*, ei.ei_title, c.c_name, s.s_name FROM examination e 
+		inner join course_register cr on e.s_id = cr.reg_s_id and cr.reg_c_no=#{cNo} and cr.reg_month = #{regMonth}
+		left outer join exam_item ei on e.ei_no = ei.ei_no 
+		inner join subject sb on sb.sb_no = e.sb_no 
+		left outer join course c on c.c_no = e.c_no 
+		left outer join student s on s.s_id = e.s_id 
 	</sql>
 	<sql id="whereSql">
 		<where>
@@ -44,6 +56,32 @@
 			</if>
 		</where>
 	</sql>
+	
+	<sql id="whereSqlForTeacher">
+		<where>
+			<if test="sId != null">
+				e.s_id = #{sId} 
+			</if>			
+			<if test="eiNo != null">
+				and e.ei_no = #{eiNo}
+			</if>
+			<if test="cNo != null and sbNo != null">
+				and ((e.sb_no=#{sbNo} and e.c_no =  #{cNo}) or (e.sb_no=#{sbNo} and e.c_no is null))
+			</if>
+			<if test="cNo != null and sbNo == null">
+				and e.c_no = #{cNo}
+			</if> 
+			<if test="eNo != null">
+				and e.e_no =#{eNo}
+			</if>
+			<if test="eDate != null">
+				and e.e_date =date(#{eDate})
+			</if>
+		</where>
+	</sql>
+	
+	
+			
 
 	<insert id="insertExamination">
 		INSERT INTO examination (s_id, c_no, ei_no, sb_no, e_result, e_memo, e_date) VALUES 
@@ -91,6 +129,12 @@
 	<select id="selectExaminationByCri" parameterType="Examination" resultMap="ExaminationResult">
 		<include refid="selectSql"/>
 		<include refid="whereSql"/>
+	</select>
+	
+	<select id="selectExaminationByCriForTeacher" parameterType="hashmap" resultMap="ExaminationResult">
+		<include refid="selectSqlForTeacher"/>
+		<include refid="whereSqlForTeacher"/>
+		group by e.s_id
 	</select>
 	
 	

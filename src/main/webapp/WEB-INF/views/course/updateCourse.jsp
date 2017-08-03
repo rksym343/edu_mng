@@ -33,14 +33,15 @@
 	</style>
 
 	<div class="center">
-		<div class="col-lg-10">	
+		<div class="col-lg-8">	
 	<form role="form" action="updateCourse" method="post" enctype="multipart/form-data" id="f1">
 	
 		<input type="hidden" name="cNo" value="${course.cNo }">
+		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="gdNo">수업대상</label>
-		    <div class="col-sm-5">
+		    <label class="col-sm-2 control-label" for="gdNo">수업대상</label>
+		    <div class="col-sm-10">
 		    	<select id="gdNo" name="gdNo"  class="form-control">
 					<c:forEach items="${studentGradeList }" var="grade">
 						<c:if test="${course.studentGrade.gdName==grade.gdName}">
@@ -53,9 +54,14 @@
 					</c:forEach>
 				</select>
 		    </div>
-		    
-		    <label class="col-sm-1 control-label" for="sbNo">교과목</label>
-		    <div class="col-sm-5">
+		</div>
+		</div>
+		
+		
+		<div class="row">
+		<div class="form-group">    
+		    <label class="col-sm-2 control-label" for="sbNo">교과목</label>
+		    <div class="col-sm-10">
 		    	<select id="sbNo" name="sbNo" class="form-control">
 					<c:forEach items="${subjectList }" var="subject">
 						<option value="${subject.sbNo }" ${course.subject.sbName==subject.sbName ? 'selected' :'' }>${subject.sbName }</option>
@@ -67,16 +73,21 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label class="col-sm-1 control-label" for="tId">담당선생님</label>
-		    <div class="col-sm-2">
+			<label class="col-sm-2 control-label" for="tId">담당선생님</label>
+		    <div class="col-sm-10">
 		    	<select id="tId" name="tId"  class="form-control">
 					<c:forEach items="${TeacherList }" var="teacher">
 						<option value="${teacher.tId }" ${course.teacher.tName==teacher.tName ? 'selected' :'' }>${teacher.tName }</option>
 					</c:forEach>
 				</select>
 		    </div>
-		    <label class="col-sm-1 control-label" for="cName">수업명</label>
-		    <div class="col-sm-8">
+		</div>
+		</div>
+		    
+		<div class="row">
+		<div class="form-group">   
+		    <label class="col-sm-2 control-label" for="cName">수업명</label>
+		    <div class="col-sm-10">
 		    	<input class="form-control" type="text" id="cName" name="cName" placeholder="수업명"  value="${course.cName } ">
 		    </div>
 		</div>
@@ -84,8 +95,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="tuition">수업료</label>
-		    <div class="col-sm-11">
+		    <label class="col-sm-2 control-label" for="tuition">수업료</label>
+		    <div class="col-sm-10">
 		    	<input class="form-control" type="text" id="tuition" name="tuition" placeholder="수업료" value="${course.tuition}">
 		    </div>
 		</div>
@@ -93,8 +104,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="capacity">수업인원</label>
-		    <div class="col-sm-11">
+		    <label class="col-sm-2 control-label" for="capacity">수업인원</label>
+		    <div class="col-sm-10">
 		    	<input class="form-control" type="text" id="capacity" name="capacity" placeholder="수업인원" value="${course.capacity}">
 		    </div>
 		</div>
@@ -102,13 +113,13 @@
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="ttDay">수업시간</label>
-		    <div class="col-sm-10">
+		    <label class="col-sm-2 control-label" for="ttDay">수업시간</label>
+		    <div class="col-sm-9">
 		    	<table id="courseTime">
 		    	<c:if test="${empty course.timetables}">
 		    		<tr>
 		    			<td class="col-sm-3">
-					    	<select id="ttDay" name="ttDay" class="form-control  col-sm-2">
+					    	<select id="ttDay" name="ttDay" class="form-control">
 								<option value="1">월</option>
 								<option value="2">화</option>
 								<option value="3">수</option>
@@ -119,7 +130,7 @@
 							</select>
 						</td>
 						<td class="col-sm-4">
-							<select id="ttStarttime" name="ttStarttime"   class="form-control">
+							<select id="ttStarttime" name="ttStarttime"  class="form-control">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">
@@ -181,7 +192,7 @@
 		            <%-- <li>[<span class="ttDay">${timetable.ttDay }</span>] : ${timetable.ttStarttime }~${timetable.ttEndtime }</li> --%>
 		       		<tr>
 		    			<td class="col-sm-3">
-					    	<select id="ttDay" name="ttDay" class="form-control col-sm-2">
+					    	<select id="ttDay" name="ttDay" class="form-control">
 					    		<%-- <c:forEach begin="1" end="6" var="idx">
 					    			<option value="${idx }"></option>
 					    		</c:forEach>
@@ -267,13 +278,13 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label class="col-sm-1 control-label">수업기간</label>
-			<div class="col-sm-5">
+			<label class="col-sm-2 control-label">수업기간</label>
+			<div class="col-sm-4">
 				<fmt:formatDate value="${course.cStartdate}" pattern="yyyy-MM-dd" var="startdate"/>
 				<input class="form-control"  type="date" id="cStart" name="cStartdate" value="${startdate}">
 			</div>
 			<label class="col-sm-1 control-label">~</label>
-			<div class="col-sm-5">
+			<div class="col-sm-4">
 						<fmt:formatDate value="${course.cEnddate}" pattern="yyyy-MM-dd" var="enddate"/>
 				<input class="form-control"  type="date" id="cEnd" name="cEnddate" value="${enddate}">
 			</div>
@@ -282,8 +293,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label  class="col-sm-1 control-label" for="classroom">교실</label>
-			<div class="col-sm-11">
+			<label  class="col-sm-2 control-label" for="classroom">교실</label>
+			<div class="col-sm-10">
 			<input class="form-control" type="text" id="classroom" name="classroom" value="${course.classroom}">
 			</div>
 		</div>
@@ -291,8 +302,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label class="col-sm-1 control-label"  for="cContent">수업설명</label>
-			<div class="col-sm-11">
+			<label class="col-sm-2 control-label"  for="cContent">수업설명</label>
+			<div class="col-sm-10">
 			<textarea class="form-control" rows="10" cols="50" id="cContent" name="cContent">${course.content.cContent}</textarea>
 			</div>
 		</div>
@@ -300,8 +311,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		  	<label class="col-sm-1 control-label"  for="pics">수업이미지</label>
-		  	<div class="col-sm-11">
+		  	<label class="col-sm-2 control-label"  for="pics">수업이미지</label>
+		  	<div class="col-sm-10">
 			 <c:if test="${empty course.pictures}">
 	                                            		
 	         </c:if> 
@@ -326,7 +337,7 @@
 	
 		<div class="row">
 		<div class="form-group" style="text-align : center">      
-			<input type="submit" class=" btn btn-primary btn-lg" value="등록">
+			<input type="submit" class=" btn btn-primary btn-lg" value="수정">
 			<input type="reset" class=" btn btn-default btn-lg" value="취소">
 		</div>
 		</div>

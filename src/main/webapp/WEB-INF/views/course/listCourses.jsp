@@ -93,7 +93,20 @@
 												</c:if>
 												<c:if test="${!empty course.timetables }">
 													<c:forEach items="${course.timetables }" var="tt">
-															<p><span class="ttDay">${tt.ttDay }</span> : ${tt.ttStarttime } ~ ${tt.ttEndtime } </p>
+															<p>
+																<c:choose>
+															       <c:when test="${tt.ttDay == 0}">
+															           <span class="ttDay label label-danger">${tt.ttDay }</span> 
+															       </c:when>
+															       <c:when test="${tt.ttDay == 6}">
+															           <span class="ttDay label label-primary">${tt.ttDay }</span> 
+															       </c:when>
+															       <c:otherwise>
+															           <span class="ttDay label label-default">${tt.ttDay }</span> 
+															       </c:otherwise>
+															   </c:choose>	
+																${tt.ttStarttime }시 ~ ${tt.ttEndtime }시 
+															</p>
 													</c:forEach>
 												</c:if>
 												</td>	

@@ -96,9 +96,9 @@
 			reuslt = "어제";
 		}else{
 			// 그 이상
-			var year = curTime.getFullYear();
-			var month = curTime.getMonth()+1;
-			var date = curTime.getDate();
+			var year = regTime.getFullYear();
+			var month = regTime.getMonth()+1;
+			var date = regTime.getDate();
 			result = year +"/"+ month +"/"+ date;
 		}
 		

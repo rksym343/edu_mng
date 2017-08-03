@@ -25,7 +25,10 @@
                                     <a href="${pageContext.request.contextPath}/attend/myCoursesWithStudentForAttendance">출결관리</a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/course/myCoursesWithStudent">성적관리</a>
+                                    <a href="${pageContext.request.contextPath}/course/myCoursesWithStudent">성적조회</a>
+                                </li>
+                                 <li>
+                                    <a href="${pageContext.request.contextPath}/exam/insertExamResult">성적입력</a>  
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

@@ -9,6 +9,42 @@ INSERT INTO edu_manager.student_grade (gd_no, gd_name) values
 INSERT INTO edu_manager.teacher (t_id, t_password, t_name, t_phone, t_subject, t_picture)
 		VALUES('aaa01', 'aaa01', '김선생', '010-7777-7777', 1, '사진');
 		
+		select date('2017-01-03 00:08:00');
+		
+SELECT e.*, ei.ei_title, c.c_name FROM examination e left outer join exam_item ei on e.ei_no = ei.ei_no 
+inner join subject sb on sb.sb_no = e.sb_no left outer join course c on c.c_no = e.c_no 
+WHERE 
+(e.sb_no=1 and e.c_no = 4) or (e.sb_no=1 and e.c_no is null)
+and e.e_date ='2017-08-03';
+
+SELECT e.*, ei.ei_title, c.c_name, s.s_name FROM examination e left outer join exam_item ei 
+on e.ei_no = ei.ei_no inner join subject sb on sb.sb_no = e.sb_no left outer join course c 
+on c.c_no = e.c_no left outer join student s on s.s_id = e.s_id WHERE e.ei_no = 1 and e.c_no 
+= 4 and e.e_date =date('2017-08-03 00:00:00') ;
+
+SELECT e.*, ei.ei_title, c.c_name, s.s_name FROM examination e 
+inner join course_register cr on e.s_id = cr.reg_s_id and cr.reg_c_no=4 and cr.reg_month = '201708'
+left outer join exam_item ei on e.ei_no = ei.ei_no 
+inner join subject sb on sb.sb_no = e.sb_no 
+left outer join course c on c.c_no = e.c_no 
+left outer join student s on s.s_id = e.s_id 
+WHERE e.ei_no = 2 
+and ((e.sb_no=1 and e.c_no = 4) or (e.sb_no=1 and e.c_no is null))
+group by e.s_id;
+
+SELECT e.*, ei.ei_title, c.c_name FROM examination e 
+left outer join exam_item ei on e.ei_no = ei.ei_no 
+inner join subject sb on sb.sb_no = e.sb_no 
+left outer join course c on c.c_no = e.c_no 
+WHERE e.c_no = 1 and e.e_date =date('2017-08-03 00:00:00');
+		
+
+SELECT e.*, ei.ei_title, c.c_name, s.s_name FROM examination e inner join course_register cr 
+on e.s_id = cr.reg_s_id and cr.reg_c_no=1 and cr.reg_month = '201708' left outer join exam_item 
+ei on e.ei_no = ei.ei_no inner join subject sb on sb.sb_no = e.sb_no left outer join course 
+c on c.c_no = e.c_no left outer join student s on s.s_id = e.s_id WHERE e.ei_no = 2 and ((e.sb_no=1 
+and e.c_no = 1) or (e.sb_no=1 and e.c_no is null));
+
 
 INSERT INTO edu_manager.registration_status (rs_no, status) values
 (1, '결제'),(2,'미결제'),(3,'결제취소'),(4,'미연장');

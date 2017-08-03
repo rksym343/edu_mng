@@ -19,23 +19,27 @@
 	</style>
 
 	<div class="center">
-		<div class="col-lg-10">	
+		<div class="col-lg-8">	
 	<form role="form" action="insertCourse" method="post" enctype="multipart/form-data" id="f1">
 		<input type="hidden" name="tId" value="aaa01">
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="gdNo">수업대상</label>
-		    <div class="col-sm-5">
+		    <label class="col-sm-2 control-label" for="gdNo">수업대상</label>
+		    <div class="col-sm-10">
 		    	<select id="gdNo" name="gdNo"  class="form-control">
 					<c:forEach items="${studentGradeList }" var="grade">
 						<option value="${grade.gdNo }">${grade.gdName }</option>
 					</c:forEach>
-				</select>
-		    </div>
-		    
-		    <label class="col-sm-1 control-label" for="sbNo">교과목</label>
-		    <div class="col-sm-5">
+				</select> 
+			</div>   
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">
+		<label class="col-sm-2 control-label" for="sbNo">교과목</label>
+		    <div class="col-sm-10">
 		    	<select id="sbNo" name="sbNo" class="form-control">
 					<c:forEach items="${subjectList }" var="subject">
 						<option value="${subject.sbNo }">${subject.sbName }</option>
@@ -47,16 +51,21 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label class="col-sm-1 control-label" for="gdNo">담당선생님</label>
-		    <div class="col-sm-2">
-		    	<select id="gdNo" name="gdNo"  class="form-control">
+			<label class="col-sm-2 control-label" for="gdNo">담당선생님</label>
+		    <div class="col-sm-10">
+		    	<select id="gdNo" name="gdNo"  class="form-control" disabled="disabled">
 					<c:forEach items="${TeacherList }" var="teacher">
 						<option value="${teacher.tId }">${teacher.tName }</option>
 					</c:forEach>
 				</select>
 		    </div>
-		    <label class="col-sm-1 control-label" for="cName">수업명</label>
-		    <div class="col-sm-8">
+		</div>
+		</div>
+		
+		<div class="row">
+		<div class="form-group">    
+		    <label class="col-sm-2 control-label" for="cName">수업명</label>
+		    <div class="col-sm-10">
 		    	<input class="form-control" type="text" id="cName" name="cName" placeholder="수업명">
 		    </div>
 		</div>
@@ -64,8 +73,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="tuition">수업료</label>
-		    <div class="col-sm-11">
+		    <label class="col-sm-2 control-label" for="tuition">수업료</label>
+		    <div class="col-sm-10">
 		    	<input class="form-control" type="number" id="tuition" name="tuition" placeholder="수업료">
 		    </div>
 		</div>
@@ -73,8 +82,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="capacity">수업인원</label>
-		    <div class="col-sm-11">
+		    <label class="col-sm-2 control-label" for="capacity">수업인원</label>
+		    <div class="col-sm-10">
 		    	<input class="form-control" type="text" id="capacity" name="capacity" placeholder="수업인원">
 		    </div>
 		</div>
@@ -82,8 +91,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		    <label class="col-sm-1 control-label" for="ttDay">수업시간</label>
-		    <div class="col-sm-10">
+		    <label class="col-sm-2 control-label" for="ttDay">수업시간</label>
+		    <div class="col-sm-9">
 		    	<table  id="courseTime">
 		    		<tr>
 		    			<td class="col-sm-3">
@@ -98,7 +107,7 @@
 							</select>
 						</td>
 						<td class="col-sm-4">
-							<select id="ttStarttime" name="ttStarttime"   class="form-control">
+							<select id="ttStarttime" name="ttStarttime" class="form-control">
 								<c:forEach begin="09" end="22" var="hh">
 									<c:if test="${hh > 12 }">
 										<c:if test="${(hh-12) < 10 }">
@@ -152,6 +161,8 @@
 								</c:forEach>
 							</select>
 						</td>
+		    			
+						<td class=""></td>
 		    		</tr>
 		    	</table>
 		    </div>
@@ -163,12 +174,12 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label class="col-sm-1 control-label">수업기간</label>
-			<div class="col-sm-5">
+			<label class="col-sm-2 control-label">수업기간</label>
+			<div class="col-sm-4">
 				<input class="form-control"  type="date" id="cStart" name="cStartdate">
 			</div>
 			<label class="col-sm-1 control-label">~</label>
-			<div class="col-sm-5">
+			<div class="col-sm-4">
 				<input class="form-control"  type="date" id="cEnd" name="cEnddate">
 			</div>
 		</div>
@@ -177,8 +188,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label  class="col-sm-1 control-label" for="classroom">교실</label>
-			<div class="col-sm-11">
+			<label  class="col-sm-2 control-label" for="classroom">교실</label>
+			<div class="col-sm-10">
 			<input class="form-control" type="text" id="classroom" name="classroom" placeholder="교실">
 			</div>
 		</div>
@@ -186,8 +197,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-			<label class="col-sm-1 control-label"  for="cContent">수업설명</label>
-			<div class="col-sm-11">
+			<label class="col-sm-2 control-label"  for="cContent">수업설명</label>
+			<div class="col-sm-10">
 			<textarea class="form-control" rows="10" cols="50" id="cContent" name="cContent" placeholder="수업에 대한 상세설명을 입력해주세요."></textarea>
 			</div>
 		</div>
@@ -195,8 +206,8 @@
 		
 		<div class="row">
 		<div class="form-group">
-		  	<label class="col-sm-1 control-label"  for="pics">수업이미지</label>
-		  	<div class="col-sm-11">
+		  	<label class="col-sm-2 control-label"  for="pics">수업이미지</label>
+		  	<div class="col-sm-10">
 				<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">
 			</div>
 		</div>

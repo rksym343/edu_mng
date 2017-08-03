@@ -43,8 +43,6 @@
 					
 				</select>
 			</div>			
-			<button id="viewBtn" class="btn btn-default">성적조회</button>
-			<button id="insertBtn" class="btn btn-default">성적입력</button>
 		</div>
 		<hr>
 
@@ -90,24 +88,7 @@
 			
 		</div>
 
-		<hr>
-		<div class="row" id="insertDiv">
 		
-			<form role="form">
-				<select name="eiNo" class="form-control">
-					<c:forEach items="${examList}" var="examItem" >
-						<option value="${examItem.eiNo }">${examItem.eiTitle }</option>
-					</c:forEach>
-				</select>
-				<input type="hidden" name="cNo">
-				<input type="hidden" name="sbNo">
-				<input type="hidden" name="sId">
-				
-				<input type="text" name="eResult" placeholder="테스트 결과를 입력하세요">
-				<input type="text" name="eMemo" placeholder="평가 메모를 입력하세요">
-			</form>
-			
-		</div>
 
 		
 
@@ -134,16 +115,7 @@
 	    });
 	      
 	      
-	    $("#viewBtn").click(function() {
-			// 성적 조회
-			$("#viewDiv").show();
-			$("#insertDiv").hide();
-		});
-	    
-	    
-	    $("#insertBtn").click(function() {
-			// 성적 입력
-		});
+	   
 	});
 	
 	
@@ -179,7 +151,6 @@
 	      
 	      
 	      function getMyStudent(cNo, sbNo){
-	    	 // alert("<td onclick='getRecords(, "+cNo+", "+sbNo+")'>");
 	    	  $.ajax({
 	    		 	// /myCoursesWithStudent/{cNo}/{year}/{month}
 					url: "${pageContext.request.contextPath}/course/myCoursesWithStudent/"+cNo+"/"+year+"/"+(month+1),
@@ -205,7 +176,6 @@
 			var sId = $(this).attr("data-sId");
 			var cNo = $(this).attr("data-cNo");
 			var sbNo = $(this).attr("data-sbNo");
-			alert("on click "+sId +"/"+ cNo+"/"+ sbNo);
 			getRecords(sId, cNo, sbNo);
 		})
 	      
