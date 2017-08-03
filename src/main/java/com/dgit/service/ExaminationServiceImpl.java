@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dgit.domain.Course;
+import com.dgit.domain.ExamItem;
 import com.dgit.domain.Examination;
 import com.dgit.domain.Timetable;
 import com.dgit.persistence.CourseDAO;
+import com.dgit.persistence.ExamItemDAO;
 import com.dgit.persistence.ExaminationDAO;
 import com.dgit.persistence.TimetableDAO;
 
@@ -18,6 +20,9 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 	@Autowired
 	private ExaminationDAO dao;
+	
+	@Autowired
+	private ExamItemDAO examItemDAO;
 
 	@Override
 	public void insertExamination(Examination examination) throws Exception {
@@ -47,6 +52,16 @@ public class ExaminationServiceImpl implements ExaminationService {
 	@Override
 	public List<Examination> selectExaminationByCri(Examination examination) throws Exception {
 		return dao.selectExaminationByCri(examination);
+	}
+
+	@Override
+	public List<ExamItem> selectAllExamItem() throws Exception {
+		return examItemDAO.selectAllExamItem();
+	}
+
+	@Override
+	public ExamItem selectOneExamItem(int eiNo) throws Exception {
+		return examItemDAO.selectOneExamItem(eiNo);
 	}
 
 }

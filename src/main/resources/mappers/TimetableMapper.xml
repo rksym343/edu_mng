@@ -6,7 +6,7 @@
 	
 	<resultMap type="com.dgit.domain.Timetable" id="TimetableReslutWithCourse">	
 		<id property="ttNo" column="tt_no"/>	
-		<result property="ttDay" column="tt_day"/>
+		<result property="ttDay" column="tt_day" jdbcType="BOOLEAN"/>
 		<result property="ttStarttime" column="tt_starttime"/>
 		<result property="ttEndtime" column="tt_endtime"/>
 		<result property="ttVersion" column="tt_version"/>

@@ -42,11 +42,13 @@
 				<select id="myCourse" class="form-control col-md-3" name="cNo">
 					
 				</select>
-			</div>
+			</div>			
+			<button id="viewBtn" class="btn btn-default">성적조회</button>
+			<button id="insertBtn" class="btn btn-default">성적입력</button>
 		</div>
 		<hr>
 
-		<div class="row">
+		<div class="row" id="viewDiv">
 			<div class="col-sm-2">
 				<div class="panel panel-default">
                         <div class="panel-body">
@@ -68,25 +70,44 @@
                     <!-- /.panel -->
 			</div>
 			<div class="col-md-9">
-			<div class="media">
-    			<div class="media-left media-top">
-     			 <img src="" class="media-object" style="width:80px">
-   				</div>
-		    <div class="media-body">
-		      <h4 class="media-heading"></h4>
-		       <p></p>
-		    </div>
-		  </div>
- 			<hr>
- 			<h2>학교테스트</h2>
-			<div id="bar-example"  class="chart"></div>
+				<div class="media">
+					<!-- 학생 프로필 -->
+	    			<div class="media-left media-top">
+	     			 <img src="" class="media-object" style="width:80px">
+	   				</div>
+				    <div class="media-body">
+				      <h4 class="media-heading"></h4>
+				       <p></p>
+				    </div>
+			  	</div>
+	 			<hr>
+	 			<h2>학교테스트</h2>
+				<div id="bar-example"  class="chart"></div>
 				<hr>
-		<h2>학원테스트</h2>
-		<div id="area-example" class="chart"></div>
- 			</div>
+				<h2>학원테스트</h2>
+				<div id="area-example" class="chart"></div>
+	 		</div>
 			
 		</div>
 
+		<hr>
+		<div class="row" id="insertDiv">
+		
+			<form role="form">
+				<select name="eiNo" class="form-control">
+					<c:forEach items="${examList}" var="examItem" >
+						<option value="${examItem.eiNo }">${examItem.eiTitle }</option>
+					</c:forEach>
+				</select>
+				<input type="hidden" name="cNo">
+				<input type="hidden" name="sbNo">
+				<input type="hidden" name="sId">
+				
+				<input type="text" name="eResult" placeholder="테스트 결과를 입력하세요">
+				<input type="text" name="eMemo" placeholder="평가 메모를 입력하세요">
+			</form>
+			
+		</div>
 
 		
 
@@ -102,46 +123,31 @@
 	var firstDate = new Date(year, month, date-day); 
 	
 	$(function() {	   
-		getMyCourses();
-
-	     $("#prevMonth").click(function(e) {
-	      	e.preventDefault();
-	      	if(month == 1){
-	      		year = year-1;
-	      		month = 12;
-	      	}else{
-	      		month = month-1;
-	      	}	
-	      	getMyCourses();
-	      });
+		getMyCourses();  
 	      
-	      $("#nextMonth").click(function(e) {
-	          	e.preventDefault();
-	          	if(month == 12){
-	          		year = year+1;
-	          		month = 1;
-	          	}else{
-	          		month = month+1;
-	          	}	
-	          	getMyCourses();
-	      });
-
-	  
+	    $("#myCourse").change(function(e) {
+	    	var cNo = $("select#myCourse option:selected").val();
+	    	var cName = $("select#myCourse option:selected").text();
+	    	var sbNo = $("select#myCourse option:selected").attr("data-sbNo");
+			$("#course-title").html(cName);
+	      	getMyStudent(cNo, sbNo);
+	    });
 	      
-	      $("#myCourse").change(function(e) {
-	    	  var cNo = $("select#myCourse option:selected").val();
-	    	  var cName = $("select#myCourse option:selected").text();
-	    	  var sbNo = $("select#myCourse option:selected").attr("data-sbNo");
-				$("#course-title").html(cName);
-	    	 getMyStudent(cNo, sbNo);
-	      });
 	      
-
+	    $("#viewBtn").click(function() {
+			// 성적 조회
+			$("#viewDiv").show();
+			$("#insertDiv").hide();
+		});
+	    
+	    
+	    $("#insertBtn").click(function() {
+			// 성적 입력
+		});
 	});
 	
 	
 	      function getMyCourses(){
-	    	changeCalTitle();
 	  		$.ajax({
 	  			//myCoursesTable/{tId}/{year}/{month}
 	  			url: "${pageContext.request.contextPath}/course/myCoursesTable/"+tId+"/"+year+"/"+(month+1),

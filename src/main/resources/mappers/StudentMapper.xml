@@ -109,7 +109,7 @@
 	</select>
 	
 	<select id="login" resultMap="StudentResult">
-		<include refid="selectSql"/>
+		select s_id, s_name from student
 		WHERE s_id=#{sId} and s_password=#{sPassword}
 	</select>
 	

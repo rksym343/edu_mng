@@ -60,7 +60,7 @@
 	</select>
 	
 	<select id="login" resultMap="TeacherResult">
-		<include refid="selectSql"/>
+		select tt.t_id, tt.t_name from teacher tt
 		 WHERE tt.t_id=#{tId} and tt.t_password = #{tPassword}
 	</select>
 </mapper>

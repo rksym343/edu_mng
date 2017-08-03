@@ -116,6 +116,16 @@
 		.css("left",  Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px")
 		.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
 	});	
+	
+	 $(function () {
+	       var url_string =  window.location.href;
+	       var url = new URL(url_string);
+	        var result = true;
+	        result = url.searchParams.get("nonexistent");
+	       if(result=="true"){
+	           alert("로그인 정보를 확인하세요");
+	        }
+	      });
 </script>
 </html>
 

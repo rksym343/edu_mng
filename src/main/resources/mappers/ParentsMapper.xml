@@ -70,7 +70,7 @@
 	</select>
 	
 	<select id="login" resultMap="ParentsResult">
-		<include refid="selectSql"/>
+		select pp.sp_id, pp.sp_name, pp.s_id from parents pp
 		WHERE pp.sp_id=#{spId} and pp.sp_password= #{spPassword}
 	</select>
 </mapper>

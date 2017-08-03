@@ -18,5 +18,6 @@ public interface CourseService {
 	public int countCourses(SearchCriteria searchCriteria) throws Exception;
 	public List<Course> selectAllCourse(SearchCriteria searchCriteria) throws Exception;
 	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth) throws Exception;
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth, int ttDay) throws Exception;
 	
 }

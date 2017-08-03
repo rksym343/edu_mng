@@ -42,12 +42,12 @@ function makeMyCalendar(y, m) {
 			if ((i == 1 && k <= theDay) || (num > lastDate)) {
 				// 1일 시작전 칸을 공백처리
 				// 마지막날 이후 칸을 공백처리
-				table += "<td> </td>";
+				table += "<td><p class='detail'> </p></td>";
 			} else {
 				if( y == curDate.getFullYear() && m == curDate.getMonth() && num == curDate.getDate()){
-					table += "<td class='"+num+" day"+k+"'><b>" + num + "</b></td>";
+					table += "<td class='"+num+" day"+k+"'><b>" + num + "</b><p class='detail'> </p></td>";
 				}else {
-					table += "<td class='"+num+"'>" + num + "</td>";
+					table += "<td class='"+num+"'>" + num + "<p class='detail'> </p></td>";
 				}
 				num++;
 			}

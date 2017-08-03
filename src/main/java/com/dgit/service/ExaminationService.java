@@ -6,9 +6,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dgit.domain.ExamItem;
 import com.dgit.domain.Examination;
 
 public interface ExaminationService {
+	
+	
 	public void insertExamination(Examination examination) throws Exception;
 	public void updateExamination(Examination examination) throws Exception;
 	public void deleteExamination(int eNo) throws Exception;
@@ -16,6 +19,7 @@ public interface ExaminationService {
 	public List<Examination> selectAllExamination() throws Exception;
 	public List<Examination> selectExaminationByCri(Examination examination) throws Exception;
 	
-	
+	public List<ExamItem> selectAllExamItem() throws Exception;
+	public ExamItem selectOneExamItem(int eiNo) throws Exception;
 
 }

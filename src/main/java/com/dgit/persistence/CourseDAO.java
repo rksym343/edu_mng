@@ -16,6 +16,7 @@ public interface CourseDAO {
 	public Course selectOneCourse(int cNo) throws Exception;
 	public List<Course> selectAllCourse(SearchCriteria searchCriteria) throws Exception;
 	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth) throws Exception;
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth, int ttDay) throws Exception;
 	public int lastCourseId() throws Exception;
 	public int countCourses(SearchCriteria searchCriteria) throws Exception;
 	

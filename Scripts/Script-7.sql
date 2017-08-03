@@ -47,20 +47,20 @@ INSERT INTO edu_manager.attendance (s_id, the_time, as_no) values
 ('sss01', '2017-07-20 17:55:50', 2),
 ('sss01', '2017-08-31 17:55:50', 4);
 
-
+select s_id, s_name from student;
 -- (1, '결석'),(2, '등원'),(3, '지각'),(4, '조퇴'),(5, '하원')
 INSERT INTO edu_manager.attendance (s_id, the_time, as_no) values
-('sss01', '2017-07-01 20:55:50', 2),
-('sss01', '2017-07-02 17:55:50', 3),
-('sss01', '2017-07-05 17:55:50', 2),
-('sss01', '2017-07-05 20:55:50', 4),
-('sss01', '2017-07-01 22:55:50', 5),
-('sss01', '2017-07-02 20:55:50', 5);
+('sss01', '2017-08-01 20:55:50', 2),
+('sss01', '2017-08-02 17:55:50', 3),
+('sss01', '2017-08-05 17:55:50', 2),
+('sss01', '2017-08-05 20:55:50', 4),
+('sss01', '2017-08-01 22:55:50', 5),
+('sss01', '2017-08-02 20:55:50', 5);
 
 
 INSERT INTO edu_manager.attendance (s_id, the_time, as_no) values
-('sss01', '2017-07-10 15:55:50', 3),
-('sss01', '2017-07-10 17:55:50', 4);
+('sss01', '2017-08-10 15:55:50', 3),
+('sss01', '2017-08-10 17:55:50', 4);
 
 INSERT INTO edu_manager.course_register (reg_month, reg_s_id, reg_c_no, rs_no) values 
 (201705, 'sss01', 1, 1),

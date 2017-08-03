@@ -120,6 +120,27 @@ public class CourseDAOImpl implements CourseDAO {
 		return session.selectOne(namespace + ".countCourses", searchCriteria);
 	}
 
+	@Override
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth, int ttDay)
+			throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		if (!sId.trim().equals("")) {
+			map.put("sId", sId.trim());
+		}
+		if (!tId.trim().equals("")) {
+			map.put("tId", tId.trim());
+		}
+		if (registrationStatus != 0) {
+			map.put("registrationStatus", registrationStatus);
+		}
+		if (regMonth != 0) {
+			map.put("regMonth", regMonth);
+		}
+		map.put("ttDay", ttDay);
+		
+		return session.selectList(namespace + ".selectCoursesByCri", map);
+	}
+
 	
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dgit.domain.CartCourse;
@@ -34,6 +35,7 @@ import com.dgit.interceptor.LoginInterceptor;
 import com.dgit.service.CartCourseService;
 import com.dgit.service.CourseRegisterService;
 import com.dgit.service.CourseService;
+import com.dgit.service.ExaminationService;
 import com.dgit.service.ParentsService;
 import com.dgit.service.StudentGradeService;
 import com.dgit.service.SubjectService;
@@ -60,7 +62,7 @@ public class CourseController {
 	@Autowired
 	private SubjectService subjectService;
 	
-	@Autowired
+	@Autowired 
 	private CourseRegisterService courseRegisterService;
 	
 	@Autowired
@@ -68,6 +70,9 @@ public class CourseController {
 	
 	@Autowired
 	private TeacherService teacherService;
+	
+	@Autowired
+	private ExaminationService examinationService;
 	
 	@Resource(name = "uploadPath") // bean의 id 이름
 	String uploadPath;
@@ -279,6 +284,19 @@ public class CourseController {
 		return entity;
 	}
 	
+	@RequestMapping(value="/android/myRegisteredCourses/{sId}/{year}/{month}/{ttDay}", method=RequestMethod.GET)
+	public @ResponseBody List<Course> getMyRegisteredCoursesForAndroid(
+			@PathVariable("sId") String sId, @PathVariable("ttDay") int ttDay,
+			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		List<Course> list = null;
+		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
+		try{
+			list = courseService.selectCoursesByCri(sId, "", 1, regMonth, ttDay);
+		}catch(Exception e){
+		}
+		return list;
+	}
+	
 	@RequestMapping(value="/myRegisteredStudents/{cNo}/{year}/{month}/{rsNo}", method=RequestMethod.GET)
 	public ResponseEntity<List<CourseRegister>> getMyRegisteredStudents(
 			@PathVariable("cNo") int cNo, @PathVariable("rsNo") int rsNo,
@@ -326,8 +344,9 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/myCoursesWithStudent", method=RequestMethod.GET)
-	public void getMyCoursesWithStudent() throws Exception{
+	public void getMyCoursesWithStudent(Model model) throws Exception{
 		System.out.println("======================== myCoursesWithStudent GET ========================");
+		model.addAttribute("examList", examinationService.selectAllExamItem());
 	}
 	
 	@RequestMapping(value="/myCoursesWithStudent/{cNo}/{year}/{month}", method=RequestMethod.GET)

@@ -24,6 +24,10 @@
 		.view-empty-chart{
 			line-height: 
 		}
+		
+		.detail{
+			font-size: 12px;
+		}
 	</style>
                     
 	
@@ -93,8 +97,8 @@
 		var month = today.getMonth();
 		
 		
-    	var arrColor = ["default","danger","info","warning","success","active"];/* 
-    	var arrChartKey = ["지각&조퇴", "결석","지각","등원","조퇴"];
+    	var arrColor = ["default","danger","info","warning","success","active"];
+    	var arrChartKey = ["지각&조퇴", "결석","지각","등원", "조퇴"]; /* 
     	var arrChartColor = ["#dddddd", "#EC407A","#E5D85C","#2196F3","#8BC34A"]; */
     	 
     	 $(function() {	 
@@ -150,7 +154,7 @@
 					type : "get",
 					dataType: "json",
 					success:function(data){
-		                                  				console.log(data);
+		                console.log(data);
 						var myCal = $(".my-cal");
 						for(var i = 0; i < data.length ; i++){
 							var theDate = new Date(data[i].theTime).getDate();
@@ -158,6 +162,7 @@
 							var td = $("table.my-cal").find("td."+theDate);
 							if(idx != 5){
 								td.addClass(arrColor[idx]);
+								$(td).find(".detail").html(arrChartKey[idx]);
 							}
 						}
 						
@@ -201,14 +206,12 @@
 	 				var idx = 0;
 	 				$.each(v, function(key, val) {
 	 					console.log(key + " : " + val);
-	 					if(val != 0){
 	 						console.log("===저장 : "+key + " : "  + val);
 		 					arr[idx] = {
-		 						label: key,
-		 						value: val
-		 						}
-	 						idx++;
-	 					}
+		 						y: key,
+		 						a: val
+		 					}
+	 						idx++;	 					
 	 				});
 	 				$("#donut-attendance-chart").css("height", $(".view-my-calendar").parent().parent().css("height"));
 	 				$("#donut-attendance-chart").css("text-align","center");
@@ -228,12 +231,27 @@
 	 		});
 	 	}
 	     
-	     function showGraph(myData){
-	    	 Morris.Donut({
+	     function showGraph(myData){	    	 
+	    	 Morris.Bar({
 	   		  element: 'donut-attendance-chart',
 	   		  data: myData,
-	   		 colors: ["#dddddd", "#EC407A","#E5D85C","#2196F3","#8BC34A"],
-	   		});
+	   		  xkey: 'y',
+	   		  ykeys: ['a'],
+	   		  labels: ['횟수'],
+	   		  resize:true,
+	   		  barColors : function (row, series, type) {
+	   		    console.log("--> "+row.label, series, type);
+	   		    if(row.label == "지각&조퇴") return "#dddddd";
+	   		    else if(row.label == "지각") return "#E5D85C";
+	   		    else if(row.label == "조퇴") return "#8BC34A";
+	   		 	else if(row.label == "등원") return "#2196F3";
+	   			else if(row.label == "결석") return "#EC407A";
+	   		  },
+			  hoverCallback: function (index, options, content, row) {
+					// return "["+index+"]"+content + "sin(" + row.x + ") = " + row.y;
+				return content;
+			}
+	   	});
 	     }
      </script>
      <!-- ["#F2DEDE","#D9EDF7","#FCF8E3","#DFF0D8", "#F5F5F5"] -->

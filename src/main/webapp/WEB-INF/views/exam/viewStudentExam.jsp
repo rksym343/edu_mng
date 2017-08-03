@@ -76,7 +76,7 @@
 			</table> -->
 				
 				<hr>
-		<h2>학원테스트</h2>
+		<h2>학원테스트 </h2>
 		<div id="area-example" class="chart"></div>
 			<!-- <table border="1">
 				<thead>
@@ -224,7 +224,7 @@ function gradeGraph(gradeData, gradeMemo){
 		  hoverCallback: function (index, options, content, row) {
 			// return "["+index+"]"+content + "sin(" + row.x + ") = " + row.y;
 			 return content+gradeMemo[index];
-			}
+		}
 		});
 }
 	var arrCourseClass= [];

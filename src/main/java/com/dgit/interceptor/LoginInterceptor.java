@@ -40,7 +40,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if(memberId.trim().equals("")){
 			System.out.println("===============해당 아이디 없음===========");
 			
-			response.sendRedirect("login?nonexistent=nonexistent"); // 원래 회원가입화면으로 유도해야 함..
+			response.sendRedirect("login?nonexistent=true"); // 원래 회원가입화면으로 유도해야 함..
 			
 		}else{
 			// 로그인시 session영역에 login한 사람 정보를 넣음...

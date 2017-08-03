@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dgit.domain.Parents;
@@ -170,10 +171,36 @@ public class UserController {
 		model.addAttribute(LoginInterceptor.MEMBER_ID, member);		
 	}
 	
-	@RequestMapping(value="/loginSample", method=RequestMethod.GET)
-	public void getLoginSample(Model model) throws Exception{
-		
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public @ResponseBody String postLoginForAndroid(String memberType, String id, String password) throws Exception{
+		String memberName = "";
+		logger.info("=============안드로이드 로그인");
+		logger.info("=============안드로이드 로그인 memberType : " +memberType);
+		logger.info("=============안드로이드 로그인 id : " +id);
+		logger.info("=============안드로이드 로그인 password : " +password);
+		 
+		if(memberType.equalsIgnoreCase(LoginInterceptor.STUDENT)){
+			Student studnet =  studentService.login(id, password);
+			if(studnet != null){
+				memberName = studnet.getsName();
+			}
+		}else if(memberType.equalsIgnoreCase(LoginInterceptor.PARENTS)){
+			Parents parents = parentsService.login(id, password);
+			if(parents != null){
+				memberName = parents.getSpName();
+			}
+		}else if(memberType.equalsIgnoreCase(LoginInterceptor.TEACHER)){
+			Teacher teacher = teacherService.login(id, password);
+			if(teacher != null){
+				memberName = teacher.gettName();			
+			}
+		}
+		return memberName;
 	}
+	
+	
+	
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String getLogout(HttpSession session) throws Exception{

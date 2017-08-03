@@ -113,6 +113,15 @@ public class CourseServiceImpl implements CourseService{
 		List<Course> list = dao.selectCoursesByCri(sId, tId, registrationStatus, regMonth);
 		return list;
 	}
+	
+	@Override
+	public List<Course> selectCoursesByCri(String sId, String tId, int registrationStatus, int regMonth, int ttDay)
+			throws Exception {
+		List<Course> list = dao.selectCoursesByCri(sId, tId, registrationStatus, regMonth, ttDay);
+		return list;
+	}
+	
+	
 
 	@Override
 	public int countCourses(SearchCriteria searchCriteria) throws Exception {

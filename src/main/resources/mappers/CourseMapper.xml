@@ -102,6 +102,9 @@
 			<if test="registrationStatus != null">
 				and cr.rs_no =#{registrationStatus}
 			</if>
+			<if test="ttDay != null">
+				and ttt.tt_day = #{ttDay}
+			</if> 
 		</where>
 	</sql>
 
