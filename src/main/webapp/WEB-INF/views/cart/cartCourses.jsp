@@ -236,11 +236,12 @@ function checkTimetable(){
 							$(obj2).parent().parent().addClass("text-danger");
 							$(".alert-danger").find(".content").append("<p>["+cName1+"] - ["+cName2+"] 수업 시간이 중복됩니다</p>");
 						}
+
+						$(".alert-danger").show();
 					}		
 				});
 			}		
 		});
-		$(".alert-danger").show();
 }
 
 

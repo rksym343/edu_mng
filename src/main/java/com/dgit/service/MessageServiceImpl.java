@@ -58,7 +58,8 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<Message> selectMessageByCri(
-			String tId, int cNo, String memberType, String id, boolean isAll, boolean isChecked, boolean isDel, int cnt) throws Exception {
+			String tId, int cNo, String memberType, String id, boolean isSender, boolean isAll, 
+			boolean isChecked, boolean isDel, int cnt, boolean isSent) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		if(cNo != 0){
 			map.put("cNo", cNo);
@@ -76,13 +77,22 @@ public class MessageServiceImpl implements MessageService {
 			}else{
 				map.put("unchecked", "unchecked");
 			}
+			
 		}
 		
-		if(isDel){
-			map.put("isDel","isDel" );
-		}else{
-			map.put("isAlive", "isAlive");
+
+		if(!isSent){
+			map.put("isSent", 0);
 		}
+		
+		if(!isSender){
+			if(isDel){
+				map.put("isDel","isDel" );
+			}else{
+				map.put("isAlive", "isAlive");
+			}
+		}
+		
 		
 		if(cnt != 0){
 			map.put("cnt", cnt);
@@ -94,38 +104,6 @@ public class MessageServiceImpl implements MessageService {
 		return dao.selectMessageByCri(map);
 	}
 	
-	@Override
-	public List<Message> selectMessageByCri(String tId, int cNo, String memberType, String id, boolean isAll,
-			boolean isChecked, int cnt) throws Exception {
-		Map<String, Object> map = new HashMap<>();
-		
-		if(cNo != 0){
-			map.put("cNo", cNo);
-		}
-		
-		if(memberType.equalsIgnoreCase("student")){
-			map.put("sId", id);
-		}else if(memberType.equalsIgnoreCase("parents")){
-			map.put("spId", id);
-		}
-		
-		if(!isAll){
-			if(isChecked){
-				map.put("isChecked", "isChecked");
-			}else{
-				map.put("unchecked", "unchecked");
-			}
-		}
-		
-		if(cnt != 0){
-			map.put("cnt", cnt);
-		}
-		if(!tId.equals("")){
-			map.put("tId", tId);	
-			return dao.selectMessageByCriForSender(map);
-		}
-		return dao.selectMessageByCri(map);
-	}	
 
 	@Override
 	@Transactional
@@ -153,6 +131,16 @@ public class MessageServiceImpl implements MessageService {
 		insertMessageToAllStudent(message);
 		message.setsId(null);
 		insertMessageToAllParents(message);
+	}
+
+	@Override
+	public int selectNewSendMessage(String memberType, String id) throws Exception {
+		return dao.selectNewSendMessage(memberType, id);
+	}
+
+	@Override
+	public void updateSendMessage(String memberType, String id) throws Exception {
+		dao.updateSendMessage(memberType, id);
 	}
 
 	

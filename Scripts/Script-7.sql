@@ -286,3 +286,8 @@ left outer join attendance att on cr.reg_s_id = att.s_id and date(att.the_time) 
 left outer join attendance_status ass on att.as_no = ass.as_no 
 WHERE tt.tt_day =1 and cr.reg_c_no = 4 and cr.reg_month=201707;
 group by att.the_time;
+
+
+select count(*) from message where s_id="sss01" and is_sent=0;
+
+update message set is_sent = 1 where s_id='sss01';

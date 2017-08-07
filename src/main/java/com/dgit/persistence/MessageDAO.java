@@ -12,10 +12,13 @@ public interface MessageDAO {
 	public void insertNotCourseMessage(Message message) throws Exception;
 	public void updateMessage(Message message) throws Exception;
 	public void deleteMessage(int msgNo) throws Exception;
+	public void updateSendMessage(String memberType, String id) throws Exception;
+	
+	
 	public Message selectOneMessage(int msgNo) throws Exception;
 	public List<Message> selectAllMessage() throws Exception;
 	public List<Message> selectMessageByCri(Map<String, Object> map) throws Exception;
 	public List<Message> selectMessageByCriForSender(Map<String, Object> map) throws Exception;
 	
-	
+	public int selectNewSendMessage(String memberType, String id) throws Exception;
 }

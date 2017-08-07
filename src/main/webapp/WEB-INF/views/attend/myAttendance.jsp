@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">출석기록</h1>
-</div>
-</div> <!-- div row -->
+<%@ include file="../include/page_header.jsp"%>
+  <!-- Morris Charts CSS -->
+<link href="${pageContext.request.contextPath}/resources/vendor/morrisjs/morris.css" rel="stylesheet">
 
 <style>
 		.my-cal th, .my-cal td{
@@ -31,6 +29,22 @@
 	</style>
                     
 	
+	
+	 <div class="container">
+	  <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"> 이번달 출석기록
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">출석표</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+	 
 	 <div class="row">
 				<div class="col-lg-8">
                     <div class="panel panel-default" >
@@ -86,7 +100,15 @@
                 
                 
 	
-<%@ include file="../include/footer.jsp"%>	
+<%@ include file="../include/page_footer.jsp"%>
+  
+    <!-- my Calendar -->
+    <script src="${pageContext.request.contextPath}/resources/myjs/my_cal.js"></script>
+    
+    <!-- Morris Charts JS -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/raphael/raphael.min.js"></script>
+	<!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> -->
+	<script src="${pageContext.request.contextPath}/resources/vendor/morrisjs/morris.min.js"></script>
 
 
 	 <script>

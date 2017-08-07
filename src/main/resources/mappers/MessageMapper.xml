@@ -13,6 +13,7 @@
 		<result property="msgContent" column="msg_content"/>
 		<result property="isChecked" column="is_checked"/>
 		<result property="regDate" column="reg_date"/>
+		<result property="isSent" column="is_sent"/>
 		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
 		<association property="student" resultMap="com.dgit.mapper.StudentMapper.StudentResult"/>
 		<association property="parents" resultMap="com.dgit.mapper.ParentsMapper.ParentsResult"/>
@@ -55,18 +56,21 @@
 			</if>
 			<if test="isAlive != null">
 				and m.is_del = 0
+			</if>			
+			<if test="isSent != null">
+				and m.is_sent = #{isSent}
 			</if>
 		</where>
 	</sql>
 
 	<insert id="insertMessage" parameterType="Message">
-		INSERT INTO message (t_id, c_no, s_id, sp_id, msg_content, is_checked, reg_date) VALUES
-		(#{tId}, #{cNo}, #{sId}, #{spId}, #{msgContent}, 0, current_timestamp)
+		INSERT INTO message (t_id, c_no, s_id, sp_id, msg_content, is_checked, reg_date, is_sent) VALUES
+		(#{tId}, #{cNo}, #{sId}, #{spId}, #{msgContent}, 0, current_timestamp, 0)
 	</insert>
 	
 	<insert id="insertNotCourseMessage" parameterType="Message">
-		INSERT INTO message (t_id, s_id, sp_id, msg_content, is_checked, reg_date) VALUES
-		(#{tId}, #{sId}, #{spId}, #{msgContent}, 0, current_timestamp)
+		INSERT INTO message (t_id, s_id, sp_id, msg_content, is_checked, reg_date, is_sent) VALUES
+		(#{tId}, #{sId}, #{spId}, #{msgContent}, 0, current_timestamp, 0)
 	</insert>
 	
 	<update id="updateMessage" parameterType="Message">
@@ -90,12 +94,25 @@
 				<if test="isChecked != null">
 					is_checked = #{isChecked}
 				</if>
+				<if test="isSent !=0 ">
+					is_sent = #{isSent}
+				</if>
 			</set>
 		WHERE msg_no=#{msgNo}
 	</update>
 	
 	<update id="deleteMessage">
 		UPDATE message set is_del = 1 WHERE msg_no=#{msgNo}
+	</update>
+	
+	<update id="updateSendMessage" parameterType="hashmap">
+		UPDATE message m set m.is_sent = 1, 
+			<if test="sId != null">
+				m.s_id = #{sId}
+			</if>
+			<if test="spId != null">
+				m.sp_id = #{spId}
+			</if>
 	</update>
 
 
@@ -128,5 +145,19 @@
 		</if>
 	</select>
 	
+	<select id="selectNewSendMessage" parameterType="hashmap" resultType="int">
+		select count(*) from message m
+		<where>
+			<if test="sId != null">
+				m.s_id = #{sId}
+			</if>
+			<if test="spId != null">
+				and m.sp_id = #{spId}
+			</if>
+			<if test="isSent != null">
+				and m.is_sent = 0
+			</if>
+		</where>
+	</select>
 	
 </mapper>

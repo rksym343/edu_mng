@@ -52,7 +52,7 @@
                     <div class="panel-body">
                         <form action="loginPost" method="post">
 						  	 <div class="input-group btn-group btn-group-justified">
-						     	 <label class="radio-inline btn btn-primary">
+						     	 <label class="radio-inline btn btn-success">
 							      <input type="radio" name="memberType" value="student" checked="checked">학생
 							    </label>
 							    <label class="radio-inline btn btn-default">
@@ -71,7 +71,7 @@
 						      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 						    </div>
 						    <div class="input-group">
-						   		<input type="submit" value="로그인" class=" btn btn-primary" >
+						   		<input type="submit" value="로그인" class=" btn btn-success" >
 						    </div>
 						   
 						    	<p style="text-align: right;">
@@ -103,10 +103,10 @@
 		$(window).resize();
 		
 		$("input[name='memberType']").change(function() {
-			$("input[name='memberType']").parent("label").removeClass("btn-primary");
+			$("input[name='memberType']").parent("label").removeClass("btn-success");
 			$("input[name='memberType']").parent("label").addClass("btn-default");
 			$(this).parent("label").removeClass("btn-default");
-			$(this).parent("label").addClass("btn-primary");
+			$(this).parent("label").addClass("btn-success");
 		})
 		
 	});

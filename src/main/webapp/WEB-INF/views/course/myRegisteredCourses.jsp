@@ -4,11 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%-- // ${fn:length(course.timetables)} --%>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-	<h1 class="page-header">내 강의들</h1>
-</div>
-</div>
-<!-- div row -->
+
+
 
 <style>
 ul.timeview {
@@ -18,6 +15,25 @@ ul.timeview {
 	text-align: center;
 }
 </style>
+
+
+	 <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">이번달 신청강의
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">신청강의목록</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+	
+
 
 <div class="row">
 	<div class="col-lg-12">
@@ -133,8 +149,7 @@ ul.timeview {
 				var source = $("#courseList").html();
 				var template = Handlebars.compile(source);
 				$("tbody.myCourses").html(template(data));
-			}
-				
+			}				
 		})
 	}
 </script>

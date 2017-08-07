@@ -2,14 +2,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">수업상세정보</h1>
-	</div>
-</div> <!-- div row -->
+<style>
+	.alert-danger{
+		display: none;
+	}
+	.content{
+		font-size: 16px;
+	}
+</style>
 
+	 <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">수업상세정보
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">수업상세정보</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+	
 			
 			<div class="row">
-			
+				<div class="alert alert-danger">
+					 <!--  <strong>신청불가!</strong> -->
+					 <span class="content"></span>
+				</div>
                   <div class="panel panel-default">
                  	<div class="panel-heading">                 			
                        		<span>${course.cName }</span>
@@ -20,7 +43,12 @@
                          			<button type="button" class="btn btn-default" id="deleteCourse">삭제</button>
                          		</c:if>
                          		<c:if test="${memberType=='student'||memberType=='parents' }">
-                         			<button type="button" class="btn btn-default" id="registerCourse">수강신청</button>
+                         			 <button type="button" class="btn btn-default" id="registerCourse"
+                         			 	data-container="body" data-toggle="popover" data-placement="top" 
+                         			 	data-content="dfgdfg">
+                                 		 수강신청
+                               		</button>
+                               		
                          		</c:if>
                          	</form>
                         </div>
@@ -112,39 +140,66 @@
                     <!-- /.panel -->
                 </div>
 
+                <div class="row">
+                    <button class="btn btn-success">목록으로</button>
+                </div>
 
 <%@ include file="../include/footer.jsp"%>	
 <script>
+
+var sId = memberId;
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth();
+
 	$(function() {
 		getMyCourses();
 	});
 	
-	function getMyCourses(){
-		var sId = memberId;
-		var today = new Date();
-		var year = today.getFullYear();
-		var month = today.getMonth();
-		var cNo = $("input[name='cNo']").val();
+	
+	function checkImposi(cNo1, cNo2, cName2){
 		$.ajax({
-			// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
-			url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
-			type : "get",
-			dataType: "json",
-			success:function(data){
-				console.log(data);
-				$.each(data, function(i, v) {
-					if(v.cNo == cNo){
-						$("#registerCourse").html("수강중");
-						$("#registerCourse").addClass("disabled");						
-					}
-				});
-				var source = $("#courseList").html();
-				var template = Handlebars.compile(source);
-				$("tbody.myCourses").html(template(data));
-			}
-				
-		});
-	}
+			url: "${pageContext.request.contextPath}/course/timetable/"+cNo1+"/"+cNo2,
+			type : "GET",
+			dataType : "text",
+			success: function(result) {
+				console.log("=====check " +cNo1 +" : " +cNo2+ "//" );
+				console.log("return : "+ result);
+				if(result=="OK"){				
+					$("#registerCourse").addClass("disabled");		
+					$(".alert-danger").find(".content").append("현재 수강중인 ["+cName2+"] 수업 시간과 중복됩니다<br>");
+					$(".alert-danger").show();
+				}
+			}		
+		});	}
+	
+	 
+	 function getMyCourses(){
+			$(".alert-danger").hide();
+			$(".alert-danger").find(".content").html();
+			var cNo = $("input[name='cNo']").val();
+			$.ajax({
+				// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
+				url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
+				type : "get",
+				dataType: "json",
+				success:function(data){
+					console.log(data);
+					$.each(data, function(i, v) {
+						if(v.cNo == cNo){
+							$("#registerCourse").html("수강중");
+							$("#registerCourse").addClass("disabled");						
+						}else{
+							$("#registerCourse").html("수강신청");
+							$("#registerCourse").removeClass("disabled");		
+							 checkImposi(cNo, v.cNo, v.cName);
+						}
+									
+					});
+				}
+					
+			});
+		}
 	
 	$("#modifyCourse").click(function() {
 		// 수정하기
@@ -165,7 +220,6 @@
 		// 수강신청하기
 		if($("#registerCourse").html()!="수강중"){
 			var cNo = $("input[name='cNo']").val();
-			
 			if(confirm("수강신청 하시겠습니까?")){
 				$.ajax({
 					url: "${pageContext.request.contextPath}/cart/insertCart/"+memberType+"/"+memberId+"/"+cNo,

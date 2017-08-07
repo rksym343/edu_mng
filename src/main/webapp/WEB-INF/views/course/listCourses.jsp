@@ -1,126 +1,130 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">개설강의</h1>
-</div>
-</div> <!-- div row -->
-
+<%@ include file="../include/page_header.jsp"%>
 	<style>
 		.keyword-form-none{
 			display: none;
 		}
+		h3{
+			margin-left : 0; 
+		}
 	</style>
+	
+	
+	 <div class="container">
 
-	<div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            2017년 7월 개설강의
-                        </div>
-                        <!-- /.panel-heading -->
-                        
-                        <div class="panel-body">
-						<div class="row">
-                        	
-						<div class="col-md-2">
-							<select name="searchType" class="form-control col-md-2">
-								<option value="cName" ${cri.searchType=='cName'? 'selected' :'' } ${cri.searchType==null? 'selected' :'' }>강의명</option>
-								<option value="subject" ${cri.searchType=='subject'? 'selected' :'' }>과목</option>
-								<option value="teacher" ${cri.searchType=='teacher'? 'selected' :'' }>선생님</option>
-								<option value="ttDay" ${cri.searchType=='ttDay'? 'selected' :'' }>요일</option>
-								<option value="grade" ${cri.searchType=='grade'? 'selected' :'' }>학년</option>						
-							</select>
-						</div>	
-						<div class="col-md-3">
-							<c:if test=" ${cri.searchType=='ttDay'}">								
-								<select id="ttDay" class="form-control col-md-3  keyword-form keyword-form-none">
-									<option value="1" ${cri.keyword=='1'? 'selected' :'' }>월</option>
-									<option value="2" ${cri.keyword=='2'? 'selected' :'' }>화</option>
-									<option value="3" ${cri.keyword=='3'? 'selected' :'' }>수</option>
-									<option value="4" ${cri.keyword=='4'? 'selected' :'' }>목</option>
-									<option value="5" ${cri.keyword=='5'? 'selected' :'' }>금</option>
-									<option value="6" ${cri.keyword=='6'? 'selected' :'' }>토</option>
-									<option value="0" ${cri.keyword=='0'? 'selected' :'' }>일</option>
-								</select>
-							</c:if>
-							<%-- <c:if test=" ${cri.searchType=='ttDay'}">	 --%>
-								<select id="gdNo" class="form-control col-md-3  keyword-form keyword-form-none">
-									<c:forEach items="${studentGradeList }" var="grade">
-										<option value="${grade.gdNo }" ${cri.keyword==grade.gdNo ? 'selected' :'' }>${grade.gdName }</option>
-									</c:forEach>
-								</select>
-							<%-- </c:if>
-							<c:if test=" ${cri.searchType=='subject'}">	 --%>
-								<select id="sbNo" class="form-control  col-md-3  keyword-form keyword-form-none">
-									<c:forEach items="${subjectList }" var="subject">
-										<option value="${subject.sbNo }" ${cri.keyword==subject.sbNo ? 'selected' :'' }>${subject.sbName }</option>
-									</c:forEach>
-								</select>
-							<%-- </c:if>
-							<c:if test=" ${cri.searchType=='cName' || cri.searchType=='teacher' || cri.searchType==''}">	 --%>
-								<input class="form-control col-md-3  keyword-form" id="keyword-input" type="text" value="${cri.keyword}">
-							<%-- </c:if> --%>
-						</div>	
-							<button id="searchBtn" class="btn btn-default"><i class="fa fa-search"></i></button>
-						</div>
-						</div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>교과</th>
-											<th>대상학년</th>
-											<th>강의명</th>
-											<th>담당선생님</th>
-											<th>수강인원</th>
-											<th>강의시간</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	
-                                    
-                                        <c:forEach items="${listCourses }" var="course">
-											<tr onclick="readCourse(${course.cNo })" class="c-${course.cNo }" data-cri="${pageMaker.makeSearch(cri.page) }">
-												<td>${course.subject.sbName }</td>
-												<td>${course.studentGrade.gdName }</td>
-												<td>${course.cName }</td>
-												<td>${course.teacher.tName }</td>
-												<td>${course.capacity }</td>
-												<td>
-												<c:if test="${empty course.timetables }">
-													시간미정
-												</c:if>
-												<c:if test="${!empty course.timetables }">
-													<c:forEach items="${course.timetables }" var="tt">
-															<p>
-																<c:choose>
-															       <c:when test="${tt.ttDay == 0}">
-															           <span class="ttDay label label-danger">${tt.ttDay }</span> 
-															       </c:when>
-															       <c:when test="${tt.ttDay == 6}">
-															           <span class="ttDay label label-primary">${tt.ttDay }</span> 
-															       </c:when>
-															       <c:otherwise>
-															           <span class="ttDay label label-default">${tt.ttDay }</span> 
-															       </c:otherwise>
-															   </c:choose>	
-																${tt.ttStarttime }시 ~ ${tt.ttEndtime }시 
-															</p>
-													</c:forEach>
-												</c:if>
-												</td>	
-											</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"> 이번달 개설강의
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">개설강의목록</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+	
+        
+        <div class="row">                      	
+			<div class="col-lg-2">
+				<select name="searchType" class="form-control">
+					<option value="cName" ${cri.searchType=='cName'? 'selected' :'' } ${cri.searchType==null? 'selected' :'' }>강의명</option>
+					<option value="subject" ${cri.searchType=='subject'? 'selected' :'' }>과목</option>
+					<option value="teacher" ${cri.searchType=='teacher'? 'selected' :'' }>선생님</option>
+					<option value="ttDay" ${cri.searchType=='ttDay'? 'selected' :'' }>요일</option>
+					<option value="grade" ${cri.searchType=='grade'? 'selected' :'' }>학년</option>						
+				</select>
+			</div>	
+			<div class="col-lg-3">
+				<c:if test=" ${cri.searchType=='ttDay'}">								
+					<select id="ttDay" class="form-control keyword-form keyword-form-none">
+						<option value="1" ${cri.keyword=='1'? 'selected' :'' }>월</option>
+						<option value="2" ${cri.keyword=='2'? 'selected' :'' }>화</option>
+						<option value="3" ${cri.keyword=='3'? 'selected' :'' }>수</option>
+						<option value="4" ${cri.keyword=='4'? 'selected' :'' }>목</option>
+						<option value="5" ${cri.keyword=='5'? 'selected' :'' }>금</option>
+						<option value="6" ${cri.keyword=='6'? 'selected' :'' }>토</option>
+						<option value="0" ${cri.keyword=='0'? 'selected' :'' }>일</option>
+					</select>
+				</c:if>
+				<%-- <c:if test=" ${cri.searchType=='ttDay'}">	 --%>
+				<select id="gdNo" class="form-control keyword-form keyword-form-none">
+					<c:forEach items="${studentGradeList }" var="grade">
+						<option value="${grade.gdNo }" ${cri.keyword==grade.gdNo ? 'selected' :'' }>${grade.gdName }</option>
+					</c:forEach>
+				</select>
+				<%-- </c:if>
+				<c:if test=" ${cri.searchType=='subject'}">	 --%>
+				<select id="sbNo" class="form-control  keyword-form keyword-form-none">
+					<c:forEach items="${subjectList }" var="subject">
+						<option value="${subject.sbNo }" ${cri.keyword==subject.sbNo ? 'selected' :'' }>${subject.sbName }</option>
+					</c:forEach>
+				</select>
+			<%-- </c:if>
+			<c:if test=" ${cri.searchType=='cName' || cri.searchType=='teacher' || cri.searchType==''}">	 --%>
+				<input class="form-control col-md-3  keyword-form" id="keyword-input" type="text" value="${cri.keyword}">
+			<%-- </c:if> --%>
+		</div>	
+			<button id="searchBtn" class="btn btn-default"><i class="fa fa-search"></i></button>
+			<p></p>
+		</div>
+      <!-- search end -->
+
+
+        <!-- ITEMS -->
+        <c:forEach items="${listCourses }" var="course">         
+        <div class="row">
+            <div class="col-md-1 text-center">
+            	<!-- 앞부분 아이콘 -->
+                <p><i class="fa fa-list-alt   fa-4x"></i>
+                </p>
+                <p>${course.studentGrade.gdName }</p>
+                <p>${course.subject.sbName }</p>
+            </div>
+            <div class="col-md-5">
+                <a href="#" onclick="readCourse(${course.cNo })" class="c-${course.cNo }" data-cri="${pageMaker.makeSearch(cri.page) }">
+                    <img class="img-responsive img-hover" src="http://placehold.it/600x300" alt="">
+                </a>
+            </div>
+            <div class="col-md-6">
+                <h3><a href="#" onclick="readCourse(${course.cNo })" class="c-${course.cNo }" data-cri="${pageMaker.makeSearch(cri.page) }">${course.cName }</a></h3>
+                <p><a href="#"><i class="fa  fa-user"></i>  ${course.teacher.tName }</a></p>
+                <c:if test="${empty course.timetables }">
+					<p>시간미정</p>
+				</c:if>
+				<c:if test="${!empty course.timetables }">
+					<c:forEach items="${course.timetables }" var="tt">
+						<p>
+						<c:choose>
+					       <c:when test="${tt.ttDay == 0}">
+					          <span class="ttDay label label-danger">${tt.ttDay }</span> 
+					       </c:when>
+					       <c:when test="${tt.ttDay == 6}">
+					           <span class="ttDay label label-primary">${tt.ttDay }</span> 
+					       </c:when>
+					       <c:otherwise>
+					           <span class="ttDay label label-default">${tt.ttDay }</span> 
+					       </c:otherwise>
+						  </c:choose>	
+								${tt.ttStarttime }시 ~ ${tt.ttEndtime }시 
+						</p>
+					</c:forEach>
+				</c:if>
+                
+                
+                <a class="btn btn-primary" href="#" onclick="readCourse(${course.cNo })" class="c-${course.cNo }" data-cri="${pageMaker.makeSearch(cri.page) }">
+                	MORE <i class="fa fa-angle-right  "></i></a> 
+            </div>
+        </div>
+
+        <hr>
+        </c:forEach>
+        
+        
+       
                 <div class="box-footer">
 					<div class="text-center">
 						<ul class="pagination">
@@ -146,7 +150,9 @@
 				</div>
                 
     
-<%@ include file="../include/footer.jsp"%>	
+
+<%@ include file="../include/page_footer.jsp"%>
+
 	<script>
 	$(function() {
 	//	$("select[name='searchType']").find("option").eq(0).prop("selected",true);

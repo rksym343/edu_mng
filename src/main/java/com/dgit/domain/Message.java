@@ -15,6 +15,15 @@ public class Message {
 	private Teacher teacher;
 	private Student student;
 	private Parents parents;
+	private boolean isSent;
+
+	public boolean isSent() {
+		return isSent;
+	}
+
+	public void setSent(boolean isSent) {
+		this.isSent = isSent;
+	}
 
 	public Student getStudent() {
 		return student;

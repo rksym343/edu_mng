@@ -108,7 +108,7 @@ public class MessageController {
 		logger.info("==================viewStudentExam /{sId}/{cNo}  GET================");
 		logger.info("================== id : " +id);
 		try{
-			List<Message> list = messageService.selectMessageByCri("", 0, memberType, id, true, false, false, cnt);
+			List<Message> list = messageService.selectMessageByCri("", 0, memberType, id, false, true, false, false, cnt, true);
 			entity = new ResponseEntity<List<Message>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Message>>(HttpStatus.BAD_REQUEST);
@@ -125,7 +125,7 @@ public class MessageController {
 		logger.info("==================getListMsgById /{sId}/{cNo}  GET================");
 		logger.info("================== id : " +id);
 		try{
-			List<Message> list = messageService.selectMessageByCri("", cNo, memberType, id, true, false, false, cnt);
+			List<Message> list = messageService.selectMessageByCri("", cNo, memberType, id, false, true, false, false, cnt, true);
 			entity = new ResponseEntity<List<Message>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Message>>(HttpStatus.BAD_REQUEST);
@@ -134,19 +134,8 @@ public class MessageController {
 		return entity;
 	}
 	
+
 	
-	@RequestMapping(value="/newMsgs/{memberType}/{id}", method=RequestMethod.GET)
-	public @ResponseBody List<Message> getListMsgByIdForAndroid(
-			@PathVariable("memberType") String memberType, @PathVariable("id") String id) throws Exception{
-		List<Message> list = null;
-		logger.info("==================newMsgs/{memberType}/{id}/  GET================");
-		logger.info("================== id : " +id);
-		try{
-			list = messageService.selectMessageByCri("", 0, memberType, id, false, false, 0);
-		}catch(Exception e){
-		}		
-		return list;
-	}
 	
 	@RequestMapping(value="/listMySendMsg", method=RequestMethod.GET)
 	public void getListMySendMsg(Model model) throws Exception{
@@ -159,7 +148,7 @@ public class MessageController {
 		logger.info("==================getListMySendMsgById /{Id}/  GET================");
 		logger.info("================== id : " +id);
 		try{
-			List<Message> list = messageService.selectMessageByCri(id, 0, "", "", true, false, 0);
+			List<Message> list = messageService.selectMessageByCri(id, 0, "", "", true, true, false, false, 0, true);
 			entity = new ResponseEntity<List<Message>>(list, HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Message>>(HttpStatus.BAD_REQUEST);
@@ -188,6 +177,24 @@ public class MessageController {
 		return entity;
 	}
 	
+	@Transactional
+	@RequestMapping(value="android/readMsg/{msgNo}", method=RequestMethod.GET)
+	public @ResponseBody Message getMyMsgByNoForAndroid(@PathVariable("msgNo") int msgNo) throws Exception{
+		Message message = null;
+		logger.info("==================getListMySendMsgById /{Id}/  GET================");
+		logger.info("================== msgNo : " +msgNo);
+		try{
+			message = messageService.selectOneMessage(msgNo);
+			Message newMsg = new Message();
+			newMsg.setMsgNo(msgNo);
+			newMsg.setIsChecked(1);
+			messageService.updateMessage(newMsg);
+		}catch(Exception e){
+		}
+		
+		return message;
+	}
+	
 	
 	@RequestMapping(value="/deleteMsg/{msgNo}", method=RequestMethod.DELETE)
 	public ResponseEntity<String> deleteMyMsgByNo(@PathVariable("msgNo") int msgNo) throws Exception{
@@ -204,7 +211,24 @@ public class MessageController {
 		return entity;
 	}
 	
+	/*-------------------------------------------For Android-------------------------------------------------*/
 	
+	@Transactional
+	@RequestMapping(value="/newMsgs/{memberType}/{id}", method=RequestMethod.GET)
+	public @ResponseBody Integer getListMsgByIdForAndroid(
+			@PathVariable("memberType") String memberType, @PathVariable("id") String id) throws Exception{
+		//List<Message> list = null;
+		Integer cnt=0;
+		logger.info("==================newMsgs/{memberType}/{id}/  GET================");
+		logger.info("================== id : " +id);
+		try{
+			//list = messageService.selectMessageByCri("", 0, memberType, id, false, false, false, false, 0, false);
+			cnt = messageService.selectNewSendMessage(memberType, id);
+			messageService.updateSendMessage(memberType, id); 
+		}catch(Exception e){
+		}		
+		return cnt;
+	}
 	
 	
 	

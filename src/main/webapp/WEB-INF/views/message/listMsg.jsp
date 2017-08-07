@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">메시지</h1>
-</div>
-</div>
+<%@ include file="../include/page_header.jsp"%>
 
-	<style>
-		
-	</style>
+
+
+	 <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">메시지 보관함
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">받은메시지</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
 	
 	<div class="row">
                 <div class="col-lg-12">
@@ -90,11 +100,13 @@ function getMyMsg(){
 					var title = "<strong>보낸이: "+v.teacher.tName +"</strong> |     "+miniContent; 
 					
 					var isChecked = v.isChecked == 0? "panel-info":"";
+					var isCheckedBtn =v.isChecked == 0? "   <button type='button' class='btn btn-danger btn-xs btn-new'>N</button>":"";
 					var collapseTag = 
 					"<div class='panel my-msg-panel "+isChecked+"'>"
                     + "<div class='panel-heading'>"
                     +    "<h4 class='panel-title'>"
                     +        "<a data-toggle='collapse' data-parent='#accordion' href='#"+msgNo+"'>"+title+"</a>"
+                    + isCheckedBtn
                     +    "</h4>"
                     + "</div>"
                     + "<div id='"+msgNo+"' class='panel-collapse collapse'>"
@@ -127,6 +139,7 @@ function viewTime(time){
 
 $(document).on("click", ".panel-info", function() {
 	$(this).removeClass("panel-info");
+	$(this).find(".btn-new").remove();
 	var msgNo = $(this).find(".panel-collapse").attr("id");
 	$.ajax({
 		url: "${pageContext.request.contextPath}/message/readMsg/"+msgNo,

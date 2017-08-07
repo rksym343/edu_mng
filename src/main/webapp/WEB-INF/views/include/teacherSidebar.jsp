@@ -37,7 +37,7 @@
                          <li>
                             <a href="#">메시지관리<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                 <li>
+                                <li>
 		                            <a href="${pageContext.request.contextPath}/message/listMySendMsg">보낸 메세지</a>
 		                        </li>
                                 <li>
