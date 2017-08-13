@@ -31,7 +31,7 @@ function makeMyCalendar(y, m) {
 	table += "<th>목</th>";
 	table += "<th>금</th>";
 	table += "<th>토</th>";
-	table += "</tr></thead>";
+	table += "</tr></thead>";    
 
 	
 	table += "<tbody>";
@@ -42,14 +42,14 @@ function makeMyCalendar(y, m) {
 			if ((i == 1 && k <= theDay) || (num > lastDate)) {
 				// 1일 시작전 칸을 공백처리
 				// 마지막날 이후 칸을 공백처리
-				table += "<td><p class='detail'> </p></td>";
+				table += "<td></td>";
 			} else {
 				if( y == curDate.getFullYear() && m == curDate.getMonth() && num == curDate.getDate()){
-					table += "<td class='"+num+" day"+k+"'><b>" + num + "</b><p class='detail'> </p></td>";
+					table += "<td class='"+num+" day"+k+"' data-date='"+num+"'><b>" + num + "</b></td>";
 				}else {
-					table += "<td class='"+num+"'>" + num + "<p class='detail'> </p></td>";
-				}
-				num++;
+					table += "<td class='"+num+"' data-date='"+num+"'>" + num + "</td>";
+				}  
+				num++;   
 			}
 
 		}

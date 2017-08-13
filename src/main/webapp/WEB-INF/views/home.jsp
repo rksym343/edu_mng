@@ -1,7 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="include/page_header.jsp"%>
+<%@ include file="include/header.jsp"%>
 
+
+<style>
+	.cItem{
+		display : block;
+		width : 100%;
+		height : 100%;	
+		position: relative;
+	}
+	.cImage{
+		width : 700px;
+		height : 250px;	
+	}
+
+	.cTitle{
+		position: absolute;
+		bottom : 30px;
+		right : 0;
+		padding :  0 10px;
+		background-color: rgba(0,0,0,0.7);
+		color : white;
+		text-align: right;
+		height : 40px;
+		line-height : 40px;
+		font-size: 16px;
+		margin : 0;
+	}
+	.cTitle:hover{
+		color : white;
+		font-weight: bold;
+	}
+	
+	.moreIcon{
+		display : none;
+		position: absolute;
+		top : 0;
+		left : 0;
+		width : 100%;
+		height : 100%;
+		color : white;	
+		background-color: rgba(0,153,102,0.7);
+		text-align: center;
+		
+	}
+</style>
 <body>
 
     
@@ -49,89 +93,34 @@
     <!-- Page Content -->
     <div class="container">
 
-        <!-- Marketing Icons Section -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">
-                    Welcome to Modern Business
-                </h1>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-check"></i> Bootstrap v3.3.7</h4>
-                    </div>
-                    <div class="panel-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                        <a href="#" class="btn btn-default">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-gift"></i> Free &amp; Open Source</h4>
-                    </div>
-                    <div class="panel-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                        <a href="#" class="btn btn-default">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-compass"></i> Easy to Use</h4>
-                    </div>
-                    <div class="panel-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                        <a href="#" class="btn btn-default">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.row -->
+        
 
         <!-- Portfolio Section -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="page-header">Portfolio Heading</h2>
+                <h2 class="page-header">
+                	개설강좌
+                	<a href="${pageContext.request.contextPath}/course/listCourses" class="btn btn-default btn-xs">more</a>
+                </h2>
             </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
+            
+            <c:forEach items="${listCourses }" var="course">  
+	            <div class="col-md-4 col-sm-6">
+	                <a onclick="readCourse(${course.cNo})" class="cItem  img-hover">
+	                    <img class="img-responsive img-portfolio cImage" 
+	                    	src="${pageContext.request.contextPath}/file/displayFile?filename=${course.pictures[0].cPicture }" alt="">
+	                    <p class="cTitle">${course.cName }</p>
+	                    <i class="fa fa-search-plus fa-5x moreIcon "></i>
+	                </a>
+	                
+	            </div>
+            </c:forEach>
+            
         </div>
         <!-- /.row -->
 
-        <!-- Features Section -->
-        <div class="row">
+     <!-- Features Section -->
+        <!--    <div class="row">
             <div class="col-lg-12">
                 <h2 class="page-header">Modern Business Features</h2>
             </div>
@@ -152,24 +141,36 @@
                 <img class="img-responsive" src="http://placehold.it/700x450" alt="">
             </div>
         </div>
-        <!-- /.row -->
+        /.row
 
-        <hr>
+        <hr> -->
 
-        <!-- Call to Action Section -->
-        <div class="well">
-            <div class="row">
-                <div class="col-md-8">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
-                </div>
-                <div class="col-md-4">
-                    <a class="btn btn-lg btn-default btn-block" href="#">Call to Action</a>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        
+      
 <%@ include file="include/page_footer.jsp"%>
+
+<script type="text/javascript">
+	$(function() {
+		$(window).resize(function(){
+			$(".cTitle").css("width", $(".cImage").css("width"));
+			$(".moreIcon").css("height", $(".cImage").css("height"));
+			$(".moreIcon").css("line-height", $(".cImage").css("height"));
+		}).resize();
+		
+		$(".cItem").hover(
+			function() {
+				var idx = $(".cItem").index(this);
+				$(".moreIcon").eq(idx).css("display","block");
+			},
+			function() {
+				$(".moreIcon").css("display","none");  
+			}
+		);
+		
+	});
+	
+	function readCourse(cNo){
+		//var cri = $(".c-"+cNo).attr("data-cri");
+		location.href="${pageContext.request.contextPath}/course/readCourse?cNo="+cNo;
+	}
+</script>
     

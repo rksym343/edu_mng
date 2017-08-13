@@ -159,8 +159,8 @@
 		}
 		
 		function twinkleTag(){
-			$("#uncheckedMsg").animate({backgroundColor: 'red', opacity: '0.2'}, 800)
-				.animate({backgroundColor: 'blue', opacity: '0.6'}, 800, twinkleTag); 
+			$("#uncheckedMsg").animate({backgroundColor: 'yellow', opacity: '0.2'}, 800)
+				.animate({backgroundColor: 'white', opacity: '0.6'}, 800, twinkleTag); 
 		}
 		
 		$(function() {
@@ -177,12 +177,11 @@
 				success:function(data){
 					console.log(data);
 					// 메시지 제목
-					$(".modal-content .modal-title").html(data.teacher.tName);
+					$(".modal-content .modal-title").html("<i class='fa fa-user'></i> "+data.teacher.tName);
 					// 메시지 내용
-					$(".modal-content .modal-body").html(data.msgContent);
-					
-				}
-			});
+					$(".modal-content .modal-body").html(data.msgContent);	
+			}
+		});
 			
 			
 			

@@ -64,14 +64,24 @@ public class MessageDAOImpl implements MessageDAO {
 
 
 		@Override
-		public int selectNewSendMessage(String memberType, String id) throws Exception {
+		public int selectNewSendMessage(String memberType, String id, boolean isSent) throws Exception {
+			System.out.println("MSG dao selectNewSendMessage");
+			System.out.println("dao selectNewSendMessage - memberType : " +memberType);
+			System.out.println("dao selectNewSendMessage - id : " +id);
+			System.out.println("dao selectNewSendMessage - id : " +id);
+			
 			Map<String, Object> map = new HashMap<>();
 			if(memberType.equals(LoginInterceptor.STUDENT)){
 				map.put("sId", id);
 			}else{
 				map.put("spId", id);
 			}
-			map.put("isSent", false);
+			if(isSent){
+				map.put("isSent", false);
+			}else{
+				map.put("isChecked", "isChecked");
+			}
+			
 			return session.selectOne(namespace+".selectNewSendMessage", map);
 		}
 

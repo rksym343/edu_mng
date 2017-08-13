@@ -147,6 +147,17 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return dao.selectOneAttendance(atNo);
 	}
 
+	@Override
+	public Attendance selectOneAttendanceForNoti(Attendance attendance) throws Exception {
+		return dao.selectOneAttendanceForNoti(attendance);
+	}
+
+	@Override
+	public List<Attendance> selectAttenddanceByDate(String curDate) throws Exception {
+		System.out.println("SERVICE selectAttenddanceByDate curDate : "+curDate);
+		return dao.selectAttenddanceByDate(curDate);
+	}
+
 	
 
 }

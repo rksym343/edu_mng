@@ -66,21 +66,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="about.html">About</a>
-                    </li>
-                    <li>
-                        <a href="services.html">Services</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/course/myCoursesTable">이주의 시간표</a>
-                    </li>
+                    
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course<b class="caret"></b></a>
                         <ul class="dropdown-menu">
+	                        <li>
+		                        <a href="${pageContext.request.contextPath}/course/myCoursesTable">이주의 시간표</a>
+		                    </li>
+		                    <li class="divider"></li>
                            <li>
 		                       <a href="${pageContext.request.contextPath}/course/insertCourse">강의 개설하기</a>
 		                   </li>
@@ -95,6 +88,7 @@
                            <li>
                                <a href="${pageContext.request.contextPath}/attend/myCoursesWithStudentForAttendance">출결관리</a>
                            </li>
+		                    <li class="divider"></li>
                            <li>
                                <a href="${pageContext.request.contextPath}/course/myCoursesWithStudent">성적조회</a>
                            </li>
@@ -109,6 +103,8 @@
                            <li>
 		                      <a href="${pageContext.request.contextPath}/message/listMySendMsg">보낸 메세지</a>
 		                   </li>
+		                   
+		                    <li class="divider"></li>
                            <li>
 		                      <a href="${pageContext.request.contextPath}/message/writeAllMsg">단체 메세지 작성</a>
 		                   </li>

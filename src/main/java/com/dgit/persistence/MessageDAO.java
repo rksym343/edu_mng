@@ -20,5 +20,5 @@ public interface MessageDAO {
 	public List<Message> selectMessageByCri(Map<String, Object> map) throws Exception;
 	public List<Message> selectMessageByCriForSender(Map<String, Object> map) throws Exception;
 	
-	public int selectNewSendMessage(String memberType, String id) throws Exception;
+	public int selectNewSendMessage(String memberType, String id, boolean isSent) throws Exception;
 }

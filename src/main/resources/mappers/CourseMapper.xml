@@ -42,11 +42,12 @@
 	</sql>
 	
 	<sql id="selectCourse">
-		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.*, ci.c_picture FROM course c 
 		inner join subject s on c.sb_no = s.sb_no
 		inner join teacher t on c.t_id = t.t_id
 		inner join student_grade sg on c.gd_no = sg.gd_no
 		left outer join timetable ttt on ttt.c_no = c.c_no
+		left outer join course_image ci on ci.c_no = c.c_no
 	</sql>
 	
 	<sql id="countCourse">
@@ -58,7 +59,7 @@
 	</sql>
 	
 	<sql id="selectCourseDetail">
-		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.*, cd.c_content, ci.c_picture FROM course c 
+		SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.tt_day, ttt.tt_endtime, ttt.tt_starttime, ttt.tt_no, cd.c_content, ci.c_picture FROM course c 
 		inner join subject s on c.sb_no = s.sb_no
 		inner join teacher t on c.t_id = t.t_id
 		inner join student_grade sg on c.gd_no = sg.gd_no
@@ -193,7 +194,8 @@
 	
 	<select id="selectAllCourse" parameterType="SearchCriteria" resultMap="CourseResult">
 		<include refid="selectCourse"/>
-		<include refid="whereCoursesByCri"/>
+		<include refid="whereCoursesByCri"/>		
+		group by c.c_no
 		order by c.c_no desc
 		limit #{pageStart}, #{perPageNum}
 	</select>

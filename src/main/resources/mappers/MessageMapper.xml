@@ -157,6 +157,9 @@
 			<if test="isSent != null">
 				and m.is_sent = 0
 			</if>
+			<if test="isChecked != null">
+				and m.is_checked = 0
+			</if>
 		</where>
 	</select>
 	

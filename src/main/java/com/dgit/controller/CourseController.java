@@ -135,7 +135,9 @@ public class CourseController {
 	public String getListCourses(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception{
 		logger.info("======================== listCourses ========================");
 		logger.info(cri.toString());
-		model.addAttribute("listCourses", courseService.selectAllCourse(cri));
+		List<Course> list = null;		
+		list = courseService.selectAllCourse(cri);
+		model.addAttribute("listCourses", list);
 		//model.addAttribute("Courses", timetableService.selectAllTimetable());
 	
 		PageMaker pageMaker = new PageMaker();
@@ -147,6 +149,9 @@ public class CourseController {
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("studentGradeList", studentGradeService.selectAllStudentGrade()); // 전체학년
 		model.addAttribute("subjectList", subjectService.selectAllSubject()); // 전체교과
+		
+		logger.info("LIST COURSES list : [" + list+"]");
+		
 		return "course/listCourses";
 	}
 	
@@ -158,13 +163,16 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/readCourse", method=RequestMethod.GET)
-	public void getReadCourse(int cNo, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception{
+	public void getReadCourse(boolean fromMyPage, boolean fromListPage, int cNo, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception{
 		logger.info("======================== readCourse GET ========================");
 		Course course = courseService.selectOneCourse(cNo);
 		logger.info(course.toString());
 		logger.info("==========img List =========== : " + course.getPictures().size());
 		// 생성되는데 이미지 null일 경우 어찌할 것인가
 		model.addAttribute("course", course);
+		logger.info("======================== readCourse GET ========================fromMyPage : "+fromMyPage);
+		model.addAttribute("fromMyPage", fromMyPage);
+		model.addAttribute("fromListPage", fromListPage);
 	}
 	
 	@RequestMapping(value="/updateCourse", method=RequestMethod.GET)
@@ -273,13 +281,43 @@ public class CourseController {
 	public ResponseEntity<List<Course>> getMyRegisteredCourses(
 			@PathVariable("sId") String sId, @PathVariable("rsNo") int rsNo,
 			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+
+		logger.info("============================myRegisteredCourses/{sId}/{year}/{month}/{rsNo}====================");
 		ResponseEntity<List<Course>> entity = null;
 		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
 		try{
 			List<Course> list = courseService.selectCoursesByCri(sId, "", rsNo, regMonth);
 			entity = new ResponseEntity<List<Course>>(list, HttpStatus.OK);
+			for(Course co : list){
+				logger.info("myRegisteredCourses====== " +co.toString());
+			}
+			logger.info("============================myRegisteredCourses/{sId}/{year}/{month}/{rsNo}====================");
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Course>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@RequestMapping(value="/checkMyRegistered/{sId}/{year}/{month}/{cNo}", method=RequestMethod.GET)
+	public ResponseEntity<Boolean> getCheckMyRegistered(
+			@PathVariable("sId") String sId, @PathVariable("cNo") int cNo,
+			@PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		logger.info("============================getCheckMyRegistered====================");
+		ResponseEntity<Boolean> entity = null;
+		int regMonth = Integer.parseInt(String.format("%04d%02d", year, month));
+		Boolean isReg = false;
+		try{
+			List<Course> list = courseService.selectCoursesByCri(sId, "", 1, regMonth);
+			for(Course course : list){
+				if(course.getcNo() == cNo){
+					isReg = true;
+				}
+			}
+			entity = new ResponseEntity<>(isReg, HttpStatus.OK);
+
+			logger.info("============================getCheckMyRegistered====================isReg : "+isReg);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}

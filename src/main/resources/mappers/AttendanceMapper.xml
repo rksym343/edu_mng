@@ -193,7 +193,7 @@
 		order by att.the_time desc
 	</select>
 	
-	<select id="selectAttendanceBySIdAndMonth" resultMap="AttendanceResult">
+	<select id="selectAttendanceBySIdAndMonth" parameterType="hashmap" resultMap="AttendanceResult">
 		<include refid="selectSql"/>
 		where att.s_id = #{sId} and date_format(att.the_time, '%Y-%m') = #{month}
 		order by att.the_time desc
@@ -260,6 +260,20 @@
 		select att.*, ass.as_status from attendance att
 		inner join attendance_status ass on att.as_no = ass.as_no
 		 WHERE att.at_no = #{atNo}
+	</select>
+	
+	<select id="selectOneAttendanceForNoti" parameterType="Attendance" resultMap="AttendanceResult">
+		SELECT at_no, s_id, the_time, att.as_no, ats.as_status FROM attendance att 
+		inner join attendance_status ats on ats.as_no = att.as_no
+		where att.the_time > #{theTime} 
+		and att.s_id = #{student.sId} 
+		and at_no = (select max(att2.at_no) from attendance att2 where att2.s_id= #{student.sId})		
+	</select>
+	
+	<select id="selectAttenddanceByDate" resultMap="AttendanceResult">
+		select * from attendance att 
+		inner join attendance_status ass on att.as_no = ass.as_no
+		where date(att.the_time) = date(#{curDate}) order by att.the_time
 	</select>
 	
 </mapper>

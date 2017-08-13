@@ -99,7 +99,7 @@ function getMyMsg(){
 					var miniContent = content.length > 50 ? content.substr(0,50)+"..." : content; 
 					var title = "<strong>보낸이: "+v.teacher.tName +"</strong> |     "+miniContent; 
 					
-					var isChecked = v.isChecked == 0? "panel-info":"";
+					var isChecked = v.isChecked == 0? "panel-success":"";
 					var isCheckedBtn =v.isChecked == 0? "   <button type='button' class='btn btn-danger btn-xs btn-new'>N</button>":"";
 					var collapseTag = 
 					"<div class='panel my-msg-panel "+isChecked+"'>"
@@ -137,8 +137,8 @@ function viewTime(time){
 }
 
 
-$(document).on("click", ".panel-info", function() {
-	$(this).removeClass("panel-info");
+$(document).on("click", ".panel-success", function() {
+	$(this).removeClass("panel-success");
 	$(this).find(".btn-new").remove();
 	var msgNo = $(this).find(".panel-collapse").attr("id");
 	$.ajax({
@@ -163,7 +163,7 @@ $(document).on("click", ".deleteMsg", function(e) {
 	if(confirm("해당 메시지를 삭제하시겠습니까?")){
 		$.ajax({
 			url: "${pageContext.request.contextPath}/message/deleteMsg/"+msgNo,
-			type : "delete",
+			type : "get",
 			dataType: "text",
 			success:function(data){
 				console.log("delete = "+data);

@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header"></h1>
-</div>
-</div>
+
 <style type="text/css">
 	/* body{
 		background-color: #ddd;
@@ -26,6 +23,21 @@
 	 
 </style>
 
+<div class="container">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				단체메시지 작성
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="${pageContext.request.contextPath}">Home</a></li>
+				<li class="active">단체메시지 작성</li>
+			</ol>
+		</div>
+	</div>
+	<!-- /.row -->
+
 <%-- 
  (#{tId}, #{cNo}, #{sId}, #{spId}, #{msgContent}, #{isChecked}, current_timestamp) --%>
  	<div class="row">
@@ -33,7 +45,7 @@
          	<input type="hidden" name="tId" value="aaa01">
          	<input type="hidden" name="cNo" value="0">
  		 <div class="input-group btn-group btn-group-justified">
-	         <label class="radio-inline btn btn-primary">
+	         <label class="radio-inline btn btn-success">
 	         	<input type="radio" name="memberType" value="all" checked="checked">단체공지
 	         </label>
 	         <label class="radio-inline btn btn-default">
@@ -59,7 +71,7 @@
             	<textarea class="form-control" rows="3" name="msgContent"></textarea>
             </div>
             <div class="input-group">
-				<input type="submit" value="전송" class=" btn btn-primary" >
+				<input type="submit" value="전송" class=" btn btn-success" >
 			</div>
          </form>
 	</div>
@@ -70,10 +82,10 @@
 		
 		
 		$("input[name='memberType']").change(function() {
-			$("input[name='memberType']").parent("label").removeClass("btn-primary");
+			$("input[name='memberType']").parent("label").removeClass("btn-success");
 			$("input[name='memberType']").parent("label").addClass("btn-default");
 			$(this).parent("label").removeClass("btn-default");
-			$(this).parent("label").addClass("btn-primary");
+			$(this).parent("label").addClass("btn-success");
 		})
 		
 	})

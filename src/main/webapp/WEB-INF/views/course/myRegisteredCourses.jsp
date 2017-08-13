@@ -66,7 +66,7 @@ ul.timeview {
 <%@ include file="../include/footer.jsp"%>
 <script id="courseList" type="text/x-handlevars-template">
 		{{#each.}}
-			<tr onclick=location.href="${pageContext.request.contextPath}/course/readCourse?cNo={{cNo}}">		
+			<tr onclick=location.href="${pageContext.request.contextPath}/course/readCourse?cNo={{cNo}}&fromMyPage=true">		
 				<td>
 					<b>{{cName}}</b>
 				</td>

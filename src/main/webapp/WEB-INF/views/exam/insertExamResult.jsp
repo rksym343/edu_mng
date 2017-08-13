@@ -3,10 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
 <jsp:useBean id="todayDate" class="java.util.Date" />
-<div class="col-lg-12">
-      <h1 class="page-header">내 강의들</h1>
-</div>
-</div> <!-- div row -->
 
 	<style>
 		li.c-timetable{
@@ -37,6 +33,22 @@
 		}
 	</style>
 	
+		
+<div class="container">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				학생성적입력
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="${pageContext.request.contextPath}">Home</a></li>
+				<li class="active">학생성적입력</li>
+			</ol>
+		</div>
+	</div>
+	<!-- /.row -->
+	
 	<form action="insertExamResult" method="post" id="f1">
 		<div class="row">
 			<div class="col-md-3">
@@ -58,7 +70,7 @@
 				<input type="date" class="form-control" value="${today }" name="eDate">
 			</div>
 			<button type="button" id="viewBtn" class="btn btn-default">성적조회</button>
-			<button type="button" id="insertBtn" class="btn btn-info">성적입력</button>
+			<button type="button" id="insertBtn" class="btn btn-success">성적입력</button>
 		</div>
 		<hr>
 
@@ -244,7 +256,7 @@
 							var trTag = 
 							"<tr>"
 							+	"<td  class='col-md-2'>"
-							// student info popover
+							// student success popover
 							+		"<a class='my-student' data-sId="+v.student.sId+" data-cNo="+cNo+" data-sbNo="+sbNo
 							+		"title='"+v.student.sName+"' data-toggle='popover' data-placement='left' data-content=''>"
 							+ 		v.student.sName+"</a>"
@@ -276,13 +288,13 @@
 	    
 	   
 	      function getRecords(sId, cNo, sbNo){
-	  		getStudentInfo(sId);
+	  		getStudentsuccess(sId);
 	  	}
 	     
 	      
-	      function getStudentInfo(sId){
+	      function getStudentsuccess(sId){
 	    	  $.ajax({
-					url: "${pageContext.request.contextPath}/user/readStudentInfo/"+sId,
+					url: "${pageContext.request.contextPath}/user/readStudentsuccess/"+sId,
 					type : "get",
 					dataType: "json",
 					success:function(data){
@@ -299,7 +311,7 @@
 	      }
 	      
 	      $(document).ready(function(){
-		    	// student-Info popover
+		    	// student-success popover
 		    	
 		    	var popoverDiv =""; 
 		    		//"<div><p>hihi</p><img src="http://www.google.com/intl/en_ALL/images/srpr/logo11w.png" style="width:100px;"></div>";

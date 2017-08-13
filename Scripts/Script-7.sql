@@ -291,3 +291,56 @@ group by att.the_time;
 select count(*) from message where s_id="sss01" and is_sent=0;
 
 update message set is_sent = 1 where s_id='sss01';
+
+
+SELECT at_no, att.s_id, the_time, att.as_no, ass.as_status, ccc.c_no, ccc.c_name, sg.gd_name, sss.s_name
+		FROM attendance att
+		
+		
+SELECT at_no, s_id, the_time, att.as_no, ats.as_status FROM attendance att 
+inner join attendance_status ats on ats.as_no = att.as_no
+where att.the_time > '2017-08-10 17:55:50 ' 
+and att.s_id = 'sss01' 
+and at_no = (select max(att2.at_no) from attendance att2 where att2.s_id='sss01');
+
+select * from attendance att where date(att.the_time) = date('2017-08-09') order by att.the_time;
+select * from attendance where date(the_time) = #{curDate}
+
+
+
+SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
+inner join subject s on c.sb_no = s.sb_no 
+inner join teacher t on c.t_id = t.t_id 
+inner join student_grade sg on c.gd_no = sg.gd_no 
+left outer join timetable ttt on ttt.c_no = c.c_no and c.is_canceled=0 
+group by c.c_no
+order by c.c_no desc 
+limit 0, 6 ;
+
+
+select ifnull(
+			(select tt1.tt_endtime from timetable tt1 where tt1.c_no = 2 and tt1.tt_day = 3 and tt1.tt_endtime 
+			>= (select tt2.tt_starttime from timetable tt2 where tt2.c_no = 7 and tt2.tt_day= 3) and
+			tt1.tt_endtime  < (select tt2.tt_endtime from timetable tt2 where tt2.c_no = 7 and tt2.tt_day= 3)), 99);
+			
+			
+SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.* FROM course c 
+inner join subject s on c.sb_no = s.sb_no 
+inner join teacher t on c.t_id = t.t_id 
+inner join student_grade sg on c.gd_no = sg.gd_no 
+left outer join timetable ttt on ttt.c_no = c.c_no
+where ttt.tt_day = '3' and c.is_canceled=0
+group by c.c_no 
+order by c.c_no desc 
+limit 0, 5;
+
+SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.tt_day, ttt.tt_endtime, ttt.tt_starttime, ttt.tt_no FROM course c inner join subject s on c.sb_no 
+= s.sb_no inner join teacher t on c.t_id = t.t_id inner join student_grade sg on c.gd_no = 
+sg.gd_no left outer join timetable ttt on ttt.c_no = c.c_no where ttt.tt_day = '3' and c.is_canceled=0 
+group by c.c_no order by c.c_no desc limit 0, 5 ;
+
+
+SELECT c.*, t.t_name, sg.gd_name, s.sb_name, ttt.*, ci.c_picture FROM course c inner join subject 
+s on c.sb_no = s.sb_no inner join teacher t on c.t_id = t.t_id inner join student_grade sg 
+on c.gd_no = sg.gd_no left outer join timetable ttt on ttt.c_no = c.c_no left outer join course_image 
+ci on ci.c_no = c.c_no group by c.c_no order by c.c_no desc limit 0, 5;

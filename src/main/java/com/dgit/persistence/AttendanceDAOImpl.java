@@ -117,4 +117,14 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		return session.selectOne(namespace+".selectOneAttendance", atNo);
 	}
 
+	@Override
+	public Attendance selectOneAttendanceForNoti(Attendance attendance) throws Exception {
+		return session.selectOne(namespace+".selectOneAttendanceForNoti", attendance);
+	}
+
+	@Override
+	public List<Attendance> selectAttenddanceByDate(String curDate) throws Exception {
+		return session.selectList(namespace+".selectAttenddanceByDate", curDate);
+	}
+
 }

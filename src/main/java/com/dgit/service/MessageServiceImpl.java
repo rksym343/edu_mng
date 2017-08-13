@@ -134,8 +134,13 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public int selectNewSendMessage(String memberType, String id) throws Exception {
-		return dao.selectNewSendMessage(memberType, id);
+	public int selectNewSendMessage(String memberType, String id, boolean isSent) throws Exception {
+		System.out.println("MSG SERVICE selectNewSendMessage");
+		System.out.println("selectNewSendMessage - memberType : " +memberType);
+		System.out.println("selectNewSendMessage - id : " +id);
+		System.out.println("selectNewSendMessage - id : " +id);
+		
+		return dao.selectNewSendMessage(memberType, id, isSent);
 	}
 
 	@Override

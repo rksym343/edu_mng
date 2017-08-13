@@ -31,7 +31,12 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Student selectOneStudent(String sId) throws Exception {
-		return dao.selectOneStudent(sId);
+		Student student = dao.selectOneStudent(sId);
+		if(student.getsPicture() == null){
+			String sPic = "/basic/user.png";
+			student.setsPicture(sPic);
+		}
+		return student;
 	}
 
 	@Override

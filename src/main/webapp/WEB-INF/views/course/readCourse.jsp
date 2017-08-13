@@ -29,6 +29,7 @@
 	
 			
 			<div class="row">
+            <div class="col-lg-12">
 				<div class="alert alert-danger">
 					 <!--  <strong>신청불가!</strong> -->
 					 <span class="content"></span>
@@ -38,15 +39,22 @@
                        		<span>${course.cName }</span>
                          	<form id="f1" style="text-align:right" method="get">
                          		<input type="hidden" value="${course.cNo }" name="cNo">
-                         		<c:if test="${memberType=='teacher' }">
-                         			<button type="button" class="btn btn-default" id="modifyCourse">수정</button>
-                         			<button type="button" class="btn btn-default" id="deleteCourse">삭제</button>
-                         		</c:if>
+                         		
                          		<c:if test="${memberType=='student'||memberType=='parents' }">
-                         			 <button type="button" class="btn btn-default" id="registerCourse"
-                         			 	data-container="body" data-toggle="popover" data-placement="top" 
-                         			 	data-content="dfgdfg">
-                                 		 수강신청
+                         			<c:if test="${fromMyPage==true }">
+                         			 	<button type="button" class="btn btn-default disabled" id="registerCourse"
+	                         			 	data-container="body" data-toggle="popover" data-placement="top" 
+	                         			 	data-content="dfgdfg" disabled>
+                         			 		수강중
+                         			 	</button>
+                         			 </c:if>
+                         			 <c:if test="${fromMyPage==false }">
+                         			 	<button type="button" class="btn btn-default " id="registerCourse"
+	                         			 	data-container="body" data-toggle="popover" data-placement="top" 
+	                         			 	data-content="dfgdfg">
+                                 		 	수강신청
+                                 		 </button>
+                                 	</c:if>
                                		</button>
                                		
                          		</c:if>
@@ -139,9 +147,33 @@
                     </div>
                     <!-- /.panel -->
                 </div>
+                </div>
 
+
+				<form id="f2" role="form" method="post">
+					<input type="hidden" name="cNo" value=${course.cNo }>
+					<input type="hidden" name="page" value=${cri.page }>
+					<input type="hidden" name="perPageNum" value=${cri.perPageNum }>
+					<input type="hidden" name="searchType" value=${cri.searchType }>
+					<input type="hidden" name="keyword" value=${cri.keyword }>
+					<input type="hidden" name="fromMyPage" value=${fromMyPage }>
+					<input type="hidden" name="fromListPage" value=${fromListPage }>					
+				</form>
+				
                 <div class="row">
-                    <button class="btn btn-success">목록으로</button>
+                
+           		<div class="col-lg-12">
+           			<c:if test="${fromListPage }">
+                    	<button id="btnToList" class="btn btn-success">목록으로</button>
+                    </c:if>
+                    <c:if test="${!fromListPage }">
+                    	<button id="btnToBack" class="btn btn-success">돌아가기</button>
+                    </c:if>
+                    <c:if test="${memberType=='teacher' }">
+                    	<button type="button" class="btn btn-default" id="modifyCourse">수정</button>
+                    	<button type="button" class="btn btn-default" id="deleteCourse">삭제</button>
+                    </c:if>
+                </div>
                 </div>
 
 <%@ include file="../include/footer.jsp"%>	
@@ -156,6 +188,16 @@ var month = today.getMonth();
 		getMyCourses();
 	});
 	
+	$("#btnToList").click(function() {
+		//location.href="listPage?page=${cri.page }";
+		$("#f2").attr("action", "listCourses");
+		$("#f2").attr("method", "get"); 
+		$("#f2").submit();
+	});
+	
+	$("#btnToBack").click(function() {
+		history.back();
+	})
 	
 	function checkImposi(cNo1, cNo2, cName2){
 		$.ajax({
@@ -177,28 +219,38 @@ var month = today.getMonth();
 	 function getMyCourses(){
 			$(".alert-danger").hide();
 			$(".alert-danger").find(".content").html();
-			var cNo = $("input[name='cNo']").val();
-			$.ajax({
-				// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
-				url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
-				type : "get",
-				dataType: "json",
-				success:function(data){
-					console.log(data);
-					$.each(data, function(i, v) {
-						if(v.cNo == cNo){
+			var fromMyPage = $("input[name='fromMyPage']").val();
+			if(fromMyPage == "false"){
+				var cNo = $("input[name='cNo']").val();
+				$.ajax({
+					// /myRegisteredCourses/{sId}/{year}/{month}/{rsNo}
+					url: "${pageContext.request.contextPath}/course/myRegisteredCourses/"+sId+"/"+year+"/"+(month+1)+"/"+1,
+					type : "get",
+					dataType: "json",
+					success:function(data){
+						console.log(data);
+						var isRegstered = false;
+						$.each(data, function(i, v) {
+							if(v.cNo == cNo){
+								isRegstered=true;													
+							}else{		
+								checkImposi(cNo, v.cNo, v.cName);
+							}	
+						});
+						
+						if(isRegstered){
 							$("#registerCourse").html("수강중");
-							$("#registerCourse").addClass("disabled");						
+							$("#registerCourse").addClass("disabled");	
+							$("#registerCourse").prop("disabled", true);
 						}else{
 							$("#registerCourse").html("수강신청");
-							$("#registerCourse").removeClass("disabled");		
-							 checkImposi(cNo, v.cNo, v.cName);
+							$("#registerCourse").removeClass("disabled");
+							$("#registerCourse").prop("disabled", false);	
 						}
-									
-					});
-				}
-					
-			});
+					}
+						
+				});
+			}
 		}
 	
 	$("#modifyCourse").click(function() {
@@ -218,7 +270,7 @@ var month = today.getMonth();
 	
 	$("#registerCourse").click(function() {
 		// 수강신청하기
-		if($("#registerCourse").html()!="수강중"){
+		if($("#registerCourse").hasClass("disabled")==false){
 			var cNo = $("input[name='cNo']").val();
 			if(confirm("수강신청 하시겠습니까?")){
 				$.ajax({

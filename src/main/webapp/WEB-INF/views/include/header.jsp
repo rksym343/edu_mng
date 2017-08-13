@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>스터디헬퍼</title>
    <%--  
     
     <!-- Bootstrap Core CSS -->
@@ -64,6 +64,12 @@
     <style>
     	li{
     		list-style: none;
+    	}
+    	a{
+    		text-decoration: none;
+    	}
+    	a:hover{
+    		text-decoration: none;
     	}
     </style>
 

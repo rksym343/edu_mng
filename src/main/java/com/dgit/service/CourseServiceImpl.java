@@ -104,7 +104,33 @@ public class CourseServiceImpl implements CourseService{
 
 	@Override
 	public List<Course> selectAllCourse(SearchCriteria searchCriteria) throws Exception {
-		return dao.selectAllCourse(searchCriteria);
+		List<Course> list = dao.selectAllCourse(searchCriteria);
+		for(Course co : list){
+			if(co.getPictures().get(0).getcPicture() == null){
+				System.out.println("COURSE ALL SERVICE NULL=============================");
+				//  ('국어', 0),('영어', 0),('수학', 0),('사회', 0),('과학', 0);
+				String basicPicture = ""; 
+				switch (co.getSubject().getSbNo()) {
+					case 1: // 국어
+						basicPicture = "/basic/s_han.jpg";
+						break;
+					case 2: // 영어
+						basicPicture = "/basic/s_english.jpg";
+						break;
+					case 3: // 수학
+						basicPicture = "/basic/s_math.jpg";
+						break;
+					case 4: // 사회
+						basicPicture = "/basic/s_social.jpg";
+						break;
+					case 5: // 과학
+						basicPicture = "/basic/s_science.jpg";
+						break;
+				}
+				co.getPictures().get(0).setcPicture(basicPicture);
+			}
+		}
+		return list;
 	}
 
 	@Override

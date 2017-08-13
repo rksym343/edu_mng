@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
-<%-- // ${fn:length(course.timetables)} --%>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">내 강의들</h1>
-</div>
-</div> <!-- div row -->
-
 	<style>
 		li.c-timetable{
 			border : 1px dotted gray;
@@ -36,6 +30,23 @@
 			line-height: 200px;
 		}
 	</style>
+	
+	
+	
+<div class="container">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				학생성적조회
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="${pageContext.request.contextPath}">Home</a></li>
+				<li class="active">학생성적조회</li>
+			</ol>
+		</div>
+	</div>
+	<!-- /.row -->
 
 		<div class="row">
 			<div class="col-md-3">

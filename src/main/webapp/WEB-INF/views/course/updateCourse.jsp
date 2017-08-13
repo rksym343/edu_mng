@@ -2,14 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">강의개설</h1>
-</div>
-</div> <!-- div row -->
 	<style>
-		div.center > div {
-			margin : 0 auto;
-		}
 		.form-group{
 			padding : 10px;
 		}
@@ -31,8 +24,28 @@
 			opacity: 0.8;
 		}
 	</style>
+	
+	 <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">강의정보수정
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">강의정보수정</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+        
+
 
 	<div class="center">
+		
+		<div class="col-lg-2"></div>
 		<div class="col-lg-8">	
 	<form role="form" action="updateCourse" method="post" enctype="multipart/form-data" id="f1">
 	
@@ -346,6 +359,8 @@
 		<input type='hidden' name='delPics' value="">
 	</form>
 	</div>
+		
+		<div class="col-lg-2"></div>
 	</div>
 	
 	

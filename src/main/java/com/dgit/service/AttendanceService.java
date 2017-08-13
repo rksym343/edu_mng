@@ -16,9 +16,12 @@ public interface AttendanceService {
 	public void deleteAttendance(Attendance attendance) throws Exception;
 	public int selectCntByAttendanceType(String sId, String searchType, String month) throws Exception;
 	public Attendance selectOneAttendance(int atNo) throws Exception;
+	public Attendance selectOneAttendanceForNoti(Attendance attendance) throws Exception;
 	public List<Attendance> selectAttendanceByCri(AttendanceSearchCriteria cri) throws Exception;
 	public List<Attendance> selectAttendanceBySIdAndMonth(String month, String sId) throws Exception;
 	public List<Attendance> selectAllAttendance() throws Exception;
 	public List<Attendance> selectStudentByCnoWithAttendance(int ttDay, int cNo, int regMonth) throws Exception;
+
+	public List<Attendance> selectAttenddanceByDate(String curDate) throws Exception;
 	
 }

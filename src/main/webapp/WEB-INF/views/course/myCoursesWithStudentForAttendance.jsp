@@ -2,10 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-      <h1 class="page-header">내 강의들</h1>
-</div>
-</div> <!-- div row -->
 
 	<style>
 		li.c-timetable{
@@ -41,6 +37,23 @@
 			display: inline-block;
 		}
 	</style>
+		
+		<div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">학생출결관리
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">학생출결관리</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+	
 
 		<div class="row">
 			<div class="col-md-3">
@@ -52,6 +65,7 @@
 		<hr>
 
 		<div class="row">
+			<div class="col-lg-12">
 				<div class="panel panel-default">
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -74,6 +88,7 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
+                    </div>
 			</div>
 
 

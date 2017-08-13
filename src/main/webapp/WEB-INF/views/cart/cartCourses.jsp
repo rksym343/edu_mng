@@ -3,12 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/header.jsp"%>
-<div class="col-lg-12">
-	<h1 class="page-header">장바구니</h1>
-</div>
-</div>
-<!-- div row -->
-
 <style>
 	.right-btns{
 		text-align: left;	
@@ -39,6 +33,25 @@
 		text-decoration: line-through;
 	}
 </style>
+
+	 <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">장바구니
+                    <!-- <small>Subheading</small> -->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="active">받은메시지</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+	
+
+
 <div class="alert alert-danger">
   <strong>결제불가!</strong>
   <span class="content"></span>
@@ -57,10 +70,10 @@
 					<thead>
 						<tr>							
 							<th></th>
-							<th>강의번호</th>
+						<!-- 	<th>강의번호</th> -->
 							<th>강의명</th>
 							<th>강의료</th>
-							<th></th>
+							<!-- <th></th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -68,12 +81,14 @@
 							<c:forEach items="${cart.courses }" var="course">
 								<tr class="cart-item">
 									<td class="col-md-1"><input type="checkbox" name="ccNo" value="${cart.ccNo }" data-cNo="${course.cNo }" data-cName="${course.cName }"></td>
-									<td class="col-md-1">${course.cNo }</td>
-									<td class="col-md-5">${course.cName }</td>
-									<td class="col-md-3 tuition money" data-tuition="${course.tuition }">${course.tuition }</td>
-									<td class="col-md-3">
-									<%-- 	<fmt:formatDate value="${course.cStartdate }" pattern="yyyy-MM-dd" /> --%>
-									</td>								
+									<%-- <td class="col-md-1">${course.cNo }</td> --%>
+									<td class="col-md-6">
+										<a href="${pageContext.request.contextPath}/course/readCourse?cNo=${course.cNo }">	${course.cName }</a>
+									</td>
+									<td class="col-md-3 tuition money" data-tuition="${course.tuition }" style="padding-right :100px;">${course.tuition }</td>
+									<%-- <td class="col-md-3">
+										<fmt:formatDate value="${course.cStartdate }" pattern="yyyy-MM-dd" />
+									</td> --%>								
 								</tr>
 							</c:forEach>
 						</c:forEach>
@@ -100,7 +115,7 @@
 	<form action="cartCourses" method="POST" id="f1">
 		<input type="hidden" name="memberType" value=${memberType }>
 		<input type="hidden" name="id" value=${memberId }>
-		<button type="button" id="payCourses" class="btn btn-primary btn-lg">결제하기</button>
+		<button type="button" id="payCourses" class="btn btn-success btn-lg">결제하기</button>
 	</form>
 </div>
 
@@ -165,9 +180,9 @@ function prnSum(){
 	});	
 	$("#total").html(
 			"<td>총계 : </td>"
-			+"<td colspan='2'>신청강의수 : "+cnt+"개</td>"
+			+"<td colspan='1'>신청강의수 : "+cnt+"개</td>"
 			//+"<td>"+cnt+"</td>"
-			+"<td colspan='2'>총 강의료: <span class='money'>"+sum+"</span></td>"
+			+"<td colspan='1'>총 강의료: <span class='money'>"+sum+"</span></td>"
 			//+"<td>"+sum+"</td>"
 			);
 }
@@ -235,9 +250,9 @@ function checkTimetable(){
 							$(obj).parent().parent().addClass("text-danger");
 							$(obj2).parent().parent().addClass("text-danger");
 							$(".alert-danger").find(".content").append("<p>["+cName1+"] - ["+cName2+"] 수업 시간이 중복됩니다</p>");
+							$(".alert-danger").show();
 						}
 
-						$(".alert-danger").show();
 					}		
 				});
 			}		

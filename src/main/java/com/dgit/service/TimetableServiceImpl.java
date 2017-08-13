@@ -63,12 +63,13 @@ public class TimetableServiceImpl implements TimetableService{
 		if(ttDay != 99 ){ // 일치하는 요일이 있다
 			if(dao.checkttStartTimeEq(firstCNo, lastCNo, ttDay) != 99){ // 시작시간이 일치한다
 				res = dao.checkttStartTimeEq(firstCNo, lastCNo, ttDay);
-			}else if(dao.checkttStartTime(firstCNo, lastCNo, ttDay) != 99){ // 시작시간이  상대 수업시간 사이
+			}else if(dao.checkttStartTime(firstCNo, lastCNo, ttDay) != 99 
+					&& dao.checkttEndTime(firstCNo, lastCNo, ttDay) != 99){ // 시작시간이  상대 수업시간 사이  이고  // 끝 시간이 상대 수업시간 사이
 				res = dao.checkttStartTime(firstCNo, lastCNo, ttDay);
-			}else if(dao.checkttEndTime(firstCNo, lastCNo, ttDay) != 99){ // 끝 시간이 상대 수업시간 사이
+			}/*else if(dao.checkttEndTime(firstCNo, lastCNo, ttDay) != 99){
 				res = dao.checkttEndTime(firstCNo, lastCNo, ttDay);
-			}			
-				
+			}*/			
+			
 		}
 		
 		return res;

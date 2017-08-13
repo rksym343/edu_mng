@@ -1,6 +1,7 @@
 package com.dgit.controller;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,23 +11,28 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dgit.domain.Attendance;
 import com.dgit.domain.AttendanceSearchCriteria;
 import com.dgit.domain.AttendanceStatus;
+import com.dgit.domain.Parents;
 import com.dgit.domain.Student;
+import com.dgit.interceptor.LoginInterceptor;
 import com.dgit.service.AttendanceService;
 import com.dgit.service.AttendanceStatusService;
+import com.dgit.service.ParentsService;
 
-@Controller
+@RestController
 @RequestMapping("/attend/*")
 public class AttendanceController {
 	
@@ -35,6 +41,9 @@ public class AttendanceController {
 	
 	@Autowired
 	private AttendanceStatusService attendanceStatusService;
+	
+	@Autowired
+	private ParentsService parentsService;
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
@@ -87,38 +96,7 @@ public class AttendanceController {
 		model.addAttribute("curMonth", cal.get(Calendar.MONTH)+1);
 	}
 	
-	@RequestMapping(value="/myAttendanceRecord/json/{sId}/{year}/{month}", method=RequestMethod.GET)
-	public @ResponseBody List<Attendance> getMyAttendanceRecordForJson(
-			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
-		List<Attendance> list = null;
-		String yearMonth = String.format("%04d-%02d", year, month);
-		try{
-			list = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
-		}catch(Exception e){
-		}
-		
-		return list;
-	}
 	
-	@RequestMapping(value="/myAttendanceRecordChart/json/{sId}/{year}/{month}", method=RequestMethod.GET)
-	public @ResponseBody Map<String, Object> getMyAttendanceRecordCartForJson(
-			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
-		Map<String, Object> map = new HashMap<>();
-		List<Attendance> list = null;
-		String yearMonth = String.format("%04d-%02d", year, month);
-		try{
-			list = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
-				map.put("ab", attendanceService.selectCntByAttendanceType(sId, "a", yearMonth));
-				map.put("nm_in", attendanceService.selectCntByAttendanceType(sId, "n", yearMonth));
-				map.put("ea", attendanceService.selectCntByAttendanceType(sId, "e", yearMonth));
-				map.put("la", attendanceService.selectCntByAttendanceType(sId, "l", yearMonth));
-				map.put("ea_la", attendanceService.selectCntByAttendanceType(sId, "el", yearMonth));
-				map.put("list", list);
-		}catch(Exception e){
-		}
-		
-		return map;
-	}
 	
 	@RequestMapping(value="/myAttendanceRecord/{sId}/{year}/{month}", method=RequestMethod.GET)
 	public ResponseEntity<List<Attendance>> getMyAttendanceRecord(
@@ -131,9 +109,43 @@ public class AttendanceController {
 		}catch(Exception e){
 			entity = new ResponseEntity<List<Attendance>>(HttpStatus.BAD_REQUEST);
 		}
-		
 		return entity;
 	}
+	
+	@RequestMapping(value="/myAttendanceRecordByDate/{sId}/{year}/{month}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Attendance>> getMyAttendanceRecordByDate(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		ResponseEntity<Map<String, Attendance> > entity = null;
+		String yearMonth = String.format("%04d-%02d", year, month);
+		try{
+			Map<String, Attendance> map = new HashMap<>();
+			List<Attendance> attList = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
+			for(Attendance att : attList){
+				int date = att.getTheTime().getDate();
+				if(map.get(date+"_IN") == null){
+					map.put(date+"_IN", att);					
+				}else if(map.get(date+"_IN") != null){
+					Date fDate =  map.get(date+"_IN").getTheTime();
+					Date sDate = att.getTheTime();
+					
+					int compare = fDate.compareTo( sDate );
+					if ( compare > 0 ){ 
+						// fDate가 크다.
+						map.put(date+"_IN", att);
+						map.put(date+"_OUT", map.get(date+"_IN"));
+					} else if ( compare < 0) {
+						//sDate가 크다.
+						map.put(date+"_OUT", att);
+					} 
+				}
+			}
+			entity = new ResponseEntity<>(map, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
 	
 	@RequestMapping(value="/studentAttendanceInfo/{cNo}/{ttDay}/{year}/{month}", method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getStudentAttendanceInfo(
@@ -214,6 +226,23 @@ public class AttendanceController {
 		return entity;
 	}
 	
+	@RequestMapping(value="/viewAttendRecordByDate/{sId}/{year}/{month}/{date}", method=RequestMethod.GET)
+	public ResponseEntity<List<Attendance>> viewAttendRecordByDate(
+			@PathVariable("sId") String sId, @PathVariable("year") int year,
+			@PathVariable("month") int month, @PathVariable("date") int date) throws Exception{
+		logger.info("==================viewStudentExam GET================");
+		ResponseEntity<List<Attendance>> entity = null;
+		String curDate = String.format("%04d-%02d-%02d", year, month, date);
+		try{
+			List<Attendance> list = attendanceService.selectAttenddanceByDate(curDate);
+			entity = new ResponseEntity<>(list, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
 	
 	
 	@RequestMapping(value="/listAttendanceByCri", method=RequestMethod.GET)
@@ -252,6 +281,75 @@ public class AttendanceController {
 		/*1. > 오늘 < 출석기록
 		2. 특정 학생 출석기록
 		3. 특정 수업 출석기록*/
+	}
+	
+	/*-------------------------------------------For Android-------------------------------------------------*/
+	@ResponseBody 
+	@RequestMapping(value="/myAttendanceRecord/json/{sId}/{year}/{month}", method=RequestMethod.GET)
+	public List<Attendance> getMyAttendanceRecordForJson(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		List<Attendance> list = null;
+		String yearMonth = String.format("%04d-%02d", year, month);
+		try{
+			list = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
+		}catch(Exception e){
+		}
+		
+		return list;
+	}
+	
+	@ResponseBody 
+	@RequestMapping(value="/myAttendanceRecordChart/json/{sId}/{year}/{month}", method=RequestMethod.GET)
+	public Map<String, Object> getMyAttendanceRecordCartForJson(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		List<Attendance> list = null;
+		String yearMonth = String.format("%04d-%02d", year, month);
+		try{
+			list = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
+				map.put("ab", attendanceService.selectCntByAttendanceType(sId, "a", yearMonth));
+				map.put("nm_in", attendanceService.selectCntByAttendanceType(sId, "n", yearMonth));
+				map.put("ea", attendanceService.selectCntByAttendanceType(sId, "e", yearMonth));
+				map.put("la", attendanceService.selectCntByAttendanceType(sId, "l", yearMonth));
+				map.put("ea_la", attendanceService.selectCntByAttendanceType(sId, "el", yearMonth));
+				map.put("list", list);
+		}catch(Exception e){
+		}
+		
+		return map;
+	}
+	
+	@ResponseBody 
+	@Transactional
+	@RequestMapping(value="/android/newAttendRecord/{memberType}/{id}/{latestTime}", method=RequestMethod.GET)
+	public Attendance getNewAttendForAndroid(
+			@PathVariable("memberType") String memberType, @PathVariable("id") String id, 
+			@PathVariable("latestTime")  @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") Date latestTime) throws Exception{
+		Attendance result = null;
+		logger.info("==================newAttendRecord/{memberType}/{id}/{latestTime}  GET================");
+		logger.info("================== memberType : " +memberType);
+		logger.info("================== id : " +id);
+		logger.info("================== latestTime : " +latestTime.toString());
+		try{
+			//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			//Date theTime = sdf.parse(latestTime);
+			
+			Attendance attendance = new Attendance();
+			attendance.setTheTime(latestTime);
+			Student student = new Student();
+			
+			if(memberType.equals(LoginInterceptor.PARENTS)){
+				Parents parents = parentsService.selectOneParents(id);
+				student.setsId(parents.getsId());
+			}else{
+				student.setsId(id);
+			}
+			attendance.setStudent(student);
+			
+			result = attendanceService.selectOneAttendanceForNoti(attendance);
+		}catch(Exception e){
+		}		
+		return result;
 	}
 	
 	
