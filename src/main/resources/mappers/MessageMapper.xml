@@ -13,7 +13,7 @@
 		<result property="msgContent" column="msg_content"/>
 		<result property="isChecked" column="is_checked"/>
 		<result property="regDate" column="reg_date"/>
-		<result property="isSent" column="is_sent"/>
+		<result property="isSent" column="is_sent"/> 
 		<association property="teacher" resultMap="com.dgit.mapper.TeacherMapper.TeacherResult"/>
 		<association property="student" resultMap="com.dgit.mapper.StudentMapper.StudentResult"/>
 		<association property="parents" resultMap="com.dgit.mapper.ParentsMapper.ParentsResult"/>
@@ -118,7 +118,7 @@
 
 	<select id="selectAllMessage" resultMap="MessageResult">
 		<include refid="selectSql"/>
-		order by m.is_checked, m.reg_date desc
+		order by m.is_checked, m.msg_no desc
 	</select>
 
 
@@ -130,7 +130,7 @@
 	<select id="selectMessageByCri" parameterType="hashmap" resultMap="MessageResult">
 		<include refid="selectSql"/>		
 		<include refid="whereSql"/>
-		order by m.is_checked, m.reg_date desc
+		order by m.is_checked, m.msg_no desc
 		<if test="cnt != null">
 			limit #{cnt}
 		</if>
@@ -139,7 +139,7 @@
 	<select id="selectMessageByCriForSender" parameterType="hashmap" resultMap="MessageResult">
 		<include refid="selectSql"/>		
 		<include refid="whereSql"/>
-		order by m.reg_date desc
+		order by m.msg_no desc
 		<if test="cnt != null">
 			limit #{cnt}
 		</if>

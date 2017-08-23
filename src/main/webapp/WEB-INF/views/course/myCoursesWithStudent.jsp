@@ -53,12 +53,17 @@
 				<select id="myCourse" class="form-control col-md-3" name="cNo">
 					
 				</select>
-			</div>			
+			</div>	
+			<div class="col-md-3">
+				<select id="myStudents" class="form-control col-md-3" name="cNo">
+					
+				</select>
+			</div>				
 		</div>
 		<hr>
 
 		<div class="row" id="viewDiv">
-			<div class="col-sm-2">
+			<!-- <div class="col-sm-2">
 				<div class="panel panel-default">
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -72,13 +77,13 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.table-responsive -->
+                            /.table-responsive
                         </div>
-                        <!-- /.panel-body -->
+                        /.panel-body
                     </div>
-                    <!-- /.panel -->
-			</div>
-			<div class="col-md-9">
+                    /.panel
+			</div> -->
+			<div class="col-md-12">
 				<div class="media">
 					<!-- 학생 프로필 -->
 	    			<div class="media-left media-top">
@@ -125,6 +130,13 @@
 	      	getMyStudent(cNo, sbNo);
 	    });
 	      
+	   
+		$(document).on("change", "#myStudents", function(obj) {
+			var sId = $("select#myStudents option:selected").attr("data-sId");
+			var cNo = $("select#myStudents option:selected").attr("data-cNo");
+			var sbNo = $("select#myStudents option:selected").attr("data-sbNo");
+			getRecords(sId, cNo, sbNo);
+		})
 	      
 	   
 	});
@@ -171,14 +183,30 @@
 						console.log(data);	
 						
 						$("#student-table").html("");
+						
+						$("#myStudents").html("");
+
+						var sId1 = "";
+						if(data == null){
+						
+							return;
+						}
 						$.each(data, function(i, v) {
-							var trTag = "<tr>"
+							/* var trTag = "<tr>"
 							+"<td><a class='my-student' data-sId="+v.student.sId+" data-cNo="+cNo+" data-sbNo="+sbNo+">"
 							+ v.student.sName+"</a></td></tr>";							
-							$(".student-table").append(trTag);
+							$(".student-table").append(trTag); */
+							if(i==0){
+								sId1 = v.student.sId;
+							}
+							
+							var optionTag = "<option class='my-student-opt' data-sId="+v.student.sId+" data-cNo="+cNo+" data-sbNo="+sbNo+">"
+												+v.student.sName+"</option>";
+							$("#myStudents").append(optionTag);
 						});
 			
-			       		
+
+						getRecords(sId1, cNo, sbNo);
 					}
 				});
 	      }

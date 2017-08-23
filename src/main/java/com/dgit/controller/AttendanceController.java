@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ import com.dgit.service.AttendanceService;
 import com.dgit.service.AttendanceStatusService;
 import com.dgit.service.ParentsService;
 
-@RestController
+@Controller
 @RequestMapping("/attend/*")
 public class AttendanceController {
 	
@@ -87,13 +88,14 @@ public class AttendanceController {
 	}
 	
 	@RequestMapping(value="/myAttendance", method=RequestMethod.GET)
-	public void getMyAttendance(Model model, HttpSession session) throws Exception{
+	public String getMyAttendance(Model model, HttpSession session) throws Exception{
 		logger.info("==================listAttendance GET================");
 		Calendar cal = Calendar.getInstance();
 		String month = String.format("%d-%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
 		model.addAttribute("statusList", attendanceStatusService.selectAllAttendanceStatus());
 		model.addAttribute("curYear", cal.get(Calendar.YEAR));
 		model.addAttribute("curMonth", cal.get(Calendar.MONTH)+1);
+		return "/attend/myAttendance";
 	}
 	
 	
@@ -112,39 +114,7 @@ public class AttendanceController {
 		return entity;
 	}
 	
-	@RequestMapping(value="/myAttendanceRecordByDate/{sId}/{year}/{month}", method=RequestMethod.GET)
-	public ResponseEntity<Map<String, Attendance>> getMyAttendanceRecordByDate(
-			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
-		ResponseEntity<Map<String, Attendance> > entity = null;
-		String yearMonth = String.format("%04d-%02d", year, month);
-		try{
-			Map<String, Attendance> map = new HashMap<>();
-			List<Attendance> attList = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
-			for(Attendance att : attList){
-				int date = att.getTheTime().getDate();
-				if(map.get(date+"_IN") == null){
-					map.put(date+"_IN", att);					
-				}else if(map.get(date+"_IN") != null){
-					Date fDate =  map.get(date+"_IN").getTheTime();
-					Date sDate = att.getTheTime();
-					
-					int compare = fDate.compareTo( sDate );
-					if ( compare > 0 ){ 
-						// fDate가 크다.
-						map.put(date+"_IN", att);
-						map.put(date+"_OUT", map.get(date+"_IN"));
-					} else if ( compare < 0) {
-						//sDate가 크다.
-						map.put(date+"_OUT", att);
-					} 
-				}
-			}
-			entity = new ResponseEntity<>(map, HttpStatus.OK);
-		}catch(Exception e){
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		return entity;
-	}
+	
 	
 	
 	@RequestMapping(value="/studentAttendanceInfo/{cNo}/{ttDay}/{year}/{month}", method=RequestMethod.GET)
@@ -226,22 +196,7 @@ public class AttendanceController {
 		return entity;
 	}
 	
-	@RequestMapping(value="/viewAttendRecordByDate/{sId}/{year}/{month}/{date}", method=RequestMethod.GET)
-	public ResponseEntity<List<Attendance>> viewAttendRecordByDate(
-			@PathVariable("sId") String sId, @PathVariable("year") int year,
-			@PathVariable("month") int month, @PathVariable("date") int date) throws Exception{
-		logger.info("==================viewStudentExam GET================");
-		ResponseEntity<List<Attendance>> entity = null;
-		String curDate = String.format("%04d-%02d-%02d", year, month, date);
-		try{
-			List<Attendance> list = attendanceService.selectAttenddanceByDate(curDate);
-			entity = new ResponseEntity<>(list, HttpStatus.OK);
-		}catch(Exception e){
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		return entity;
-	}
+	
 	
 	
 	
@@ -284,6 +239,43 @@ public class AttendanceController {
 	}
 	
 	/*-------------------------------------------For Android-------------------------------------------------*/
+	
+	
+	@RequestMapping(value="/myAttendanceRecordByDate/{sId}/{year}/{month}", method=RequestMethod.GET)  
+	public @ResponseBody Map<String, Object> getMyAttendanceRecordByDate(
+			@PathVariable("sId") String sId, @PathVariable("year") int year, @PathVariable("month") int month) throws Exception{
+		//ResponseEntity<Map<String, Object>> entity = null; 
+		Map<String, Object> map = new HashMap<>();
+		String yearMonth = String.format("%04d-%02d", year, month);
+			List<Attendance> attList = attendanceService.selectAttendanceBySIdAndMonth(yearMonth, sId);
+			
+			for(Attendance att : attList){
+				int date = att.getTheTime().getDate();
+				if(map.get(date+"_IN_DATE") == null){
+					map.put(date+"_IN_STATUS", att.getAttendanceStatus().getAsStatus());
+					map.put(date+"_IN_DATE", att.getTheTime());	
+				}else if(map.get(date+"_IN_DATE") != null){
+					Date fDate =  (Date) map.get(date+"_IN_DATE");
+					Date sDate = att.getTheTime();
+					
+					int compare = fDate.compareTo( sDate );
+					if ( compare > 0 ){ 
+						// fDate가 크다.
+						map.put(date+"_OUT_STATUS", map.get(date+"_IN_STATUS"));
+						map.put(date+"_OUT_DATE", map.get(date+"_IN_DATE"));
+						map.put(date+"_IN_STATUS", att.getAttendanceStatus().getAsStatus());
+						map.put(date+"_IN_DATE", att.getTheTime());
+					} else if ( compare < 0) {
+						//sDate가 크다.
+						map.put(date+"_OUT_STATUS", att.getAttendanceStatus().getAsStatus());
+						map.put(date+"_OUT_DATE", att.getTheTime());
+					} 
+				}
+			}
+			
+		return map;
+	}
+	
 	@ResponseBody 
 	@RequestMapping(value="/myAttendanceRecord/json/{sId}/{year}/{month}", method=RequestMethod.GET)
 	public List<Attendance> getMyAttendanceRecordForJson(
@@ -317,6 +309,24 @@ public class AttendanceController {
 		}
 		
 		return map;
+	}
+	
+	@ResponseBody 
+	@RequestMapping(value="/viewAttendRecordByDate/{sId}/{year}/{month}/{date}", method=RequestMethod.GET)
+	public ResponseEntity<List<Attendance>> viewAttendRecordByDate(
+			@PathVariable("sId") String sId, @PathVariable("year") int year,
+			@PathVariable("month") int month, @PathVariable("date") int date) throws Exception{
+		logger.info("==================viewStudentExam GET================");
+		ResponseEntity<List<Attendance>> entity = null;
+		String curDate = String.format("%04d-%02d-%02d", year, month, date);
+		try{
+			List<Attendance> list = attendanceService.selectAttenddanceByDate(curDate);
+			entity = new ResponseEntity<>(list, HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	@ResponseBody 

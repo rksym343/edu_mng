@@ -74,9 +74,6 @@
 				<if test="transferMethod != null">
 					tm_no= #{transferMethod.tmNo},
 				</if>
-				<if test="sSchool != null">
-					s_school= #{sSchool},
-				</if>
 				<if test="sGrade != null">
 					gd_no= #{sGrade.gdNo},
 				</if>

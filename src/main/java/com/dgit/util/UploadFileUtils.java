@@ -21,8 +21,6 @@ public class UploadFileUtils {
 		File target = new File(uploadPath, upFileName);
 		FileCopyUtils.copy(fileData, target);
 		
-		
-		
 		// 썸네일 이미지 만들기
 		String thumbName = makeThumbnail(uploadPath, datePath, uuid.toString()+"_"+originalName);
 		//return upFileName; // 2017/06/30/nnnnnn_a.jpg

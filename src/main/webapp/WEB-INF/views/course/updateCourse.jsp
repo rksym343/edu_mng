@@ -341,7 +341,8 @@
 				     </c:forEach>
 	               </ul>
                </c:if>
-				<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">
+				<input class="form-control" type="file" id="pics" name="pics" multiple="multiple">				
+				<p class="text-danger"><i class="fa  fa-warning    "></i>이미지 미등록시 과목별 기본 이미지가 표시됩니다.</p>
 			</div>
 			
 			
