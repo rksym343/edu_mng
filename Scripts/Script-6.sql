@@ -11,6 +11,8 @@ INSERT INTO edu_manager.teacher (t_id, t_password, t_name, t_phone, t_subject, t
 		
 		select date('2017-01-03 00:08:00');
 		
+		
+		update edu_manager.message set is_sent = 1;
 SELECT e.*, ei.ei_title, c.c_name FROM examination e left outer join exam_item ei on e.ei_no = ei.ei_no 
 inner join subject sb on sb.sb_no = e.sb_no left outer join course c on c.c_no = e.c_no 
 WHERE 

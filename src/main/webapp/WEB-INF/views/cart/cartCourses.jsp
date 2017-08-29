@@ -124,7 +124,8 @@
 <script>
 
 $(function() {
-	
+
+	$("input[name='ccNo']").prop('checked', true);
 	prnSum();
 	prnMoney();
 	checkTimetable();
@@ -153,6 +154,7 @@ $(function() {
 						$(obj).parent().parent().remove();
 						prnSum();
 						prnMoney();
+						checkTimetable();
 					}
 				}
 			});
@@ -163,6 +165,7 @@ $(function() {
 	
 	$("#payCourses").click(function() {
 		$(".cart-item input[name='ccNo']:checked").each(function(i, obj) {
+			//alert("----------"+$(obj).attr("data-cNo"));
 			$("#f1").append("<input type='hidden' name='cNo' value='"+$(obj).attr("data-cNo")+"'>");
 		});
 		$("#f1").submit();
@@ -225,7 +228,8 @@ function getTimetable2(cNo){
 
 
 function checkTimetable(){
-		$(".alert-danger").hide();
+
+	$(".alert-danger").hide();
 		$(".alert-danger").find(".content").html();
 		$("input[name='ccNo']").parent().parent().removeClass("text-danger");
 		$("#payCourses").attr("disabled",false);
@@ -246,7 +250,7 @@ function checkTimetable(){
 						console.log("=====check " +cNo1 +" : " +cNo2+ "//" );
 						console.log("return : "+ data);
 						$("#payCourses").attr("disabled",true);
-						if(data=="OK"){
+						if(data=="NO"){
 							$(obj).parent().parent().addClass("text-danger");
 							$(obj2).parent().parent().addClass("text-danger");
 							$(".alert-danger").find(".content").append("<p>["+cName1+"] - ["+cName2+"] 수업 시간이 중복됩니다</p>");

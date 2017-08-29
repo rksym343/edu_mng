@@ -48,6 +48,21 @@
 	.dropdown-menu>li>a:hover {
 	    color: #009966;
 	}
+	
+	
+	a.btnLogin{
+		color : #009966 ;   
+		border : 1px solid #fff; 
+		border-radius: 5px;
+		padding : 5px 10px !important; 
+		margin-top : 10px !important;
+		text-align: center;
+	}
+	a.btnLogin:hover{
+		color : #009966 !important; 
+		border : 1px solid #F7F1C1; 
+		background-color: #F7F1C1  !important;
+	}
 </style>
 <body>
 <!-- Navigation -->
@@ -113,6 +128,12 @@
 		                   </li>
                         </ul>
                     </li>
+                    <li>
+			           	<a href="${pageContext.request.contextPath}/user/logout" class="btnLogin">
+			           	<!-- <i class="fa fa-sign-in fa-fw"></i> -->
+			        	   	LOGOUT
+			           	</a>
+			        </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

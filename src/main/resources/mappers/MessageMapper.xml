@@ -46,10 +46,10 @@
 				and m.sp_id = #{spId}
 			</if>
 			<if test="isChecked != null">
-				and m.is_checked = 0
+				and m.is_checked != 0
 			</if>
 			<if test="unchecked != null">
-				and m.is_checked != 0
+				and m.is_checked = 0
 			</if>
 			<if test="isDel != null">
 				and m.is_del = 1

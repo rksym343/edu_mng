@@ -26,9 +26,9 @@
     <!-- DataTables Responsive CSS -->
     <link href="${pageContext.request.contextPath}/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
    
-
+ --%>
     <!-- Custom CSS -->
-    <link href="${pageContext.request.contextPath}/resources/dist/css/sb-admin-2.css" rel="stylesheet">  --%>
+    <link href="${pageContext.request.contextPath}/resources/dist/css/sb-admin-2.css" rel="stylesheet"> 
     
  	<!-- FLOT Charts CSS -->
 	<link href="${pageContext.request.contextPath}/resources/vendor/flot/css/examples.css" rel="stylesheet" type="text/css">

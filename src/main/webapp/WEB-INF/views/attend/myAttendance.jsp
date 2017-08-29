@@ -43,11 +43,12 @@
     		color : white;
     	}
     	.m-info{
-    		background-color: #E5D85C;
+    		background-color: #2196F3;
     		color : white;
     	}
     	.m-warning{
-    		background-color: #2196F3;
+    		background-color: #E5D85C;
+    		/* background-color: #2196F3; */
     		color : white;
     	}
     	.m-success{

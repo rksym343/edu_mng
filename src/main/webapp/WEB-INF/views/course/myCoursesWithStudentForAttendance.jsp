@@ -124,12 +124,18 @@
 			$(this).parent().addClass("display-none");
 		});
 		
+		
+		/* $(document).on("change",".asNo", function() {
+			alert("선택값 : " + $(".asNo option:selected").val()+ " / "+ $(".asNo option:selected").html());  
+		}); */
+		
 		$(document).on("click",".btn-edit-ok", function() {
 			var index = $(".btn-edit-ok").index(this);
 			var sId = $(this).attr("data-sId");
 			var originAtNo = $(this).attr("data-atNo");
 			var newAtNo = 0;
-			var asNo = $(this).prev(".asNo").find("option:selected").val();
+			var asNo = $(this).prev().find("option:selected").val();
+			//alert("//////////////////asNo : " + asNo);
 			if(asNo == 0){
 				alert("출결상태를 선택해주세요.");
 			}else{

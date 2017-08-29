@@ -393,7 +393,7 @@
 				e.preventDefault();
 				$("#f1").append("<input type='hidden' name='delPics' value='"+$(this).attr("href")+"'>");
 				$(this).parent().remove();
-				alert($(this).attr("href"));
+				//alert($(this).attr("href"));
 			})
 		})
 		

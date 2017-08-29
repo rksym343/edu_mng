@@ -68,16 +68,23 @@ public class MessageController {
 			msg = message.getMsgContent();
 		}
 		message.setMsgContent(msg);
-		for (String ss : sId) {
-			logger.info("==================sId[] : " + ss);
-			message.setsId(ss);
-			messageService.insertMessage(message);
+		if (sId != null) {
+
+			for (String ss : sId) {
+				logger.info("==================sId[] : " + ss);
+				message.setsId(ss);
+				messageService.insertMessage(message);
+			}
 		}
-		for (String pp : pId) {
-			logger.info("==================pId[] : " + pp);
-			message.setsId(null);
-			message.setSpId(pp);
-			messageService.insertMessage(message);
+
+		if (pId != null) {
+
+			for (String pp : pId) {
+				logger.info("==================pId[] : " + pp);
+				message.setsId(null);
+				message.setSpId(pp);
+				messageService.insertMessage(message);
+			}
 		}
 		return "redirect:listMySendMsg";
 	}
@@ -219,11 +226,11 @@ public class MessageController {
 
 	@ResponseBody
 	@Transactional
-	@RequestMapping(value = "/newMsgs/{memberType}/{id}", method = RequestMethod.GET)
-	public List<Message> getListMsgByIdForAndroid(@PathVariable("memberType") String memberType,
+	@RequestMapping(value = "android/newMsgs/{memberType}/{id}", method = RequestMethod.GET)
+	public Map<String, Object> getListMsgByIdForAndroid(@PathVariable("memberType") String memberType,
 			@PathVariable("id") String id) throws Exception {
 		List<Message> list = null;
-		// Map<String, Object> map = null;
+		Map<String, Object> map = new HashMap<>();
 		Integer cnt = 0;
 		logger.info("==================newMsgs/{memberType}/{id}/  GET================");
 		logger.info("================== id : " + id);
@@ -231,9 +238,12 @@ public class MessageController {
 			list = messageService.selectMessageByCri("", 0, memberType, id, false, false, false, false, 0, false);
 			cnt = messageService.selectNewSendMessage(memberType, id, true);
 			messageService.updateSendMessage(memberType, id);
+			
+			map.put("cnt", cnt);
+			map.put("list", list);
 		} catch (Exception e) {
 		}
-		return list;
+		return map;
 	}
 
 	@Transactional
